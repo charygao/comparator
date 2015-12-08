@@ -56,6 +56,17 @@ public class ComparatorItemTests {
 
         System.out.println("OK\n");
     }
+    
+    @Test
+    public void testXmlBackwardsCompatibility() throws Exception {
+
+        System.out.println("Testing XML backwards compatibility ...");
+
+        ComparatorItem readItem = (ComparatorItem) jaxbContext
+                .createUnmarshaller().unmarshal(ComparatorItemTests.class.getResourceAsStream("/comparatorItem.xml"));
+
+        System.out.println("OK: " + readItem);
+    }
 
     @Test
     public void testXmlComparatorItem() throws Exception {

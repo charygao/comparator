@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<comparatorItem xmlns="http://bremersee.org/xmlschemas/comparator/v1">
+    <field>i0</field>
+    <asc>true</asc>
+    <nextComparatorItem>
+        <field>i1</field>
+        <asc>false</asc>
+        <nextComparatorItem>
+            <field>i2</field>
+            <asc>true</asc>
+        </nextComparatorItem>
+    </nextComparatorItem>
+</comparatorItem>
