@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRegistry;
  */
 @XmlRegistry
 public class ObjectFactory {
-    
+
     public ComparatorItem createComparatorItem() {
         return new ComparatorItem();
     }
