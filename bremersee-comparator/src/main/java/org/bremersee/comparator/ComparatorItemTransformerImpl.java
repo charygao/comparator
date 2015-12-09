@@ -93,9 +93,6 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
 		if (comparatorItem == null) {
 			return null;
 		}
-		if (StringUtils.isBlank(comparatorItem.getField())) {
-			return toString(comparatorItem.getNextComparatorItem());
-		}
 		final String order;
 		if (comparatorItem.isAsc()) {
 			order = "asc";
@@ -158,17 +155,24 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
 		String[] parts = serializedComparatorItem.split(Pattern.quote(","));
 		switch (parts.length) {
         case 1:
-            return new ComparatorItem(serializedComparatorItem);
+            return new ComparatorItem(getField(serializedComparatorItem));
 
         case 2:
-            return new ComparatorItem(parts[0], isAsc(parts[1]));
+            return new ComparatorItem(getField(parts[0]), isAsc(parts[1]));
 
         case 3:
-            return new ComparatorItem(parts[0], isAsc(parts[1]), isIgnoreCase(parts[2]));
+            return new ComparatorItem(getField(parts[0]), isAsc(parts[1]), isIgnoreCase(parts[2]));
 
         default:
-            return new ComparatorItem(parts[0], isAsc(parts[1]), isIgnoreCase(parts[2]), isNullIsFirst(parts[3]));
+            return new ComparatorItem(getField(parts[0]), isAsc(parts[1]), isIgnoreCase(parts[2]), isNullIsFirst(parts[3]));
         }
+	}
+	
+	private String getField(String part) {
+	    if (StringUtils.isBlank(part) || "null".equalsIgnoreCase(part)) {
+	        return null;
+	    }
+	    return part;
 	}
 	
 	private boolean isAsc(String part) {

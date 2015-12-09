@@ -51,7 +51,7 @@ public class ComparatorItemTransformerTests {
         System.out.println(str0);
         ComparatorItem readItem0 = deserializer.fromString(str0, false, null);
         System.out.println(readItem0);
-        TestCase.assertTrue(readItem0 == null);
+        TestCase.assertEquals(item0, readItem0);
 
         System.out.println("OK\n");
     }
