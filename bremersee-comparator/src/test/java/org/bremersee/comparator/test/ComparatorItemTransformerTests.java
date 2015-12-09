@@ -29,21 +29,21 @@ import junit.framework.TestCase;
  * @author Christian Bremer
  */
 public class ComparatorItemTransformerTests {
-    
+
     private ComparatorItemDeserializer deserializer;
-    
+
     private ComparatorItemSerializer serializer;
-    
+
     @Before
     public void createComparatorItemDeserializerAndSerializer() {
         ComparatorItemTransformerImpl transformer = new ComparatorItemTransformerImpl();
         this.deserializer = transformer;
         this.serializer = transformer;
     }
-    
+
     @Test
     public void testEmptyComparatorItem() {
-        
+
         System.out.println("Testing empty comparator item ...");
 
         ComparatorItem item0 = new ComparatorItem();
@@ -58,7 +58,7 @@ public class ComparatorItemTransformerTests {
 
     @Test
     public void testSimpleComparatorItem() {
-        
+
         System.out.println("Testing simple comparator item ...");
 
         ComparatorItem item0 = new ComparatorItem("i0", true);
@@ -70,10 +70,10 @@ public class ComparatorItemTransformerTests {
 
         System.out.println("OK\n");
     }
-    
+
     @Test
     public void testConcatenatedComparatorItems() {
-        
+
         System.out.println("Testing concatenate comparator items ...");
 
         ComparatorItem item0 = new ComparatorItem("i0", true);
@@ -89,7 +89,7 @@ public class ComparatorItemTransformerTests {
 
     @Test
     public void testSimpleComparatorItemWithoutOrder() {
-        
+
         System.out.println("Testing simple comparator item without order ...");
 
         ComparatorItem item0 = new ComparatorItem("i0", true);
@@ -101,10 +101,10 @@ public class ComparatorItemTransformerTests {
 
         System.out.println("OK\n");
     }
-    
+
     @Test
     public void testConcatenatedComparatorItemsWithoutOrder() {
-        
+
         System.out.println("Testing concatenate comparator items without order ...");
 
         ComparatorItem item0 = new ComparatorItem("i0", true);

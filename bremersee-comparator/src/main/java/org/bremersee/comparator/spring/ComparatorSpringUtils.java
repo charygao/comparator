@@ -30,28 +30,31 @@ public abstract class ComparatorSpringUtils {
 
     private ComparatorSpringUtils() {
     }
-    
+
     public static Sort.Order toSortOrder(ComparatorItem comparatorItem) {
-        if (comparatorItem == null || comparatorItem.getField() == null || comparatorItem.getField().trim().length() == 0) {
+        if (comparatorItem == null || comparatorItem.getField() == null
+                || comparatorItem.getField().trim().length() == 0) {
             return null;
         }
         Sort.Direction direction = comparatorItem.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort.NullHandling nullHandlingHint = comparatorItem.isNullIsFirst() ? Sort.NullHandling.NULLS_FIRST : Sort.NullHandling.NULLS_LAST;
+        Sort.NullHandling nullHandlingHint = comparatorItem.isNullIsFirst() ? Sort.NullHandling.NULLS_FIRST
+                : Sort.NullHandling.NULLS_LAST;
         Sort.Order order = new Sort.Order(direction, comparatorItem.getField(), nullHandlingHint);
         if (comparatorItem.isIgnoreCase()) {
             return order.ignoreCase();
         }
         return order;
     }
-    
+
     public static ComparatorItem fromSortOrder(Sort.Order sortOrder) {
         if (sortOrder == null || sortOrder.getProperty() == null || sortOrder.getProperty().trim().length() == 0) {
             return null;
         }
         boolean nullIsFirst = Sort.NullHandling.NULLS_FIRST.equals(sortOrder.getNullHandling());
-        return new ComparatorItem(sortOrder.getProperty(), sortOrder.isAscending(), sortOrder.isIgnoreCase(), nullIsFirst);
+        return new ComparatorItem(sortOrder.getProperty(), sortOrder.isAscending(), sortOrder.isIgnoreCase(),
+                nullIsFirst);
     }
-    
+
     public static Sort toSort(ComparatorItem comparatorItem) {
         List<Sort.Order> orderList = new LinkedList<>();
         ComparatorItem item = comparatorItem;
@@ -65,7 +68,7 @@ public abstract class ComparatorSpringUtils {
         }
         return new Sort(orderList);
     }
-    
+
     public ComparatorItem fromSort(Sort sort) {
         if (sort == null) {
             return null;

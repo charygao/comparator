@@ -41,8 +41,7 @@ public class ComparatorItemTests {
 
     @Before
     public void createJAXBContext() throws JAXBException {
-        this.jaxbContext = JAXBContext.newInstance(ObjectFactory.class
-                .getPackage().getName());
+        this.jaxbContext = JAXBContext.newInstance(ObjectFactory.class.getPackage().getName());
     }
 
     @Test
@@ -76,8 +75,7 @@ public class ComparatorItemTests {
 
         System.out.println(xmlStr);
 
-        ComparatorItem readItem = (ComparatorItem) jaxbContext
-                .createUnmarshaller().unmarshal(new StringReader(xmlStr));
+        ComparatorItem readItem = (ComparatorItem) jaxbContext.createUnmarshaller().unmarshal(new StringReader(xmlStr));
 
         System.out.println(item.toList(true));
         System.out.println(readItem.toList(true));
@@ -97,8 +95,7 @@ public class ComparatorItemTests {
 
         ObjectMapper om = new ObjectMapper();
 
-        String jsonStr = om.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(item);
+        String jsonStr = om.writerWithDefaultPrettyPrinter().writeValueAsString(item);
 
         System.out.println(jsonStr);
 
@@ -130,8 +127,7 @@ public class ComparatorItemTests {
         try {
             i1.setNextComparatorItem(i0);
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException(
-                    "An IllegalArgumentException should not happen here.");
+            throw new RuntimeException("An IllegalArgumentException should not happen here.");
         }
         i0.setNextComparatorItem(i1);
         System.out.println("OK\n");
@@ -148,8 +144,7 @@ public class ComparatorItemTests {
             i0.setNextComparatorItem(i1);
             i2.setNextComparatorItem(i0);
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException(
-                    "An IllegalArgumentException should not happen here.");
+            throw new RuntimeException("An IllegalArgumentException should not happen here.");
         }
         i1.setNextComparatorItem(i2);
         System.out.println("OK\n");

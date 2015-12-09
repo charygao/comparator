@@ -56,13 +56,13 @@ import org.bremersee.comparator.model.ComparatorItem;
  * 
  * <pre>
  * public class Person {
- * 	private Address address;
- * 	// getter and setter
+ *     private Address address;
+ *     // getter and setter
  * }
  * 
  * public class Address {
- * 	private String streetName;
- * 	// getter and setter
+ *     private String streetName;
+ *     // getter and setter
  * }
  * </pre>
  * </p>
@@ -82,11 +82,11 @@ import org.bremersee.comparator.model.ComparatorItem;
  */
 public interface ObjectComparator extends Comparator<Object> {
 
-	/**
-	 * Gets the comparator item which is used by this comparator.
-	 * 
-	 * @return the comparator item which is used by this comparator
-	 */
-	ComparatorItem getComparatorItem();
+    /**
+     * Gets the comparator item which is used by this comparator.
+     * 
+     * @return the comparator item which is used by this comparator
+     */
+    ComparatorItem getComparatorItem();
 
 }

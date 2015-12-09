@@ -27,11 +27,11 @@ import junit.framework.TestCase;
  * @author Christian Bremer
  */
 public class ObjectComparatorTests {
-    
+
     private static ObjectComparator createObjectComparator(ComparatorItem comparatorItem) {
         return ObjectComparatorFactory.newInstance().newObjectComparator(comparatorItem);
     }
-    
+
     @Test
     public void testPrimitiveType() {
         System.out.println("Testing primitive type ...");
@@ -44,69 +44,57 @@ public class ObjectComparatorTests {
     @Test
     public void testSimpleObject() {
         System.out.println("Testing simple object ...");
-        int result = createObjectComparator(
-                new ComparatorItem("number"))
-                .compare(
-                        new SimpleObject(1), 
-                        new SimpleObject(2));
+        int result = createObjectComparator(new ComparatorItem("number")).compare(new SimpleObject(1),
+                new SimpleObject(2));
         System.out.println(result);
         TestCase.assertTrue(result < 0);
         System.out.println("OK\n");
     }
-    
+
     @Test
     public void testSimpleGetObject() {
         System.out.println("Testing simple 'get' object ...");
-        int result = createObjectComparator(
-                new ComparatorItem("number"))
-                .compare(
-                        new SimpleGetObject(1), 
-                        new SimpleGetObject(2));
+        int result = createObjectComparator(new ComparatorItem("number")).compare(new SimpleGetObject(1),
+                new SimpleGetObject(2));
         System.out.println(result);
         TestCase.assertTrue(result < 0);
         System.out.println("OK\n");
     }
-    
+
     @Test
     public void testSimpleIsObject() {
         System.out.println("Testing simple 'is' object ...");
-        int result = createObjectComparator(
-                new ComparatorItem("nice", false))
-                .compare(
-                        new SimpleIsObject(true), 
-                        new SimpleIsObject(false));
+        int result = createObjectComparator(new ComparatorItem("nice", false)).compare(new SimpleIsObject(true),
+                new SimpleIsObject(false));
         System.out.println(result);
         TestCase.assertTrue(result < 0);
         System.out.println("OK\n");
     }
-    
+
     @Test
     public void testComplexObject() {
         System.out.println("Testing complex object ...");
-        int result = createObjectComparator(
-                new ComparatorItem("simple.number", true))
-                .compare(
-                        new ComplexObject(new SimpleObject(1)), 
-                        new ComplexObject(new SimpleObject(2)));
+        int result = createObjectComparator(new ComparatorItem("simple.number", true))
+                .compare(new ComplexObject(new SimpleObject(1)), new ComplexObject(new SimpleObject(2)));
         System.out.println(result);
         TestCase.assertTrue(result < 0);
         System.out.println("OK\n");
     }
-    
+
     private class SimpleObject {
-        
+
         @SuppressWarnings("unused")
         private int number;
-        
+
         private SimpleObject(int number) {
             this.number = number;
         }
     }
 
     private class SimpleGetObject {
-        
+
         private int no;
-        
+
         private SimpleGetObject(int number) {
             this.no = number;
         }
@@ -118,9 +106,9 @@ public class ObjectComparatorTests {
     }
 
     private class SimpleIsObject {
-        
+
         private boolean _isNice;
-        
+
         private SimpleIsObject(boolean isNice) {
             this._isNice = isNice;
         }
@@ -130,12 +118,12 @@ public class ObjectComparatorTests {
             return _isNice;
         }
     }
-    
+
     private class ComplexObject {
-        
+
         @SuppressWarnings("unused")
         private SimpleObject simple;
-        
+
         private ComplexObject(SimpleObject simple) {
             this.simple = simple;
         }

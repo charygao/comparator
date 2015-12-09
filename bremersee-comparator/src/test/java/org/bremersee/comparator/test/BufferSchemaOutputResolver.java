@@ -30,51 +30,56 @@ import javax.xml.transform.stream.StreamResult;
  * @author Christian Bremer
  */
 public class BufferSchemaOutputResolver extends SchemaOutputResolver {
-	
-	protected Map<String, StreamResult> buffers = new HashMap<String, StreamResult>();
 
-	/* (non-Javadoc)
-	 * @see javax.xml.bind.SchemaOutputResolver#createOutput(java.lang.String, java.lang.String)
-	 */
-	@Override
-	public Result createOutput(String namespaceUri, String suggestedFileName) throws IOException {
-		StringWriter out = new StringWriter();
-		StreamResult res = new StreamResult(out);
-		res.setSystemId(suggestedFileName);
-		buffers.put(namespaceUri, res);
-		return res;
-	}
-	
-	public Set<String> getNamespaces() {
-		return buffers.keySet();
-	}
-	
-	public String getSchema(String namespaceUri) {
-		return buffers.get(namespaceUri).getWriter().toString();
-	}
-	
-	public String getSystemId(String namespaceUri) {
-		return buffers.get(namespaceUri).getSystemId();
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		for (String s : buffers.keySet()) {
-			sb.append("***** Begin schema ").append(s).append(", system-id=").append(getSystemId(s)).append(" *****");
-			sb.append(System.getProperty("line.separator"));
-			sb.append(getSchema(s));
-			sb.append("***** End schema ").append(s).append(" *****");
-			sb.append(System.getProperty("line.separator"));
-			sb.append(System.getProperty("line.separator"));
-		}
-		return sb.toString();
-	}
-	
-	public void clear() {
-		buffers.clear();
-	}
+    protected Map<String, StreamResult> buffers = new HashMap<String, StreamResult>();
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see javax.xml.bind.SchemaOutputResolver#createOutput(java.lang.String,
+     * java.lang.String)
+     */
+    @Override
+    public Result createOutput(String namespaceUri, String suggestedFileName) throws IOException {
+        StringWriter out = new StringWriter();
+        StreamResult res = new StreamResult(out);
+        res.setSystemId(suggestedFileName);
+        buffers.put(namespaceUri, res);
+        return res;
+    }
+
+    public Set<String> getNamespaces() {
+        return buffers.keySet();
+    }
+
+    public String getSchema(String namespaceUri) {
+        return buffers.get(namespaceUri).getWriter().toString();
+    }
+
+    public String getSystemId(String namespaceUri) {
+        return buffers.get(namespaceUri).getSystemId();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (String s : buffers.keySet()) {
+            sb.append("***** Begin schema ").append(s).append(", system-id=").append(getSystemId(s)).append(" *****");
+            sb.append(System.getProperty("line.separator"));
+            sb.append(getSchema(s));
+            sb.append("***** End schema ").append(s).append(" *****");
+            sb.append(System.getProperty("line.separator"));
+            sb.append(System.getProperty("line.separator"));
+        }
+        return sb.toString();
+    }
+
+    public void clear() {
+        buffers.clear();
+    }
 
 }

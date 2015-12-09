@@ -120,10 +120,13 @@ public class ComparatorItem implements Serializable {
      */
     @Override
     public String toString() {
-        return String.format("%s [field = %s, asc = %s, ignoreCase = %s, nullIsFirst = %s]", getClass().getSimpleName(), field, asc, ignoreCase, nullIsFirst);
+        return String.format("%s [field = %s, asc = %s, ignoreCase = %s, nullIsFirst = %s]", getClass().getSimpleName(),
+                field, asc, ignoreCase, nullIsFirst);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -137,7 +140,9 @@ public class ComparatorItem implements Serializable {
         return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -283,7 +288,8 @@ public class ComparatorItem implements Serializable {
      * 
      * @param nullIsFirst
      *            {@code true} if the sort order of a {@code null} value is
-     *            higher than a {@code non-null} value, otherwise {@code false}; {@code null will be ignored}
+     *            higher than a {@code non-null} value, otherwise {@code false};
+     *            {@code null will be ignored}
      */
     @JsonProperty(value = "nullIsFirst", required = false)
     protected final void setNullIsFirstAsBoolean(Boolean nullIsFirst) {
