@@ -83,7 +83,7 @@ public class ComparatorItem implements Serializable {
      *            the field name
      */
     public ComparatorItem(String field) {
-        this.field = field;
+        setField(field);
     }
 
     /**
@@ -96,18 +96,18 @@ public class ComparatorItem implements Serializable {
      *            the sort order
      */
     public ComparatorItem(String field, boolean asc) {
-        this.field = field;
+        setField(field);
         this.asc = asc;
     }
 
     public ComparatorItem(String field, boolean asc, boolean ignoreCase) {
-        this.field = field;
+        setField(field);
         this.asc = asc;
         this.ignoreCase = ignoreCase;
     }
 
     public ComparatorItem(String field, boolean asc, boolean ignoreCase, boolean nullIsFirst) {
-        this.field = field;
+        setField(field);
         this.asc = asc;
         this.ignoreCase = ignoreCase;
         this.nullIsFirst = nullIsFirst;

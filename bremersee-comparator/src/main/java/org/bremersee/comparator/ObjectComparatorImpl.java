@@ -255,9 +255,6 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
 			}
 		}
 
-		// TODO is here a bug? I think yes -> fix at 1.0.1
-		// AND: field can be null!!!
-		int a = 0;
 		int result = new ObjectComparatorImpl(new ComparatorItem(null, asc, ignoreCase, nullIsFirst)).compare(v1, v2);
 
 		if (result != 0) {
