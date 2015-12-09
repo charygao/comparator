@@ -91,9 +91,6 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
 		if (comparatorItem == null) {
 			return null;
 		}
-		if (StringUtils.isBlank(comparatorItem.getField())) {
-			return toString(comparatorItem.getNextComparatorItem());
-		}
 		final String order;
 		if (comparatorItem.isAsc()) {
 			order = "asc";
@@ -155,13 +152,24 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
 
 		int index = serializedComparatorItem.indexOf(',');
 		if (index < 0) {
-			return new ComparatorItem(serializedComparatorItem);
+			return new ComparatorItem(getField(serializedComparatorItem));
 		} else {
-			String field = serializedComparatorItem.substring(0, index);
-			String tmp = serializedComparatorItem.substring(index + 1);
-			boolean asc = !"desc".equalsIgnoreCase(tmp);
+			final String field = getField(serializedComparatorItem.substring(0, index));
+			final String tmp = serializedComparatorItem.substring(index + 1);
+			final boolean asc = isAsc(tmp);
 			return new ComparatorItem(field, asc);
 		}
 	}
 
+    private String getField(String part) {
+        if (StringUtils.isBlank(part) || "null".equalsIgnoreCase(part)) {
+            return null;
+        }
+        return part;
+    }
+    
+    private boolean isAsc(String part) {
+        return !"desc".equalsIgnoreCase(part);
+    }
+    
 }
