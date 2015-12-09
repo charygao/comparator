@@ -49,12 +49,9 @@ public abstract class ObjectComparatorFactory {
      * @throws ClassNotFoundException
      *             if creation of the factory fails
      */
-    public static ObjectComparatorFactory newInstance(
-            String objectComparatorFactoryClassName)
-            throws InstantiationException, IllegalAccessException,
-            ClassNotFoundException {
-        return (ObjectComparatorFactory) Class.forName(
-                objectComparatorFactoryClassName).newInstance();
+    public static ObjectComparatorFactory newInstance(String objectComparatorFactoryClassName)
+            throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+        return (ObjectComparatorFactory) Class.forName(objectComparatorFactoryClassName).newInstance();
     }
 
     /**
@@ -73,12 +70,9 @@ public abstract class ObjectComparatorFactory {
      * @throws ClassNotFoundException
      *             if creation of the factory fails
      */
-    public static ObjectComparatorFactory newInstance(
-            String objectComparatorFactoryClassName, ClassLoader classLoader)
-            throws InstantiationException, IllegalAccessException,
-            ClassNotFoundException {
-        return (ObjectComparatorFactory) Class.forName(
-                objectComparatorFactoryClassName, true, classLoader)
+    public static ObjectComparatorFactory newInstance(String objectComparatorFactoryClassName, ClassLoader classLoader)
+            throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+        return (ObjectComparatorFactory) Class.forName(objectComparatorFactoryClassName, true, classLoader)
                 .newInstance();
     }
 
@@ -91,8 +85,7 @@ public abstract class ObjectComparatorFactory {
      *            be {@code null})
      * @return a new object comparator
      */
-    public abstract ObjectComparator newObjectComparator(
-            ComparatorItem comparatorItem);
+    public abstract ObjectComparator newObjectComparator(ComparatorItem comparatorItem);
 
     /**
      * <p>
@@ -101,8 +94,7 @@ public abstract class ObjectComparatorFactory {
      * 
      * @author Christian Bremer
      */
-    private static class DefaultObjectComparatorFactory extends
-            ObjectComparatorFactory {
+    private static class DefaultObjectComparatorFactory extends ObjectComparatorFactory {
 
         /*
          * (non-Javadoc)
@@ -122,8 +114,7 @@ public abstract class ObjectComparatorFactory {
          * (org.bremersee.comparator.model.ComparatorItem)
          */
         @Override
-        public ObjectComparator newObjectComparator(
-                ComparatorItem comparatorItem) {
+        public ObjectComparator newObjectComparator(ComparatorItem comparatorItem) {
 
             return new ObjectComparatorImpl(comparatorItem);
         }

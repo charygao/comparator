@@ -28,18 +28,18 @@ import org.bremersee.comparator.model.ComparatorItem;
  */
 public interface ComparatorItemDeserializer {
 
-	/**
-	 * Creates a {@link ComparatorItem} from it's string representation made by
-	 * a {@link ComparatorItemSerializer}.
-	 * 
-	 * @param serializedComparatorItem
-	 *            the string representation
-	 * @param isUrlEncoded
-	 *            is the string URL encoded?
-	 * @param charset
-	 *            the charset of the URL encoding (default is UTF-8)
-	 * @return the comparator item
-	 */
-	ComparatorItem fromString(String serializedComparatorItem, boolean isUrlEncoded, String charset);
+    /**
+     * Creates a {@link ComparatorItem} from it's string representation made by
+     * a {@link ComparatorItemSerializer}.
+     * 
+     * @param serializedComparatorItem
+     *            the string representation
+     * @param isUrlEncoded
+     *            is the string URL encoded?
+     * @param charset
+     *            the charset of the URL encoding (default is UTF-8)
+     * @return the comparator item
+     */
+    ComparatorItem fromString(String serializedComparatorItem, boolean isUrlEncoded, String charset);
 
 }

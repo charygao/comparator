@@ -102,8 +102,7 @@ public class ComparatorItem implements Serializable {
      */
     @Override
     public String toString() {
-        return String.format("%s [field = %s, asc = %s]", getClass()
-                .getSimpleName(), field, asc);
+        return String.format("%s [field = %s, asc = %s]", getClass().getSimpleName(), field, asc);
     }
 
     /*
@@ -256,8 +255,7 @@ public class ComparatorItem implements Serializable {
             while (tmp != null) {
                 if (tmp == tmpParent) {
                     this.nextComparatorItem = bakNext;
-                    throw new IllegalArgumentException(
-                            "Comparator items build an illegal circle.");
+                    throw new IllegalArgumentException("Comparator items build an illegal circle.");
                 }
                 tmp = tmp.nextComparatorItem;
             }

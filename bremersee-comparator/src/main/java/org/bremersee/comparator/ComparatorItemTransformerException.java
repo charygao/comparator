@@ -18,8 +18,8 @@ package org.bremersee.comparator;
 
 /**
  * <p>
- * Exception that might be thrown by a {@link ComparatorItemDeserializer} 
- * or a {@link ComparatorItemSerializer} implementation.
+ * Exception that might be thrown by a {@link ComparatorItemDeserializer} or a
+ * {@link ComparatorItemSerializer} implementation.
  * </p>
  * 
  * @author Christian Bremer

@@ -18,11 +18,11 @@ package org.bremersee.comparator;
 
 /**
  * <p>
- * Just a composite of {@link ComparatorItemSerializer} and {@link ComparatorItemDeserializer}.
+ * Just a composite of {@link ComparatorItemSerializer} and
+ * {@link ComparatorItemDeserializer}.
  * </P>
  * 
  * @author Christian Bremer
  */
-public interface ComparatorItemTransformer extends ComparatorItemDeserializer,
-        ComparatorItemSerializer {
+public interface ComparatorItemTransformer extends ComparatorItemDeserializer, ComparatorItemSerializer {
 }

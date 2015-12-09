@@ -53,113 +53,113 @@ import org.bremersee.comparator.model.ComparatorItem;
  */
 public class ComparatorItemTransformerImpl implements ComparatorItemTransformer {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.bremersee.comparator.ComparatorItemSerializer#toString(org.bremersee.
-	 * comparator.model.ComparatorItem, boolean, java.lang.String)
-	 */
-	@Override
-	public String toString(ComparatorItem comparatorItem, boolean urlEncode, String charset) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.bremersee.comparator.ComparatorItemSerializer#toString(org.bremersee.
+     * comparator.model.ComparatorItem, boolean, java.lang.String)
+     */
+    @Override
+    public String toString(ComparatorItem comparatorItem, boolean urlEncode, String charset) {
 
-		ComparatorItem tmp = comparatorItem;
-		StringBuilder sb = new StringBuilder();
-		String str = null;
-		while ((str = toString(tmp)) != null) {
-			if (sb.length() > 0) {
-				sb.append('|');
-			}
-			sb.append(str);
-			tmp = tmp.getNextComparatorItem();
-		}
-		if (!urlEncode) {
-			return sb.toString();
-		}
-		try {
-			if (StringUtils.isBlank(charset)) {
-				charset = "utf-8";
-			}
-			return URLEncoder.encode(sb.toString(), charset);
+        ComparatorItem tmp = comparatorItem;
+        StringBuilder sb = new StringBuilder();
+        String str = null;
+        while ((str = toString(tmp)) != null) {
+            if (sb.length() > 0) {
+                sb.append('|');
+            }
+            sb.append(str);
+            tmp = tmp.getNextComparatorItem();
+        }
+        if (!urlEncode) {
+            return sb.toString();
+        }
+        try {
+            if (StringUtils.isBlank(charset)) {
+                charset = "utf-8";
+            }
+            return URLEncoder.encode(sb.toString(), charset);
 
-		} catch (UnsupportedEncodingException e) {
-			throw new ComparatorItemTransformerException(e);
-		}
-	}
+        } catch (UnsupportedEncodingException e) {
+            throw new ComparatorItemTransformerException(e);
+        }
+    }
 
-	private String toString(ComparatorItem comparatorItem) {
-		if (comparatorItem == null) {
-			return null;
-		}
-		final String order;
-		if (comparatorItem.isAsc()) {
-			order = "asc";
-		} else {
-			order = "desc";
-		}
-		return comparatorItem.getField() + "," + order;
-	}
+    private String toString(ComparatorItem comparatorItem) {
+        if (comparatorItem == null) {
+            return null;
+        }
+        final String order;
+        if (comparatorItem.isAsc()) {
+            order = "asc";
+        } else {
+            order = "desc";
+        }
+        return comparatorItem.getField() + "," + order;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.bremersee.comparator.ComparatorItemDeserializer#fromString(java.lang.
-	 * String, boolean, java.lang.String)
-	 */
-	@Override
-	public ComparatorItem fromString(String serializedComparatorItem, boolean isUrlEncoded, String charset) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.bremersee.comparator.ComparatorItemDeserializer#fromString(java.lang.
+     * String, boolean, java.lang.String)
+     */
+    @Override
+    public ComparatorItem fromString(String serializedComparatorItem, boolean isUrlEncoded, String charset) {
 
-		if (StringUtils.isBlank(serializedComparatorItem)) {
-			return null;
-		}
+        if (StringUtils.isBlank(serializedComparatorItem)) {
+            return null;
+        }
 
-		if (isUrlEncoded) {
-			try {
-				if (StringUtils.isBlank(charset)) {
-					charset = "utf-8";
-				}
-				serializedComparatorItem = URLDecoder.decode(serializedComparatorItem, charset);
+        if (isUrlEncoded) {
+            try {
+                if (StringUtils.isBlank(charset)) {
+                    charset = "utf-8";
+                }
+                serializedComparatorItem = URLDecoder.decode(serializedComparatorItem, charset);
 
-			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException(e);
-			}
-		}
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
-		int index = serializedComparatorItem.indexOf('|');
-		if (index < 0) {
-			return fromString(serializedComparatorItem);
+        int index = serializedComparatorItem.indexOf('|');
+        if (index < 0) {
+            return fromString(serializedComparatorItem);
 
-		} else {
-			String param1 = serializedComparatorItem.substring(0, index);
-			String param2 = serializedComparatorItem.substring(index + 1);
+        } else {
+            String param1 = serializedComparatorItem.substring(0, index);
+            String param2 = serializedComparatorItem.substring(index + 1);
 
-			ComparatorItem item1 = fromString(param1);
-			ComparatorItem item2 = fromString(param2, false, charset);
-			if (item2 != null) {
-				item1.setNextComparatorItem(item2);
-			}
+            ComparatorItem item1 = fromString(param1);
+            ComparatorItem item2 = fromString(param2, false, charset);
+            if (item2 != null) {
+                item1.setNextComparatorItem(item2);
+            }
 
-			return item1;
-		}
-	}
+            return item1;
+        }
+    }
 
-	private ComparatorItem fromString(String serializedComparatorItem) {
+    private ComparatorItem fromString(String serializedComparatorItem) {
 
-		if (StringUtils.isBlank(serializedComparatorItem)) {
-			return null;
-		}
+        if (StringUtils.isBlank(serializedComparatorItem)) {
+            return null;
+        }
 
-		int index = serializedComparatorItem.indexOf(',');
-		if (index < 0) {
-			return new ComparatorItem(getField(serializedComparatorItem));
-		} else {
-			final String field = getField(serializedComparatorItem.substring(0, index));
-			final String tmp = serializedComparatorItem.substring(index + 1);
-			final boolean asc = isAsc(tmp);
-			return new ComparatorItem(field, asc);
-		}
-	}
+        int index = serializedComparatorItem.indexOf(',');
+        if (index < 0) {
+            return new ComparatorItem(getField(serializedComparatorItem));
+        } else {
+            final String field = getField(serializedComparatorItem.substring(0, index));
+            final String tmp = serializedComparatorItem.substring(index + 1);
+            final boolean asc = isAsc(tmp);
+            return new ComparatorItem(field, asc);
+        }
+    }
 
     private String getField(String part) {
         if (StringUtils.isBlank(part) || "null".equalsIgnoreCase(part)) {
@@ -167,9 +167,9 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
         }
         return part;
     }
-    
+
     private boolean isAsc(String part) {
         return !"desc".equalsIgnoreCase(part);
     }
-    
+
 }
