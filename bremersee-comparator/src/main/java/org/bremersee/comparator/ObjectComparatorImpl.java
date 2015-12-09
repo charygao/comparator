@@ -236,7 +236,7 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
 			}
 		}
 
-		int result = asc ? new ObjectComparatorImpl().compare(v1, v2) : new ObjectComparatorImpl().compare(v2, v1);
+        int result = new ObjectComparatorImpl(new ComparatorItem(null, asc)).compare(v1, v2);
 
 		if (result != 0) {
 			return result;

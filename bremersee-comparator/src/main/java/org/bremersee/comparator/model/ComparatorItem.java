@@ -26,19 +26,30 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 /**
  * @author Christian Bremer
  */
+//@formatter:off
 @XmlRootElement(name = "comparatorItem")
-@XmlType(name = "comparatorItemType", propOrder = { "field", "asc",
+@XmlType(name = "comparatorItemType", propOrder = { 
+        "field", 
+        "asc",
         "nextComparatorItem" })
 @XmlAccessorType(XmlAccessType.PROPERTY)
+@JsonAutoDetect(fieldVisibility = Visibility.NONE, 
+    getterVisibility = Visibility.PUBLIC_ONLY, 
+    creatorVisibility = Visibility.NONE, 
+    isGetterVisibility = Visibility.PUBLIC_ONLY, 
+    setterVisibility = Visibility.PUBLIC_ONLY)
 @JsonInclude(Include.NON_EMPTY)
+//@formatter:on
 public class ComparatorItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,7 +60,6 @@ public class ComparatorItem implements Serializable {
 
     private ComparatorItem nextComparatorItem;
 
-    @JsonIgnore
     private ComparatorItem parentComparatorItem;
 
     /**
@@ -137,8 +147,8 @@ public class ComparatorItem implements Serializable {
      * 
      * @return the field name
      */
-    @XmlElement(name = "field", required = true)
-    @JsonProperty(value = "field", required = true)
+    @XmlElement(name = "field", required = false)
+    @JsonProperty(value = "field", required = false)
     public String getField() {
         return field;
     }
@@ -149,6 +159,7 @@ public class ComparatorItem implements Serializable {
      * @param field
      *            the field name
      */
+    @JsonProperty(value = "field", required = false)
     public void setField(String field) {
         this.field = field;
     }
@@ -170,6 +181,7 @@ public class ComparatorItem implements Serializable {
      * @param asc
      *            the sort order
      */
+    @JsonProperty(value = "asc", required = false)
     public void setAsc(boolean asc) {
         this.asc = asc;
     }
@@ -217,6 +229,7 @@ public class ComparatorItem implements Serializable {
      * @throws IllegalArgumentException
      *             if the comparator items build an illegal circle
      */
+    @JsonProperty(value = "nextComparatorItem", required = false)
     public final void setNextComparatorItem(ComparatorItem nextComparatorItem) {
 
         if (nextComparatorItem == null) {
