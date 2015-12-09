@@ -27,6 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -193,10 +195,11 @@ public class ComparatorItem implements Serializable {
      */
     @JsonProperty(value = "field", required = false)
     public void setField(String field) {
-        if (field != null && field.trim().length() == 0) {
-            field = null;
+        if (StringUtils.isBlank(field)) {
+            this.field = null;
+        } else {
+            this.field = field;
         }
-        this.field = field;
     }
 
     /**
