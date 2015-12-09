@@ -120,12 +120,10 @@ public class ComparatorItem implements Serializable {
      */
     @Override
     public String toString() {
-        return String.format("%s [field = %s, asc = %s]", getClass().getSimpleName(), field, asc);
+        return String.format("%s [field = %s, asc = %s, ignoreCase = %s, nullIsFirst = %s]", getClass().getSimpleName(), field, asc, ignoreCase, nullIsFirst);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -134,12 +132,12 @@ public class ComparatorItem implements Serializable {
         int result = 1;
         result = prime * result + (asc ? 1231 : 1237);
         result = prime * result + ((field == null) ? 0 : field.hashCode());
+        result = prime * result + ((ignoreCase == null) ? 0 : ignoreCase.hashCode());
+        result = prime * result + ((nullIsFirst == null) ? 0 : nullIsFirst.hashCode());
         return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -158,6 +156,16 @@ public class ComparatorItem implements Serializable {
                 return false;
         } else if (!field.equals(other.field))
             return false;
+        if (ignoreCase == null) {
+            if (other.ignoreCase != null)
+                return false;
+        } else if (!ignoreCase.equals(other.ignoreCase))
+            return false;
+        if (nullIsFirst == null) {
+            if (other.nullIsFirst != null)
+                return false;
+        } else if (!nullIsFirst.equals(other.nullIsFirst))
+            return false;
         return true;
     }
 
@@ -166,8 +174,8 @@ public class ComparatorItem implements Serializable {
      * 
      * @return the field name
      */
-    @XmlElement(name = "field", required = true)
-    @JsonProperty(value = "field", required = true)
+    @XmlElement(name = "field", required = false)
+    @JsonProperty(value = "field", required = false)
     public String getField() {
         return field;
     }
@@ -178,8 +186,11 @@ public class ComparatorItem implements Serializable {
      * @param field
      *            the field name
      */
-    @JsonProperty(value = "field", required = true)
+    @JsonProperty(value = "field", required = false)
     public void setField(String field) {
+        if (field != null && field.trim().length() == 0) {
+            field = null;
+        }
         this.field = field;
     }
 
@@ -289,7 +300,7 @@ public class ComparatorItem implements Serializable {
      */
     @XmlTransient
     @JsonIgnore
-    protected final boolean isNullIsFirst() {
+    public final boolean isNullIsFirst() {
         return nullIsFirst;
     }
 

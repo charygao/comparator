@@ -19,6 +19,8 @@ package org.bremersee.comparator;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bremersee.comparator.model.ComparatorItem;
@@ -100,7 +102,7 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
 		} else {
 			order = "desc";
 		}
-		return comparatorItem.getField() + "," + order;
+		return comparatorItem.getField() + "," + order + "," + comparatorItem.isIgnoreCase() + "," + comparatorItem.isNullIsFirst();
 	}
 
 	/*
@@ -120,7 +122,7 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
 		if (isUrlEncoded) {
 			try {
 				if (StringUtils.isBlank(charset)) {
-					charset = "utf-8";
+					charset = StandardCharsets.UTF_8.name();
 				}
 				serializedComparatorItem = URLDecoder.decode(serializedComparatorItem, charset);
 
@@ -153,15 +155,32 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
 			return null;
 		}
 
-		int index = serializedComparatorItem.indexOf(',');
-		if (index < 0) {
-			return new ComparatorItem(serializedComparatorItem);
-		} else {
-			String field = serializedComparatorItem.substring(0, index);
-			String tmp = serializedComparatorItem.substring(index + 1);
-			boolean asc = !"desc".equalsIgnoreCase(tmp);
-			return new ComparatorItem(field, asc);
-		}
+		String[] parts = serializedComparatorItem.split(Pattern.quote(","));
+		switch (parts.length) {
+        case 1:
+            return new ComparatorItem(serializedComparatorItem);
+
+        case 2:
+            return new ComparatorItem(parts[0], isAsc(parts[1]));
+
+        case 3:
+            return new ComparatorItem(parts[0], isAsc(parts[1]), isIgnoreCase(parts[2]));
+
+        default:
+            return new ComparatorItem(parts[0], isAsc(parts[1]), isIgnoreCase(parts[2]), isNullIsFirst(parts[3]));
+        }
 	}
+	
+	private boolean isAsc(String part) {
+	    return !"desc".equalsIgnoreCase(part);
+	}
+	
+    private boolean isIgnoreCase(String part) {
+        return !"false".equalsIgnoreCase(part);
+    }
+
+    private boolean isNullIsFirst(String part) {
+        return "true".equalsIgnoreCase(part);
+    }
 
 }

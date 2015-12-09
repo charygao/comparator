@@ -131,22 +131,41 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
 	public int compare(Object o1, Object o2) {
 
 		final boolean asc = getComparatorItem() != null ? getComparatorItem().isAsc() : true;
+		final boolean ignoreCase = getComparatorItem() != null ? getComparatorItem().isIgnoreCase() : true;
+		final boolean nullIsFirst = getComparatorItem() != null ? getComparatorItem().isNullIsFirst() : false;
 
 		if (o1 == null && o2 == null) {
 			return 0;
 		}
+        if (o1 == null && o2 != null) {
+            if (asc) {
+                return nullIsFirst ? -1 : 1;
+            } else {
+                return nullIsFirst ? 1 : -1;
+            }
+        }
 		if (o1 != null && o2 == null) {
-			return asc ? -1 : 1;
-		}
-		if (o1 == null && o2 != null) {
-			return asc ? 1 : -1;
+		    if (asc) {
+		        return nullIsFirst ? 1 : -1;
+		    } else {
+		        return nullIsFirst ? -1 : 1;
+		    }
 		}
 
 		if (getComparatorItem() == null || StringUtils.isBlank(getComparatorItem().getField())) {
 			if (asc && o1 instanceof Comparable) {
+			    if (ignoreCase && o1 instanceof String && o2 instanceof String) {
+			        return ((String)o1).compareToIgnoreCase((String)o2);
+			    }
 				return ((Comparable) o1).compareTo(o2);
+				
 			} else if (!asc && o2 instanceof Comparable) {
+			    
+                if (ignoreCase && o1 instanceof String && o2 instanceof String) {
+                    return ((String)o2).compareToIgnoreCase((String)o1);
+                }
 				return ((Comparable) o2).compareTo(o1);
+				
 			} else {
 				return 0;
 			}
@@ -236,7 +255,10 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
 			}
 		}
 
-		int result = asc ? new ObjectComparatorImpl().compare(v1, v2) : new ObjectComparatorImpl().compare(v2, v1);
+		// TODO is here a bug? I think yes -> fix at 1.0.1
+		// AND: field can be null!!!
+		int a = 0;
+		int result = new ObjectComparatorImpl(new ComparatorItem(null, asc, ignoreCase, nullIsFirst)).compare(v1, v2);
 
 		if (result != 0) {
 			return result;
