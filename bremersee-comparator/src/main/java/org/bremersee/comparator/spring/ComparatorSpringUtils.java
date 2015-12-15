@@ -110,7 +110,7 @@ public abstract class ComparatorSpringUtils {
     /**
      * Transforms a {@code Sort.Order} object into a comparator item.
      * 
-     * @param sort
+     * @param sortOrder
      *            the {@code Sort.Order} object
      * @return the comparator item
      */

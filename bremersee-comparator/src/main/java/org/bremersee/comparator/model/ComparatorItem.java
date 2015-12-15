@@ -185,6 +185,15 @@ public class ComparatorItem implements Serializable {
                 return false;
         } else if (!nullIsFirst.equals(other.nullIsFirst))
             return false;
+        if (getNextComparatorItem() == null && other.getNextComparatorItem() != null) {
+            return false;
+        }
+        if (getNextComparatorItem() != null && other.getNextComparatorItem() == null) {
+            return false;
+        }
+        if (getNextComparatorItem() != null && other.getNextComparatorItem() != null) {
+            return getNextComparatorItem().equals(other.getNextComparatorItem());
+        }
         return true;
     }
     
@@ -468,7 +477,7 @@ public class ComparatorItem implements Serializable {
         ArrayList<ComparatorItem> list = new ArrayList<ComparatorItem>();
         ComparatorItem tmp = fromRoot ? getRootComparatorItem() : this;
         while (tmp != null) {
-            list.add(tmp);
+            list.add(new ComparatorItem(tmp.getField(), tmp.isAsc(), tmp.isIgnoreCase(), tmp.isNullIsFirst()));
             tmp = tmp.nextComparatorItem;
         }
         return list;

@@ -40,7 +40,6 @@ public class ComparatorSpringUtilsTests {
         
         ComparatorItem testComparatorItem = ComparatorSpringUtils.fromSort(sort);
         TestCase.assertEquals(comparatorItem, testComparatorItem);
-        TestCase.assertEquals(comparatorItem.getNextComparatorItem(), testComparatorItem.getNextComparatorItem());
 
         System.out.println("OK\n");
     }

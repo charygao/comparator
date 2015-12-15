@@ -76,3 +76,14 @@ Sort springSort = ComparatorSpringUtils.toSort(comparatorItem);
 
 comparatorItem = ComparatorSpringUtils.fromSort(springSort);
 +-----------------------------------------------------------------------+
+
+  To use the Spring Framework Support you have to add the following 
+  dependency to your project:
+
++-----------------------------------------------------------------------+
+<dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-commons</artifactId>
+    <version>1.9.4.RELEASE</version>
+</dependency>
++-----------------------------------------------------------------------+
