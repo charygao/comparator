@@ -24,6 +24,12 @@ import org.bremersee.comparator.model.ComparatorItem;
 import org.springframework.data.domain.Sort;
 
 /**
+ * <p>
+ * This utility class provides methods to transform a {@link ComparatorItem}
+ * into a {@code Sort} object from the Spring framework (spring-data-common) and
+ * vice versa.
+ * </p>
+ * 
  * @author Christian Bremer
  */
 public abstract class ComparatorSpringUtils {
@@ -31,30 +37,13 @@ public abstract class ComparatorSpringUtils {
     private ComparatorSpringUtils() {
     }
 
-    public static Sort.Order toSortOrder(ComparatorItem comparatorItem) {
-        if (comparatorItem == null || comparatorItem.getField() == null
-                || comparatorItem.getField().trim().length() == 0) {
-            return null;
-        }
-        Sort.Direction direction = comparatorItem.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort.NullHandling nullHandlingHint = comparatorItem.isNullIsFirst() ? Sort.NullHandling.NULLS_FIRST
-                : Sort.NullHandling.NULLS_LAST;
-        Sort.Order order = new Sort.Order(direction, comparatorItem.getField(), nullHandlingHint);
-        if (comparatorItem.isIgnoreCase()) {
-            return order.ignoreCase();
-        }
-        return order;
-    }
-
-    public static ComparatorItem fromSortOrder(Sort.Order sortOrder) {
-        if (sortOrder == null || sortOrder.getProperty() == null || sortOrder.getProperty().trim().length() == 0) {
-            return null;
-        }
-        boolean nullIsFirst = Sort.NullHandling.NULLS_FIRST.equals(sortOrder.getNullHandling());
-        return new ComparatorItem(sortOrder.getProperty(), sortOrder.isAscending(), sortOrder.isIgnoreCase(),
-                nullIsFirst);
-    }
-
+    /**
+     * Transforms the comparator item into a {@code Sort} object.
+     * 
+     * @param comparatorItem
+     *            the comparator item
+     * @return the sort object
+     */
     public static Sort toSort(ComparatorItem comparatorItem) {
         List<Sort.Order> orderList = new LinkedList<>();
         ComparatorItem item = comparatorItem;
@@ -69,6 +58,13 @@ public abstract class ComparatorSpringUtils {
         return new Sort(orderList);
     }
 
+    /**
+     * Transforms a {@code Sort} object into a comparator item.
+     * 
+     * @param sort
+     *            the {@code Sort} object
+     * @return the comparator item
+     */
     public static ComparatorItem fromSort(Sort sort) {
         if (sort == null) {
             return null;
@@ -87,6 +83,44 @@ public abstract class ComparatorSpringUtils {
             }
         }
         return comparatorItem;
+    }
+
+    /**
+     * Transforms the comparator item into a {@code Sort.Order} object.
+     * 
+     * @param comparatorItem
+     *            the comparator item
+     * @return the sort object
+     */
+    public static Sort.Order toSortOrder(ComparatorItem comparatorItem) {
+        if (comparatorItem == null || comparatorItem.getField() == null
+                || comparatorItem.getField().trim().length() == 0) {
+            return null;
+        }
+        Sort.Direction direction = comparatorItem.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort.NullHandling nullHandlingHint = comparatorItem.isNullIsFirst() ? Sort.NullHandling.NULLS_FIRST
+                : Sort.NullHandling.NULLS_LAST;
+        Sort.Order order = new Sort.Order(direction, comparatorItem.getField(), nullHandlingHint);
+        if (comparatorItem.isIgnoreCase()) {
+            return order.ignoreCase();
+        }
+        return order;
+    }
+
+    /**
+     * Transforms a {@code Sort.Order} object into a comparator item.
+     * 
+     * @param sort
+     *            the {@code Sort.Order} object
+     * @return the comparator item
+     */
+    public static ComparatorItem fromSortOrder(Sort.Order sortOrder) {
+        if (sortOrder == null || sortOrder.getProperty() == null || sortOrder.getProperty().trim().length() == 0) {
+            return null;
+        }
+        boolean nullIsFirst = Sort.NullHandling.NULLS_FIRST.equals(sortOrder.getNullHandling());
+        return new ComparatorItem(sortOrder.getProperty(), sortOrder.isAscending(), sortOrder.isIgnoreCase(),
+                nullIsFirst);
     }
 
 }

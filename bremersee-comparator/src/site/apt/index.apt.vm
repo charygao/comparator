@@ -55,8 +55,24 @@ ObjectComarator comparator = factory.newObjectComparator(
 
   the objects must implement java.lang.Comparable.
 
-  
+
 * XML Schema
 
   The XML schema of the ComparatorItem is available {{{http://bremersee.github.io/xmlschemas/bremersee-comparator-v1.xsd}here}}.
-  
+
+
+* Spring Framework Support
+
+  The Spring Common Data project contains a class for sorting, too.
+  The class ComparatorSpringUtils contains methods to transform the 
+  comparator item of this library into the objects of the spring framework. 
+
++-----------------------------------------------------------------------+
+ComparatorItem comparatorItem = new ComparatorItem("lastName", true, true);
+comparatorItem.next("firstName", true, true);
+Sort springSort = ComparatorSpringUtils.toSort(comparatorItem);
+
+// or vice versa:
+
+comparatorItem = ComparatorSpringUtils.fromSort(springSort);
++-----------------------------------------------------------------------+
