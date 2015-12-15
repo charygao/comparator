@@ -7,6 +7,38 @@ The values may be a simple type like java.lang.String or a complex type which im
 
 The generated maven site is committed to the [gh-pages branch](https://github.com/bremersee/comparator/tree/gh-pages) and visible [here](http://bremersee.github.io/comparator/). There you can find some examples, too.
 
+## Release 1.1.0
+Release 1.1.0 is build with Java 7.
+
+Added: Case ignoring for Strings
+
+Added: null comparing
+
+Added: Spring Framework Support (Transforming a ComparatorItem into the sorting features of spring-data-common and vice versa)
+
+The release is available at Maven Central:
+```xml
+<dependency>
+    <groupId>org.bremersee</groupId>
+    <artifactId>bremersee-comparator</artifactId>
+    <version>1.1.0</version>
+</dependency>
+```
+
+## Release 1.0.2
+Release 1.0.2 is build with Java 7.
+
+Fix: Comparing objects with no or emty ComparatorItem
+
+It is available at Maven Central:
+```xml
+<dependency>
+    <groupId>org.bremersee</groupId>
+    <artifactId>bremersee-comparator</artifactId>
+    <version>1.0.2</version>
+</dependency>
+```
+
 ## Release 1.0.1
 Release 1.0.1 is build with Java 7.
 
