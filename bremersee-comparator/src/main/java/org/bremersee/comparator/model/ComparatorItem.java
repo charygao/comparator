@@ -29,28 +29,37 @@ import javax.xml.bind.annotation.XmlType;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * @author Christian Bremer
  */
 //@formatter:off
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlRootElement(name = "comparatorItem")
 @XmlType(name = "comparatorItemType", propOrder = { 
         "field", 
         "asc",
         "nextComparatorItem" })
-@XmlAccessorType(XmlAccessType.PROPERTY)
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(Include.ALWAYS)
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, 
-    getterVisibility = Visibility.PUBLIC_ONLY, 
+    getterVisibility = Visibility.PROTECTED_AND_PUBLIC, 
     creatorVisibility = Visibility.NONE, 
-    isGetterVisibility = Visibility.PUBLIC_ONLY, 
-    setterVisibility = Visibility.PUBLIC_ONLY)
-@JsonInclude(Include.NON_EMPTY)
+    isGetterVisibility = Visibility.PROTECTED_AND_PUBLIC, 
+    setterVisibility = Visibility.PROTECTED_AND_PUBLIC)
+@JsonPropertyOrder(value = {
+        "field", 
+        "asc",
+        "nextComparatorItem" 
+})
 //@formatter:on
 public class ComparatorItem implements Serializable {
 
