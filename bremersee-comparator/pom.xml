@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.bremersee</groupId>
     <artifactId>bremersee-comparator</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
     <name>Bremersee Comparator</name>
     <description>A general object comparator</description>
     <url>http://bremersee.github.io/comparator/</url>
