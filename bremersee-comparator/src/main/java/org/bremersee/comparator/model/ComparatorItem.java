@@ -31,29 +31,41 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 /**
  * @author Christian Bremer
  */
 //@formatter:off
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlRootElement(name = "comparatorItem")
 @XmlType(name = "comparatorItemType", propOrder = { 
         "field", 
         "asc",
         "ignoreCaseAsBoolean",
         "nullIsFirstAsBoolean",
-        "nextComparatorItem" })
-@XmlAccessorType(XmlAccessType.PROPERTY)
+        "nextComparatorItem" 
+})
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(Include.ALWAYS)
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, 
     getterVisibility = Visibility.PROTECTED_AND_PUBLIC, 
     creatorVisibility = Visibility.NONE, 
     isGetterVisibility = Visibility.PROTECTED_AND_PUBLIC, 
     setterVisibility = Visibility.PROTECTED_AND_PUBLIC)
-@JsonInclude(Include.NON_EMPTY)
+@JsonPropertyOrder(value = {
+        "field", 
+        "asc",
+        "ignoreCaseAsBoolean",
+        "nullIsFirstAsBoolean",
+        "nextComparatorItem" 
+})
 //@formatter:on
 public class ComparatorItem implements Serializable {
 
@@ -175,7 +187,7 @@ public class ComparatorItem implements Serializable {
             return false;
         return true;
     }
-
+    
     /**
      * Returns the field name.
      * 

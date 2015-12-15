@@ -69,7 +69,7 @@ public abstract class ComparatorSpringUtils {
         return new Sort(orderList);
     }
 
-    public ComparatorItem fromSort(Sort sort) {
+    public static ComparatorItem fromSort(Sort sort) {
         if (sort == null) {
             return null;
         }
