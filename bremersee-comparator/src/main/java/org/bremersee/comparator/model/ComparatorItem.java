@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bremersee.comparator.ObjectComparator;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -36,9 +37,20 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 /**
+ * <p>
+ * A comparator item defines how objects are sorted by the
+ * {@link ObjectComparator}. They may build a chain to compare more than one
+ * attribute. If the first attribute of two object is equal, the next attribute
+ * in the comparator item chain will be compared and so on.
+ * </p>
+ * 
  * @author Christian Bremer
  */
 //@formatter:off
@@ -66,7 +78,13 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
         "nullIsFirstAsBoolean",
         "nextComparatorItem" 
 })
-//@formatter:on
+@ApiModel(
+        value = "ComparatorItem", 
+        description = "A comparator item defines how objects are sorted by the "
+                + "'ObjectComparator'. They may build a chain to compare more "
+                + "than one attribute. If the first attribute of two object is "
+                + "equal, the next attribute in the comparator item chain will "
+                + "be compared and so on.")
 public class ComparatorItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -196,23 +214,26 @@ public class ComparatorItem implements Serializable {
         }
         return true;
     }
-    
+
     /**
-     * Returns the field name.
+     * Returns the field name. It may be {@code null}.
      * 
      * @return the field name
      */
     @XmlElement(name = "field", required = false)
     @JsonProperty(value = "field", required = false)
+    @ApiModelProperty(value = "The field name that should be compared.", position = 0, required = false)
     public String getField() {
         return field;
     }
 
     /**
-     * Sets the field name.
+     * Sets the field name. If the field name is {@code null}, 
+     * the object will have to be comparable, because it will 
+     * be compared by the {@link Comparable#compareTo(Object)} method.
      * 
      * @param field
-     *            the field name
+     *            the field name (optional)
      */
     @JsonProperty(value = "field", required = false)
     public void setField(String field) {
@@ -230,6 +251,7 @@ public class ComparatorItem implements Serializable {
      */
     @XmlElement(name = "asc", defaultValue = "true")
     @JsonProperty(value = "asc", required = true)
+    @ApiModelProperty(value = "The sort order.", position = 1, required = true)
     public boolean isAsc() {
         return asc;
     }
@@ -253,6 +275,7 @@ public class ComparatorItem implements Serializable {
      */
     @XmlElement(name = "ignoreCase", required = false)
     @JsonProperty(value = "ignoreCase", required = false)
+    @ApiModelProperty(value = "Is the sort case sensitive?", position = 2, required = false)
     protected final Boolean getIgnoreCaseAsBoolean() {
         return ignoreCase;
     }
@@ -303,6 +326,7 @@ public class ComparatorItem implements Serializable {
      */
     @XmlElement(name = "nullIsFirst", required = false)
     @JsonProperty(value = "nullIsFirst", required = false)
+    @ApiModelProperty(value = "Is a null value in front of other values?", position = 3, required = false)
     protected final Boolean getNullIsFirstAsBoolean() {
         return nullIsFirst;
     }
@@ -351,6 +375,7 @@ public class ComparatorItem implements Serializable {
      * 
      * @return the root item
      */
+    @XmlTransient
     @JsonIgnore
     public final ComparatorItem getRootComparatorItem() {
         ComparatorItem parent = this;
@@ -365,6 +390,7 @@ public class ComparatorItem implements Serializable {
      * 
      * @return the parent item
      */
+    @XmlTransient
     @JsonIgnore
     public final ComparatorItem getParentComparatorItem() {
         return parentComparatorItem;
@@ -377,6 +403,7 @@ public class ComparatorItem implements Serializable {
      */
     @XmlElement(name = "nextComparatorItem", required = false)
     @JsonProperty(value = "nextComparatorItem", required = false)
+    @ApiModelProperty(value = "The next comparator item.", position = 4, required = false)
     public final ComparatorItem getNextComparatorItem() {
         return nextComparatorItem;
     }
@@ -430,6 +457,7 @@ public class ComparatorItem implements Serializable {
      * 
      * @return the last item
      */
+    @XmlTransient
     @JsonIgnore
     public final ComparatorItem getLastComparatorItem() {
         ComparatorItem last = this;
