@@ -17,6 +17,7 @@
         <jackson2.version>2.4.6</jackson2.version>
         <junit.version>4.12</junit.version>
         <spring-data-commons.version>1.9.4.RELEASE</spring-data-commons.version>
+        <swagger.version>1.5.9</swagger.version>
     </properties>
 
     <developers>
@@ -74,6 +75,11 @@
             <artifactId>jackson-annotations</artifactId>
             <version>${jackson2.version}</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
