@@ -483,11 +483,42 @@ public class ComparatorItem implements Serializable {
         return this.nextComparatorItem;
     }
 
+    /**
+     * Sets the next comparator item and returns the next comparator item.
+     * 
+     * @param field
+     *            the field name of the next comparator item
+     * @param asc
+     *            the sort order of the next comparator item
+     * @param ignoreCase
+     *            {@code true} if the sort is case sensitive, otherwise
+     *            {@code false}; {@code null will be ignored}
+     * @return the next comparator item
+     * @throws IllegalArgumentException
+     *             if the comparator items build an illegal circle
+     */
     public final ComparatorItem next(String field, boolean asc, boolean ignoreCase) {
         setNextComparatorItem(new ComparatorItem(field, asc, ignoreCase));
         return this.nextComparatorItem;
     }
 
+    /**
+     * Sets the next comparator item and returns the next comparator item.
+     * 
+     * @param field
+     *            the field name of the next comparator item
+     * @param asc
+     *            the sort order of the next comparator item
+     * @param ignoreCase
+     *            {@code true} if the sort is case sensitive, otherwise
+     *            {@code false}; {@code null will be ignored}
+     * @param nullIsFirst
+     *            {@code true} if the sort order of a {@code null} value is
+     *            higher than a {@code non-null} value, otherwise {@code false}
+     * @return the next comparator item
+     * @throws IllegalArgumentException
+     *             if the comparator items build an illegal circle
+     */
     public final ComparatorItem next(String field, boolean asc, boolean ignoreCase, boolean nullIsFirst) {
         setNextComparatorItem(new ComparatorItem(field, asc, ignoreCase, nullIsFirst));
         return this.nextComparatorItem;

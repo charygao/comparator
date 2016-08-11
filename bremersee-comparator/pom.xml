@@ -14,9 +14,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <product.vendor>bremersee.org</product.vendor>
         <commons-lang3.version>3.4</commons-lang3.version>
-        <jackson2.version>2.4.6</jackson2.version>
+        <jackson2.version>2.6.6</jackson2.version>
         <junit.version>4.12</junit.version>
-        <spring-data-commons.version>1.9.4.RELEASE</spring-data-commons.version>
+        <spring-data-commons.version>1.11.4.RELEASE</spring-data-commons.version>
         <swagger.version>1.5.9</swagger.version>
     </properties>
 
