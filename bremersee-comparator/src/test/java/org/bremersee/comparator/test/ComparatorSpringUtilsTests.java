@@ -16,28 +16,27 @@
 
 package org.bremersee.comparator.test;
 
+import junit.framework.TestCase;
 import org.bremersee.comparator.model.ComparatorItem;
 import org.bremersee.comparator.spring.ComparatorSpringUtils;
 import org.junit.Test;
 import org.springframework.data.domain.Sort;
 
-import junit.framework.TestCase;
-
 /**
  * @author Christian Bremer
  */
 public class ComparatorSpringUtilsTests {
-    
+
     @Test
     public void testSpringUtils() throws Exception {
-        
+
         System.out.println("Testing ComparatorSpringUtils ...");
 
         ComparatorItem comparatorItem = new ComparatorItem("lastName", true, true);
         comparatorItem.next("firstName", true, false);
-        
+
         Sort sort = ComparatorSpringUtils.toSort(comparatorItem);
-        
+
         ComparatorItem testComparatorItem = ComparatorSpringUtils.fromSort(sort);
         TestCase.assertEquals(comparatorItem, testComparatorItem);
 

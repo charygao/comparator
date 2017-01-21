@@ -16,29 +16,23 @@
 
 package org.bremersee.comparator.test;
 
+import javax.xml.bind.SchemaOutputResolver;
+import javax.xml.transform.Result;
+import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.bind.SchemaOutputResolver;
-import javax.xml.transform.Result;
-import javax.xml.transform.stream.StreamResult;
-
 /**
  * @author Christian Bremer
  */
+@SuppressWarnings("WeakerAccess")
 public class BufferSchemaOutputResolver extends SchemaOutputResolver {
 
-    protected Map<String, StreamResult> buffers = new HashMap<String, StreamResult>();
+    protected Map<String, StreamResult> buffers = new HashMap<>();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.xml.bind.SchemaOutputResolver#createOutput(java.lang.String,
-     * java.lang.String)
-     */
     @Override
     public Result createOutput(String namespaceUri, String suggestedFileName) throws IOException {
         StringWriter out = new StringWriter();
@@ -60,11 +54,6 @@ public class BufferSchemaOutputResolver extends SchemaOutputResolver {
         return buffers.get(namespaceUri).getSystemId();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (String s : buffers.keySet()) {

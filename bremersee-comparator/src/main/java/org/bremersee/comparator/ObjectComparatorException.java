@@ -20,9 +20,10 @@ package org.bremersee.comparator;
  * <p>
  * Exception that might be thrown by a {@link ObjectComparator} implementation.
  * </p>
- * 
+ *
  * @author Christian Bremer
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class ObjectComparatorException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
@@ -31,13 +32,13 @@ public class ObjectComparatorException extends RuntimeException {
      * Default constructor.
      */
     public ObjectComparatorException() {
+        super();
     }
 
     /**
      * Construct the exception with the specified message.
-     * 
-     * @param message
-     *            the exception message
+     *
+     * @param message the exception message
      */
     public ObjectComparatorException(String message) {
         super(message);
@@ -45,9 +46,8 @@ public class ObjectComparatorException extends RuntimeException {
 
     /**
      * Construct the exception with the specified cause.
-     * 
-     * @param cause
-     *            the cause
+     *
+     * @param cause the cause
      */
     public ObjectComparatorException(Throwable cause) {
         super(cause);
@@ -55,11 +55,9 @@ public class ObjectComparatorException extends RuntimeException {
 
     /**
      * Construct the exception with the specified message and cause.
-     * 
-     * @param message
-     *            the exception message
-     * @param cause
-     *            the cause
+     *
+     * @param message the exception message
+     * @param cause   the cause
      */
     public ObjectComparatorException(String message, Throwable cause) {
         super(message, cause);

@@ -16,6 +16,9 @@
 
 package org.bremersee.comparator;
 
+import org.apache.commons.lang3.StringUtils;
+import org.bremersee.comparator.model.ComparatorItem;
+
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -23,75 +26,19 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
-import org.bremersee.comparator.model.ComparatorItem;
-
 /**
  * <p>
  * This is the default implementation of a {@link ObjectComparator}. It will be
  * returned by
  * {@link ObjectComparatorFactory#newObjectComparator(ComparatorItem)}.
  * </p>
- * 
+ *
  * @author Christian Bremer
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({"rawtypes", "unchecked", "SameParameterValue", "unused", "WeakerAccess"})
 class ObjectComparatorImpl implements ObjectComparator, Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private static Field findField(Class<?> clazz, String name) {
-        return findField(clazz, name, null);
-    }
-
-    private static Field findField(Class<?> clazz, String name, Class<?> type) {
-        Class<?> searchType = clazz;
-        while (!Object.class.equals(searchType) && searchType != null) {
-            Field[] fields = searchType.getDeclaredFields();
-            for (Field field : fields) {
-                if ((name == null || name.equals(field.getName())) && (type == null || type.equals(field.getType()))) {
-                    return field;
-                }
-            }
-            searchType = searchType.getSuperclass();
-        }
-        return null;
-    }
-
-    private static String[] getPossibleMethodNames(String name) {
-        if (name == null || name.length() < 1) {
-            return new String[0];
-        }
-        final String baseName;
-        if (name.length() == 1) {
-            baseName = name.toUpperCase();
-        } else {
-            baseName = name.substring(0, 1).toUpperCase() + name.substring(1);
-        }
-        String[] names = new String[2];
-        names[0] = "get" + baseName;
-        names[1] = "is" + baseName;
-        return names;
-    }
-
-    private static Method findMethod(Class<?> clazz, String name) {
-        return findMethod(clazz, name, new Class[0]);
-    }
-
-    private static Method findMethod(Class<?> clazz, String name, Class<?>... paramTypes) {
-        Class<?> searchType = clazz;
-        while (searchType != null) {
-            Method[] methods = (searchType.isInterface() ? searchType.getMethods() : searchType.getDeclaredMethods());
-            for (Method method : methods) {
-                if (name.equals(method.getName())
-                        && (paramTypes == null || Arrays.equals(paramTypes, method.getParameterTypes()))) {
-                    return method;
-                }
-            }
-            searchType = searchType.getSuperclass();
-        }
-        return null;
-    }
 
     private final ComparatorItem comparatorItem;
 
@@ -104,9 +51,8 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
 
     /**
      * Construct an object comparator with the specified comparator item.
-     * 
-     * @param comparatorItem
-     *            the comparator item to use
+     *
+     * @param comparatorItem the comparator item to use
      */
     public ObjectComparatorImpl(ComparatorItem comparatorItem) {
         this.comparatorItem = comparatorItem;
@@ -128,23 +74,23 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(final Object o1, final Object o2) { // NOSONAR
 
-        final boolean asc = getComparatorItem() != null ? getComparatorItem().isAsc() : true;
-        final boolean ignoreCase = getComparatorItem() != null ? getComparatorItem().isIgnoreCase() : true;
-        final boolean nullIsFirst = getComparatorItem() != null ? getComparatorItem().isNullIsFirst() : false;
+        final boolean asc = getComparatorItem() == null || getComparatorItem().isAsc();
+        final boolean ignoreCase = getComparatorItem() == null || getComparatorItem().isIgnoreCase();
+        final boolean nullIsFirst = getComparatorItem() != null && getComparatorItem().isNullIsFirst();
 
         if (o1 == null && o2 == null) {
             return 0;
         }
-        if (o1 == null && o2 != null) {
+        if (o1 == null) {
             if (asc) {
                 return nullIsFirst ? -1 : 1;
             } else {
                 return nullIsFirst ? 1 : -1;
             }
         }
-        if (o1 != null && o2 == null) {
+        if (o2 == null) {
             if (asc) {
                 return nullIsFirst ? 1 : -1;
             } else {
@@ -180,28 +126,24 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
 
             if (StringUtils.isNotBlank(fieldName) && v1 != null && v2 != null) {
 
-                Field f1 = findField(v1.getClass(), fieldName.trim());
-                Field f2 = findField(v2.getClass(), fieldName.trim());
+                final Field f1 = findField(v1.getClass(), fieldName.trim());
+                final Field f2 = findField(v2.getClass(), fieldName.trim());
 
                 if (f1 != null && f2 != null) {
 
-                    if (!f1.isAccessible()) {
+                    if (!f1.isAccessible()) { // NOSONAR
                         f1.setAccessible(true);
                     }
-                    if (!f2.isAccessible()) {
+                    if (!f2.isAccessible()) { // NOSONAR
                         f2.setAccessible(true);
                     }
-                    try {
+                    try { // NOSONAR
                         v1 = f1.get(v1);
-                    } catch (IllegalArgumentException e) {
-                        throw e;
                     } catch (IllegalAccessException e) {
                         throw new ObjectComparatorException(e);
                     }
-                    try {
+                    try { // NOSONAR
                         v2 = f2.get(v2);
-                    } catch (IllegalArgumentException e) {
-                        throw e;
                     } catch (IllegalAccessException e) {
                         throw new ObjectComparatorException(e);
                     }
@@ -211,57 +153,103 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
                     Method m1 = null;
                     Method m2 = null;
                     String[] methodNames = getPossibleMethodNames(fieldName.trim());
-                    for (String methodName : methodNames) {
+                    for (String methodName : methodNames) { // NOSONAR
                         m1 = findMethod(v1.getClass(), methodName);
                         m2 = findMethod(v2.getClass(), methodName);
                         if (m1 != null && m2 != null) {
                             break;
                         }
                     }
-                    if (m1 == null) {
+                    if (m1 == null) { // NOSONAR
                         return new ObjectComparatorImpl(getComparatorItem().getNextComparatorItem()).compare(v1, v2);
                     }
 
-                    if (m2 == null) {
+                    if (m2 == null) { // NOSONAR
                         return new ObjectComparatorImpl(getComparatorItem().getNextComparatorItem()).compare(v1, v2);
                     }
 
-                    if (!m1.isAccessible()) {
+                    if (!m1.isAccessible()) { // NOSONAR
                         m1.setAccessible(true);
                     }
-                    if (!m2.isAccessible()) {
+                    if (!m2.isAccessible()) { // NOSONAR
                         m2.setAccessible(true);
                     }
 
-                    try {
-                        v1 = m1.invoke(v1);
-                    } catch (IllegalAccessException e) {
-                        throw new ObjectComparatorException(e);
-                    } catch (IllegalArgumentException e) {
-                        throw e;
-                    } catch (InvocationTargetException e) {
-                        throw new ObjectComparatorException(e);
-                    }
-                    try {
-                        v2 = m2.invoke(v2);
-                    } catch (IllegalAccessException e) {
-                        throw new ObjectComparatorException(e);
-                    } catch (IllegalArgumentException e) {
-                        throw e;
-                    } catch (InvocationTargetException e) {
-                        throw new ObjectComparatorException(e);
-                    }
+                    v1 = invoke(m1, v1);
+                    v2 = invoke(m2, v2);
                 }
             }
         }
 
-        int result = new ObjectComparatorImpl(new ComparatorItem(null, asc, ignoreCase, nullIsFirst)).compare(v1, v2);
+        final int result = new ObjectComparatorImpl(
+                new ComparatorItem(null, asc, ignoreCase, nullIsFirst)).compare(v1, v2);
 
         if (result != 0) {
             return result;
         }
 
         return new ObjectComparatorImpl(getComparatorItem().getNextComparatorItem()).compare(o1, o2);
+    }
+
+    private Object invoke(final Method m, final Object arg) {
+        try {
+            return m.invoke(arg);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new ObjectComparatorException(e);
+        }
+    }
+
+    private static Field findField(final Class<?> clazz, final String name, final Class<?> type) {
+        Class<?> searchType = clazz;
+        while (!Object.class.equals(searchType) && searchType != null) {
+            Field[] fields = searchType.getDeclaredFields();
+            for (Field field : fields) {
+                if ((name == null || name.equals(field.getName())) && (type == null || type.equals(field.getType()))) {
+                    return field;
+                }
+            }
+            searchType = searchType.getSuperclass();
+        }
+        return null;
+    }
+
+    private static String[] getPossibleMethodNames(final String name) {
+        if (name == null || name.length() < 1) {
+            return new String[0];
+        }
+        final String baseName;
+        if (name.length() == 1) {
+            baseName = name.toUpperCase();
+        } else {
+            baseName = name.substring(0, 1).toUpperCase() + name.substring(1);
+        }
+        String[] names = new String[2];
+        names[0] = "get" + baseName;
+        names[1] = "is" + baseName;
+        return names;
+    }
+
+    private static Method findMethod(final Class<?> clazz, final String name) {
+        return findMethod(clazz, name, new Class[0]);
+    }
+
+    private static Method findMethod(final Class<?> clazz, final String name, final Class<?>... paramTypes) {
+        Class<?> searchType = clazz;
+        while (searchType != null) {
+            Method[] methods = searchType.isInterface() ? searchType.getMethods() : searchType.getDeclaredMethods();
+            for (Method method : methods) {
+                if (name.equals(method.getName())
+                        && (paramTypes == null || Arrays.equals(paramTypes, method.getParameterTypes()))) {
+                    return method;
+                }
+            }
+            searchType = searchType.getSuperclass();
+        }
+        return null;
+    }
+
+    private static Field findField(final Class<?> clazz, final String name) {
+        return findField(clazz, name, null);
     }
 
 }

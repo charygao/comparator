@@ -16,9 +16,9 @@
 
 package org.bremersee.comparator;
 
-import java.util.Comparator;
-
 import org.bremersee.comparator.model.ComparatorItem;
+
+import java.util.Comparator;
 
 /**
  * <p>
@@ -28,7 +28,7 @@ import org.bremersee.comparator.model.ComparatorItem;
  * <p>
  * An instance of an object comparator can be obtained from the
  * {@link ObjectComparatorFactory}:
- * 
+ * <p>
  * <pre>
  * ObjectComparatorFactory factory = ObjectComparatorFactory.newInstance();
  * ObjectComparator comparator = factory.newObjectComparator(new ComparatorItem("attributeName", true));
@@ -38,7 +38,7 @@ import org.bremersee.comparator.model.ComparatorItem;
  * A ComparatorItem defines how the objects should be compared. It contains the
  * name of the attribute, the ordering (ascending or descending sort order) and
  * optionally the next comparator item, so that a chain can be build:
- * 
+ * <p>
  * <pre>
  * ComparatorItem item = new ComparatorItem("attributeName1", true);
  * item.next("attributeName2", false).next("attributeName3", true);
@@ -46,20 +46,20 @@ import org.bremersee.comparator.model.ComparatorItem;
  * </p>
  * <p>
  * The attribute name can be a path to the attribute, too:
- * 
+ * <p>
  * <pre>
  * ComparatorItem item = new ComparatorItem("address.streetName", true);
  * </pre>
  * </p>
  * <p>
  * The classes may look like this:
- * 
+ * <p>
  * <pre>
  * public class Person {
  *     private Address address;
  *     // getter and setter
  * }
- * 
+ *
  * public class Address {
  *     private String streetName;
  *     // getter and setter
@@ -68,23 +68,23 @@ import org.bremersee.comparator.model.ComparatorItem;
  * </p>
  * <p>
  * If the comparator item is empty:
- * 
+ * <p>
  * <pre>
  * ObjectComparatorFactory factory = ObjectComparatorFactory.newInstance();
  * ObjectComparator comparator = factory.newObjectComparator(new ComparatorItem());
  * </pre>
- * 
+ * <p>
  * the objects must implements {@link Comparable}.
  * </p>
- * 
- * @see Comparator
+ *
  * @author Christian Bremer
+ * @see Comparator
  */
 public interface ObjectComparator extends Comparator<Object> {
 
     /**
      * Gets the comparator item which is used by this comparator.
-     * 
+     *
      * @return the comparator item which is used by this comparator
      */
     ComparatorItem getComparatorItem();

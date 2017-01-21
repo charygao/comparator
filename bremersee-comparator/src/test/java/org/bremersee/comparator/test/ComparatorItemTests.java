@@ -16,21 +16,18 @@
 
 package org.bremersee.comparator.test;
 
-import java.io.StringReader;
-import java.io.StringWriter;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import junit.framework.TestCase;
-
 import org.bremersee.comparator.model.ComparatorItem;
 import org.bremersee.comparator.model.ObjectFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.StringReader;
+import java.io.StringWriter;
 
 /**
  * @author Christian Bremer

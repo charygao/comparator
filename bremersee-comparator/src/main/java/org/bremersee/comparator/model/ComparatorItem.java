@@ -16,32 +16,18 @@
 
 package org.bremersee.comparator.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
-
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.bremersee.comparator.ObjectComparator;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -50,36 +36,37 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
  * attribute. If the first attribute of two object is equal, the next attribute
  * in the comparator item chain will be compared and so on.
  * </p>
- * 
+ *
  * @author Christian Bremer
  */
 //@formatter:off
+@SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"})
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlRootElement(name = "comparatorItem")
-@XmlType(name = "comparatorItemType", propOrder = { 
-        "field", 
+@XmlType(name = "comparatorItemType", propOrder = {
+        "field",
         "asc",
         "ignoreCaseAsBoolean",
         "nullIsFirstAsBoolean",
-        "nextComparatorItem" 
+        "nextComparatorItem"
 })
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.ALWAYS)
-@JsonAutoDetect(fieldVisibility = Visibility.NONE, 
-    getterVisibility = Visibility.PROTECTED_AND_PUBLIC, 
-    creatorVisibility = Visibility.NONE, 
-    isGetterVisibility = Visibility.PROTECTED_AND_PUBLIC, 
-    setterVisibility = Visibility.PROTECTED_AND_PUBLIC)
+@JsonAutoDetect(fieldVisibility = Visibility.NONE,
+        getterVisibility = Visibility.PROTECTED_AND_PUBLIC,
+        creatorVisibility = Visibility.NONE,
+        isGetterVisibility = Visibility.PROTECTED_AND_PUBLIC,
+        setterVisibility = Visibility.PROTECTED_AND_PUBLIC)
 @JsonPropertyOrder(value = {
-        "field", 
+        "field",
         "asc",
         "ignoreCaseAsBoolean",
         "nullIsFirstAsBoolean",
-        "nextComparatorItem" 
+        "nextComparatorItem"
 })
 @ApiModel(
-        value = "ComparatorItem", 
+        value = "ComparatorItem",
         description = "A comparator item defines how objects are sorted by the "
                 + "'ObjectComparator'. They may build a chain to compare more "
                 + "than one attribute. If the first attribute of two object is "
@@ -105,14 +92,14 @@ public class ComparatorItem implements Serializable {
      * Default constructor.
      */
     public ComparatorItem() {
+        super();
     }
 
     /**
      * Construct an comparator item for the specified field with an ascending
      * sort order.
-     * 
-     * @param field
-     *            the field name
+     *
+     * @param field the field name
      */
     public ComparatorItem(String field) {
         setField(field);
@@ -121,11 +108,9 @@ public class ComparatorItem implements Serializable {
     /**
      * Construct an comparator item for the specified field with the specified
      * sort order.
-     * 
-     * @param field
-     *            the field name
-     * @param asc
-     *            the sort order
+     *
+     * @param field the field name
+     * @param asc   the sort order
      */
     public ComparatorItem(String field, boolean asc) {
         setField(field);
@@ -177,8 +162,9 @@ public class ComparatorItem implements Serializable {
      * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) { // NOSONAR
         if (this == obj)
             return true;
         if (obj == null)
@@ -209,33 +195,30 @@ public class ComparatorItem implements Serializable {
         if (getNextComparatorItem() != null && other.getNextComparatorItem() == null) {
             return false;
         }
-        if (getNextComparatorItem() != null && other.getNextComparatorItem() != null) {
-            return getNextComparatorItem().equals(other.getNextComparatorItem());
-        }
-        return true;
+        return !(getNextComparatorItem() != null && other.getNextComparatorItem() != null)
+                || getNextComparatorItem().equals(other.getNextComparatorItem());
     }
 
     /**
      * Returns the field name. It may be {@code null}.
-     * 
+     *
      * @return the field name
      */
-    @XmlElement(name = "field", required = false)
-    @JsonProperty(value = "field", required = false)
-    @ApiModelProperty(value = "The field name that should be compared.", position = 0, required = false)
+    @XmlElement(name = "field")
+    @JsonProperty(value = "field")
+    @ApiModelProperty(value = "The field name that should be compared.")
     public String getField() {
         return field;
     }
 
     /**
-     * Sets the field name. If the field name is {@code null}, 
-     * the object will have to be comparable, because it will 
+     * Sets the field name. If the field name is {@code null},
+     * the object will have to be comparable, because it will
      * be compared by the {@link Comparable#compareTo(Object)} method.
-     * 
-     * @param field
-     *            the field name (optional)
+     *
+     * @param field the field name (optional)
      */
-    @JsonProperty(value = "field", required = false)
+    @JsonProperty(value = "field")
     public void setField(String field) {
         if (StringUtils.isBlank(field)) {
             this.field = null;
@@ -246,7 +229,7 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Returns the sort order.
-     * 
+     *
      * @return the sort order
      */
     @XmlElement(name = "asc", defaultValue = "true")
@@ -258,36 +241,34 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Sets the sort order.
-     * 
-     * @param asc
-     *            the sort order
+     *
+     * @param asc the sort order
      */
-    @JsonProperty(value = "asc", required = false)
+    @JsonProperty(value = "asc")
     public void setAsc(boolean asc) {
         this.asc = asc;
     }
 
     /**
      * Returns whether the sort is case sensitive or not.
-     * 
+     *
      * @return {@code true} if the sort is case sensitive, otherwise
-     *         {@code false}
+     * {@code false}
      */
-    @XmlElement(name = "ignoreCase", required = false)
-    @JsonProperty(value = "ignoreCase", required = false)
-    @ApiModelProperty(value = "Is the sort case sensitive?", position = 2, required = false)
+    @XmlElement(name = "ignoreCase")
+    @JsonProperty(value = "ignoreCase")
+    @ApiModelProperty(value = "Is the sort case sensitive?", position = 2)
     protected final Boolean getIgnoreCaseAsBoolean() {
         return ignoreCase;
     }
 
     /**
      * Sets whether the sort is case sensitive or not.
-     * 
-     * @param ignoreCase
-     *            {@code true} if the sort is case sensitive, otherwise
-     *            {@code false}; {@code null will be ignored}
+     *
+     * @param ignoreCase {@code true} if the sort is case sensitive, otherwise
+     *                   {@code false}; {@code null will be ignored}
      */
-    @JsonProperty(value = "ignoreCase", required = false)
+    @JsonProperty(value = "ignoreCase")
     protected final void setIgnoreCaseAsBoolean(Boolean ignoreCase) {
         if (ignoreCase != null) {
             this.ignoreCase = ignoreCase;
@@ -296,9 +277,9 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Returns whether the sort is case sensitive or not.
-     * 
+     *
      * @return {@code true} if the sort is case sensitive, otherwise
-     *         {@code false}
+     * {@code false}
      */
     @XmlTransient
     @JsonIgnore
@@ -308,10 +289,9 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Sets whether the sort is case sensitive or not.
-     * 
-     * @param ignoreCase
-     *            {@code true} if the sort is case sensitive, otherwise
-     *            {@code false}
+     *
+     * @param ignoreCase {@code true} if the sort is case sensitive, otherwise
+     *                   {@code false}
      */
     @JsonIgnore
     public final void setIgnoreCase(boolean ignoreCase) {
@@ -320,26 +300,25 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Returns the sort order of a {@code null} value.
-     * 
+     *
      * @return {@code true} if the sort order of a {@code null} value is higher
-     *         than a {@code non-null} value, otherwise {@code false}.
+     * than a {@code non-null} value, otherwise {@code false}.
      */
-    @XmlElement(name = "nullIsFirst", required = false)
-    @JsonProperty(value = "nullIsFirst", required = false)
-    @ApiModelProperty(value = "Is a null value in front of other values?", position = 3, required = false)
+    @XmlElement(name = "nullIsFirst")
+    @JsonProperty(value = "nullIsFirst")
+    @ApiModelProperty(value = "Is a null value in front of other values?", position = 3)
     protected final Boolean getNullIsFirstAsBoolean() {
         return nullIsFirst;
     }
 
     /**
      * Sets the sort order of a {@code null} value.
-     * 
-     * @param nullIsFirst
-     *            {@code true} if the sort order of a {@code null} value is
-     *            higher than a {@code non-null} value, otherwise {@code false};
-     *            {@code null will be ignored}
+     *
+     * @param nullIsFirst {@code true} if the sort order of a {@code null} value is
+     *                    higher than a {@code non-null} value, otherwise {@code false};
+     *                    {@code null will be ignored}
      */
-    @JsonProperty(value = "nullIsFirst", required = false)
+    @JsonProperty(value = "nullIsFirst")
     protected final void setNullIsFirstAsBoolean(Boolean nullIsFirst) {
         if (nullIsFirst != null) {
             this.nullIsFirst = nullIsFirst;
@@ -348,9 +327,9 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Returns the sort order of a {@code null} value.
-     * 
+     *
      * @return {@code true} if the sort order of a {@code null} value is higher
-     *         than a {@code non-null} value, otherwise {@code false}.
+     * than a {@code non-null} value, otherwise {@code false}.
      */
     @XmlTransient
     @JsonIgnore
@@ -360,10 +339,9 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Sets the sort order of a {@code null} value.
-     * 
-     * @param nullIsFirst
-     *            {@code true} if the sort order of a {@code null} value is
-     *            higher than a {@code non-null} value, otherwise {@code false}
+     *
+     * @param nullIsFirst {@code true} if the sort order of a {@code null} value is
+     *                    higher than a {@code non-null} value, otherwise {@code false}
      */
     @JsonIgnore
     public final void setNullIsFirst(boolean nullIsFirst) {
@@ -372,7 +350,7 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Returns the root item.
-     * 
+     *
      * @return the root item
      */
     @XmlTransient
@@ -387,7 +365,7 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Returns the parent item.
-     * 
+     *
      * @return the parent item
      */
     @XmlTransient
@@ -398,25 +376,23 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Returns the next comparator item.
-     * 
+     *
      * @return the next comparator item
      */
-    @XmlElement(name = "nextComparatorItem", required = false)
-    @JsonProperty(value = "nextComparatorItem", required = false)
-    @ApiModelProperty(value = "The next comparator item.", position = 4, required = false)
+    @XmlElement(name = "nextComparatorItem")
+    @JsonProperty(value = "nextComparatorItem")
+    @ApiModelProperty(value = "The next comparator item.", position = 4)
     public final ComparatorItem getNextComparatorItem() {
         return nextComparatorItem;
     }
 
     /**
      * Sets the next comparator item.
-     * 
-     * @param nextComparatorItem
-     *            the next comparator item
-     * @throws IllegalArgumentException
-     *             if the comparator items build an illegal circle
+     *
+     * @param nextComparatorItem the next comparator item
+     * @throws IllegalArgumentException if the comparator items build an illegal circle
      */
-    @JsonProperty(value = "nextComparatorItem", required = false)
+    @JsonProperty(value = "nextComparatorItem")
     public final void setNextComparatorItem(ComparatorItem nextComparatorItem) {
 
         if (nextComparatorItem == null) {
@@ -454,7 +430,7 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Returns the last item.
-     * 
+     *
      * @return the last item
      */
     @XmlTransient
@@ -469,14 +445,11 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Sets the next comparator item and returns the next comparator item.
-     * 
-     * @param field
-     *            the field name of the next comparator item
-     * @param asc
-     *            the sort order of the next comparator item
+     *
+     * @param field the field name of the next comparator item
+     * @param asc   the sort order of the next comparator item
      * @return the next comparator item
-     * @throws IllegalArgumentException
-     *             if the comparator items build an illegal circle
+     * @throws IllegalArgumentException if the comparator items build an illegal circle
      */
     public final ComparatorItem next(String field, boolean asc) {
         setNextComparatorItem(new ComparatorItem(field, asc));
@@ -485,17 +458,13 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Sets the next comparator item and returns the next comparator item.
-     * 
-     * @param field
-     *            the field name of the next comparator item
-     * @param asc
-     *            the sort order of the next comparator item
-     * @param ignoreCase
-     *            {@code true} if the sort is case sensitive, otherwise
-     *            {@code false}; {@code null will be ignored}
+     *
+     * @param field      the field name of the next comparator item
+     * @param asc        the sort order of the next comparator item
+     * @param ignoreCase {@code true} if the sort is case sensitive, otherwise
+     *                   {@code false}; {@code null will be ignored}
      * @return the next comparator item
-     * @throws IllegalArgumentException
-     *             if the comparator items build an illegal circle
+     * @throws IllegalArgumentException if the comparator items build an illegal circle
      */
     public final ComparatorItem next(String field, boolean asc, boolean ignoreCase) {
         setNextComparatorItem(new ComparatorItem(field, asc, ignoreCase));
@@ -504,20 +473,15 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Sets the next comparator item and returns the next comparator item.
-     * 
-     * @param field
-     *            the field name of the next comparator item
-     * @param asc
-     *            the sort order of the next comparator item
-     * @param ignoreCase
-     *            {@code true} if the sort is case sensitive, otherwise
-     *            {@code false}; {@code null will be ignored}
-     * @param nullIsFirst
-     *            {@code true} if the sort order of a {@code null} value is
-     *            higher than a {@code non-null} value, otherwise {@code false}
+     *
+     * @param field       the field name of the next comparator item
+     * @param asc         the sort order of the next comparator item
+     * @param ignoreCase  {@code true} if the sort is case sensitive, otherwise
+     *                    {@code false}; {@code null will be ignored}
+     * @param nullIsFirst {@code true} if the sort order of a {@code null} value is
+     *                    higher than a {@code non-null} value, otherwise {@code false}
      * @return the next comparator item
-     * @throws IllegalArgumentException
-     *             if the comparator items build an illegal circle
+     * @throws IllegalArgumentException if the comparator items build an illegal circle
      */
     public final ComparatorItem next(String field, boolean asc, boolean ignoreCase, boolean nullIsFirst) {
         setNextComparatorItem(new ComparatorItem(field, asc, ignoreCase, nullIsFirst));
@@ -526,14 +490,13 @@ public class ComparatorItem implements Serializable {
 
     /**
      * Generates a list of the items.
-     * 
-     * @param fromRoot
-     *            if {@code true} the list will start at the root item,
-     *            otherwise at the current item
+     *
+     * @param fromRoot if {@code true} the list will start at the root item,
+     *                 otherwise at the current item
      * @return a list of the items
      */
     public final List<ComparatorItem> toList(boolean fromRoot) {
-        ArrayList<ComparatorItem> list = new ArrayList<ComparatorItem>();
+        ArrayList<ComparatorItem> list = new ArrayList<>();
         ComparatorItem tmp = fromRoot ? getRootComparatorItem() : this;
         while (tmp != null) {
             list.add(new ComparatorItem(tmp.getField(), tmp.isAsc(), tmp.isIgnoreCase(), tmp.isNullIsFirst()));

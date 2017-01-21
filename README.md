@@ -7,14 +7,14 @@ The values may be a simple type like java.lang.String or a complex type which im
 
 The generated maven site is committed to the [gh-pages branch](https://github.com/bremersee/comparator/tree/gh-pages) and visible [here](http://bremersee.github.io/comparator/). There you can find some examples, too.
 
-## Release 1.2.1
-Release 1.2.1 is build with Java 7.
+## Release 1.2.2
+Release 1.2.2 is build with Java 7.
 
 The release is available at Maven Central:
 ```xml
 <dependency>
     <groupId>org.bremersee</groupId>
     <artifactId>bremersee-comparator</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
 </dependency>
 ```

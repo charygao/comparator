@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.bremersee</groupId>
     <artifactId>bremersee-comparator</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <name>Bremersee Comparator</name>
     <description>A general object comparator</description>
     <url>http://bremersee.github.io/comparator/</url>
@@ -14,9 +14,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <product.vendor>bremersee.org</product.vendor>
         <commons-lang3.version>3.4</commons-lang3.version>
-        <jackson2.version>2.8.2</jackson2.version>
+        <jackson2.version>2.8.3</jackson2.version>
         <junit.version>4.12</junit.version>
-        <spring-data-commons.version>1.12.2.RELEASE</spring-data-commons.version>
+        <spring-data-commons.version>1.12.3.RELEASE</spring-data-commons.version>
         <swagger.version>1.5.9</swagger.version>
     </properties>
 
@@ -102,6 +102,54 @@
         </dependency>
     </dependencies>
 
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.8</version>
+                <configuration>
+                    <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.3</version>
+                <configuration>
+                    <show>protected</show>
+                    <quiet>true</quiet>
+                    <failOnError>false</failOnError>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.13</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+                <version>2.0</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.5</version>
+                <configuration>
+                    <format>xml</format>
+                    <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                    <minimumTokens>100</minimumTokens>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
     <build>
         <resources>
             <resource>
@@ -130,54 +178,7 @@
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.4</version>
                 <configuration>
-                    <reportPlugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-project-info-reports-plugin</artifactId>
-                            <version>2.8</version>
-                            <configuration>
-                                <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-                                <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                            </configuration>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <version>2.10.3</version>
-                            <configuration>
-                                <show>protected</show>
-                                <quiet>true</quiet>
-                                <test-aggregate>false</test-aggregate>
-                                <failOnError>false</failOnError>
-                            </configuration>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-surefire-report-plugin</artifactId>
-                            <version>2.13</version>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-jxr-plugin</artifactId>
-                            <version>2.5</version>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>jdepend-maven-plugin</artifactId>
-                            <version>2.0</version>
-                        </plugin>
-                        <plugin>
-                            <artifactId>maven-pmd-plugin</artifactId>
-                            <version>3.5</version>
-                            <configuration>
-                                <targetjdk>${java.version}</targetjdk>
-                                <format>xml</format>
-                                <linkXref>true</linkXref>
-                                <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
-                                <minimumTokens>100</minimumTokens>
-                            </configuration>
-                        </plugin>
-                    </reportPlugins>
+                    <generateReports>true</generateReports>
                 </configuration>
             </plugin>
             <plugin>
@@ -195,9 +196,6 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
                     <archive>
                         <addMavenDescriptor>true</addMavenDescriptor>
                         <index>true</index>
@@ -253,7 +251,6 @@
                 <configuration>
                     <show>protected</show>
                     <quiet>true</quiet>
-                    <test-aggregate>false</test-aggregate>
                     <failOnError>false</failOnError>
                 </configuration>
                 <executions>
@@ -298,7 +295,7 @@
                                 </goals>
                                 <configuration>
                                     <keyname>${gpg.keyname}</keyname>
-                                    <passphraseServerId>${gpg.keyname}</passphraseServerId>
+                                    <passphrase>${gpg.passphrase}</passphrase>
                                 </configuration>
                             </execution>
                         </executions>

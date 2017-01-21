@@ -22,14 +22,15 @@ import org.bremersee.comparator.model.ComparatorItem;
  * <p>
  * Factory to create a new {@link ObjectComparator}.
  * </p>
- * 
+ *
  * @author Christian Bremer
  */
+@SuppressWarnings("unused")
 public abstract class ObjectComparatorFactory {
 
     /**
      * Create a new instance of a {@link ObjectComparatorFactory}.
-     * 
+     *
      * @return a new instance of a {@link ObjectComparatorFactory}
      */
     public static ObjectComparatorFactory newInstance() {
@@ -38,18 +39,14 @@ public abstract class ObjectComparatorFactory {
 
     /**
      * Create a new instance of a the specified factory class.
-     * 
-     * @param objectComparatorFactoryClassName
-     *            the factory class
+     *
+     * @param objectComparatorFactoryClassName the factory class
      * @return a new instance of a the specified factory
-     * @throws InstantiationException
-     *             if creation of the factory fails
-     * @throws IllegalAccessException
-     *             if creation of the factory fails
-     * @throws ClassNotFoundException
-     *             if creation of the factory fails
+     * @throws InstantiationException if creation of the factory fails
+     * @throws IllegalAccessException if creation of the factory fails
+     * @throws ClassNotFoundException if creation of the factory fails
      */
-    public static ObjectComparatorFactory newInstance(String objectComparatorFactoryClassName)
+    public static ObjectComparatorFactory newInstance(final String objectComparatorFactoryClassName) // NOSONAR
             throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         return (ObjectComparatorFactory) Class.forName(objectComparatorFactoryClassName).newInstance();
     }
@@ -57,20 +54,16 @@ public abstract class ObjectComparatorFactory {
     /**
      * Create a new instance of a the specified factory class by using the
      * specified class loader.
-     * 
-     * @param objectComparatorFactoryClassName
-     *            the factory class
-     * @param classLoader
-     *            the class loader
+     *
+     * @param objectComparatorFactoryClassName the factory class
+     * @param classLoader                      the class loader
      * @return a new instance of a the specified factory
-     * @throws InstantiationException
-     *             if creation of the factory fails
-     * @throws IllegalAccessException
-     *             if creation of the factory fails
-     * @throws ClassNotFoundException
-     *             if creation of the factory fails
+     * @throws InstantiationException if creation of the factory fails
+     * @throws IllegalAccessException if creation of the factory fails
+     * @throws ClassNotFoundException if creation of the factory fails
      */
-    public static ObjectComparatorFactory newInstance(String objectComparatorFactoryClassName, ClassLoader classLoader)
+    public static ObjectComparatorFactory newInstance(final String objectComparatorFactoryClassName, // NOSONAR
+                                                      final ClassLoader classLoader)
             throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         return (ObjectComparatorFactory) Class.forName(objectComparatorFactoryClassName, true, classLoader)
                 .newInstance();
@@ -79,10 +72,9 @@ public abstract class ObjectComparatorFactory {
     /**
      * Create a new {@link ObjectComparator} with the specified
      * {@link ComparatorItem}.
-     * 
-     * @param comparatorItem
-     *            the comparator item which will be used by the comparator (may
-     *            be {@code null})
+     *
+     * @param comparatorItem the comparator item which will be used by the comparator (may
+     *                       be {@code null})
      * @return a new object comparator
      */
     public abstract ObjectComparator newObjectComparator(ComparatorItem comparatorItem);
@@ -91,7 +83,7 @@ public abstract class ObjectComparatorFactory {
      * <p>
      * The default {@link ObjectComparatorFactory} implementation.
      * </p>
-     * 
+     *
      * @author Christian Bremer
      */
     private static class DefaultObjectComparatorFactory extends ObjectComparatorFactory {

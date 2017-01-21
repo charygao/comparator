@@ -16,14 +16,13 @@
 
 package org.bremersee.comparator.test;
 
+import junit.framework.TestCase;
 import org.bremersee.comparator.ComparatorItemDeserializer;
 import org.bremersee.comparator.ComparatorItemSerializer;
 import org.bremersee.comparator.ComparatorItemTransformerImpl;
 import org.bremersee.comparator.model.ComparatorItem;
 import org.junit.Before;
 import org.junit.Test;
-
-import junit.framework.TestCase;
 
 /**
  * @author Christian Bremer

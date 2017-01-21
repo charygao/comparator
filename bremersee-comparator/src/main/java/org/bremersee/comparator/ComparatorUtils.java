@@ -21,6 +21,7 @@ import org.bremersee.comparator.model.ComparatorItem;
 /**
  * @author Christian Bremer
  */
+@SuppressWarnings("unused")
 public abstract class ComparatorUtils {
 
     private ComparatorUtils() {
@@ -28,11 +29,9 @@ public abstract class ComparatorUtils {
 
     /**
      * Sets the sort order of all items.
-     * 
-     * @param comparatorItem
-     *            the (root) item
-     * @param asc
-     *            the new sort order
+     *
+     * @param comparatorItem the (root) item
+     * @param asc            the new sort order
      */
     public static void doSetAscRecursively(ComparatorItem comparatorItem, boolean asc) {
         ComparatorItem tmp = comparatorItem;
@@ -44,12 +43,10 @@ public abstract class ComparatorUtils {
 
     /**
      * Sets whether the sort is case sensitive or not to all items.
-     * 
-     * @param comparatorItem
-     *            the (root) item
-     * @param ignoreCase
-     *            {@code true} if the sort is case sensitive, otherwise
-     *            {@code false}
+     *
+     * @param comparatorItem the (root) item
+     * @param ignoreCase     {@code true} if the sort is case sensitive, otherwise
+     *                       {@code false}
      */
     public static void doSetIgnoreCaseRecursively(ComparatorItem comparatorItem, boolean ignoreCase) {
         ComparatorItem tmp = comparatorItem;
@@ -61,12 +58,10 @@ public abstract class ComparatorUtils {
 
     /**
      * Sets the sort order of a null value to all items.
-     * 
-     * @param comparatorItem
-     *            the (root) item
-     * @param nullIsFirst
-     *            {@code true} if the sort order of a null value is higher than
-     *            a non-null value, otherwise {@code false}
+     *
+     * @param comparatorItem the (root) item
+     * @param nullIsFirst    {@code true} if the sort order of a null value is higher than
+     *                       a non-null value, otherwise {@code false}
      */
     public static void doSetNullIsFirstRecursively(ComparatorItem comparatorItem, boolean nullIsFirst) {
         ComparatorItem tmp = comparatorItem;

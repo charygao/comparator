@@ -21,8 +21,9 @@ package org.bremersee.comparator;
  * Just a composite of {@link ComparatorItemSerializer} and
  * {@link ComparatorItemDeserializer}.
  * </P>
- * 
+ *
  * @author Christian Bremer
  */
+@SuppressWarnings("WeakerAccess")
 public interface ComparatorItemTransformer extends ComparatorItemDeserializer, ComparatorItemSerializer {
 }

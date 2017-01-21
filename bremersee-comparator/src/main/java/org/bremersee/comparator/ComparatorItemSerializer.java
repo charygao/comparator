@@ -23,21 +23,19 @@ import org.bremersee.comparator.model.ComparatorItem;
  * Serializer of a {@link ComparatorItem}.
  * </p>
  *
- * @see ComparatorItemDeserializer
  * @author Christian Bremer
+ * @see ComparatorItemDeserializer
  */
+@SuppressWarnings("SameParameterValue")
 public interface ComparatorItemSerializer {
 
     /**
      * Creates a string representation of the comparator item that should be
      * readable by {@link ComparatorItemDeserializer}.
-     * 
-     * @param comparatorItem
-     *            the comparator item
-     * @param urlEncode
-     *            should the resulting string be URL encoded
-     * @param charset
-     *            the charset to use for URL encoding (default is UTF-8)
+     *
+     * @param comparatorItem the comparator item
+     * @param urlEncode      should the resulting string be URL encoded
+     * @param charset        the charset to use for URL encoding (default is UTF-8)
      * @return the string representation of the comparator item
      */
     String toString(ComparatorItem comparatorItem, boolean urlEncode, String charset);

@@ -21,9 +21,10 @@ package org.bremersee.comparator;
  * Exception that might be thrown by a {@link ComparatorItemDeserializer} or a
  * {@link ComparatorItemSerializer} implementation.
  * </p>
- * 
+ *
  * @author Christian Bremer
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class ComparatorItemTransformerException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
@@ -32,13 +33,13 @@ public class ComparatorItemTransformerException extends RuntimeException {
      * Default constructor.
      */
     public ComparatorItemTransformerException() {
+        super();
     }
 
     /**
      * Construct the exception with the specified message.
-     * 
-     * @param message
-     *            the exception message
+     *
+     * @param message the exception message
      */
     public ComparatorItemTransformerException(String message) {
         super(message);
@@ -46,9 +47,8 @@ public class ComparatorItemTransformerException extends RuntimeException {
 
     /**
      * Construct the exception with the specified cause.
-     * 
-     * @param cause
-     *            the cause
+     *
+     * @param cause the cause
      */
     public ComparatorItemTransformerException(Throwable cause) {
         super(cause);
@@ -56,11 +56,9 @@ public class ComparatorItemTransformerException extends RuntimeException {
 
     /**
      * Construct the exception with the specified message and cause.
-     * 
-     * @param message
-     *            the exception message
-     * @param cause
-     *            the cause
+     *
+     * @param message the exception message
+     * @param cause   the cause
      */
     public ComparatorItemTransformerException(String message, Throwable cause) {
         super(message, cause);

@@ -16,14 +16,14 @@
 
 package org.bremersee.comparator;
 
+import org.apache.commons.lang3.StringUtils;
+import org.bremersee.comparator.model.ComparatorItem;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
-import org.bremersee.comparator.model.ComparatorItem;
 
 /**
  * <p>
@@ -32,25 +32,25 @@ import org.bremersee.comparator.model.ComparatorItem;
  * </p>
  * <p>
  * The serialized form of a single {@link ComparatorItem} looks like:
- * 
+ * <p>
  * <pre>
  * fieldName,asc  or  fieldName,desc
  * </pre>
- * 
+ * <p>
  * </p>
  * <p>
  * The serialized form of a concatenated {@link ComparatorItem} looks like:<br/>
- * 
+ * <p>
  * <pre>
  * fieldName1,asc|fieldName2,desc|fieldName3,asc
  * </pre>
- * 
+ * <p>
  * </p>
  * <p>
  * The deserializer can read these forms and creates the corresponding
  * {@link ComparatorItem}.
  * </p>
- * 
+ *
  * @author Christian Bremer
  */
 public class ComparatorItemTransformerImpl implements ComparatorItemTransformer {
@@ -63,11 +63,11 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
      * comparator.model.ComparatorItem, boolean, java.lang.String)
      */
     @Override
-    public String toString(ComparatorItem comparatorItem, boolean urlEncode, String charset) {
+    public String toString(final ComparatorItem comparatorItem, final boolean urlEncode, final String charset) {
 
         ComparatorItem tmp = comparatorItem;
-        StringBuilder sb = new StringBuilder();
-        String str = null;
+        final StringBuilder sb = new StringBuilder();
+        String str;
         while ((str = toString(tmp)) != null) {
             if (sb.length() > 0) {
                 sb.append('|');
@@ -79,17 +79,15 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
             return sb.toString();
         }
         try {
-            if (StringUtils.isBlank(charset)) {
-                charset = "utf-8";
-            }
-            return URLEncoder.encode(sb.toString(), charset);
+            return URLEncoder.encode(sb.toString(),
+                    StringUtils.isBlank(charset) ? StandardCharsets.UTF_8.name() : charset);
 
         } catch (UnsupportedEncodingException e) {
             throw new ComparatorItemTransformerException(e);
         }
     }
 
-    private String toString(ComparatorItem comparatorItem) {
+    private String toString(final ComparatorItem comparatorItem) {
         if (comparatorItem == null) {
             return null;
         }
@@ -111,35 +109,37 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
      * String, boolean, java.lang.String)
      */
     @Override
-    public ComparatorItem fromString(String serializedComparatorItem, boolean isUrlEncoded, String charset) {
+    public ComparatorItem fromString(final String serializedComparatorItem, final boolean isUrlEncoded, final String charset) {
 
         if (StringUtils.isBlank(serializedComparatorItem)) {
             return null;
         }
 
+        final String item;
+        final String enc = StringUtils.isBlank(charset) ? StandardCharsets.UTF_8.name() : charset;
+
         if (isUrlEncoded) {
             try {
-                if (StringUtils.isBlank(charset)) {
-                    charset = StandardCharsets.UTF_8.name();
-                }
-                serializedComparatorItem = URLDecoder.decode(serializedComparatorItem, charset);
+                item = URLDecoder.decode(serializedComparatorItem, enc);
 
             } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e);
+                throw new ComparatorItemTransformerException(e);
             }
+        } else {
+            item = serializedComparatorItem;
         }
 
-        int index = serializedComparatorItem.indexOf('|');
+        final int index = item.indexOf('|');
         if (index < 0) {
-            return fromString(serializedComparatorItem);
+            return fromString(item);
 
         } else {
-            String param1 = serializedComparatorItem.substring(0, index);
-            String param2 = serializedComparatorItem.substring(index + 1);
+            final String param1 = item.substring(0, index);
+            final String param2 = item.substring(index + 1);
 
-            ComparatorItem item1 = fromString(param1);
-            ComparatorItem item2 = fromString(param2, false, charset);
-            if (item2 != null) {
+            final ComparatorItem item1 = fromString(param1);
+            final ComparatorItem item2 = fromString(param2, false, enc);
+            if (item1 != null && item2 != null) {
                 item1.setNextComparatorItem(item2);
             }
 
@@ -147,7 +147,7 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
         }
     }
 
-    private ComparatorItem fromString(String serializedComparatorItem) {
+    private ComparatorItem fromString(final String serializedComparatorItem) {
 
         if (StringUtils.isBlank(serializedComparatorItem)) {
             return null;
@@ -155,37 +155,37 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
 
         String[] parts = serializedComparatorItem.split(Pattern.quote(","));
         switch (parts.length) {
-        case 1:
-            return new ComparatorItem(getField(serializedComparatorItem));
+            case 1:
+                return new ComparatorItem(getField(serializedComparatorItem));
 
-        case 2:
-            return new ComparatorItem(getField(parts[0]), isAsc(parts[1]));
+            case 2:
+                return new ComparatorItem(getField(parts[0]), isAsc(parts[1]));
 
-        case 3:
-            return new ComparatorItem(getField(parts[0]), isAsc(parts[1]), isIgnoreCase(parts[2]));
+            case 3:
+                return new ComparatorItem(getField(parts[0]), isAsc(parts[1]), isIgnoreCase(parts[2]));
 
-        default:
-            return new ComparatorItem(getField(parts[0]), isAsc(parts[1]), isIgnoreCase(parts[2]),
-                    isNullIsFirst(parts[3]));
+            default:
+                return new ComparatorItem(getField(parts[0]), isAsc(parts[1]), isIgnoreCase(parts[2]),
+                        isNullIsFirst(parts[3]));
         }
     }
 
-    private String getField(String part) {
+    private String getField(final String part) {
         if (StringUtils.isBlank(part) || "null".equalsIgnoreCase(part)) {
             return null;
         }
         return part;
     }
 
-    private boolean isAsc(String part) {
+    private boolean isAsc(final String part) {
         return !"desc".equalsIgnoreCase(part);
     }
 
-    private boolean isIgnoreCase(String part) {
+    private boolean isIgnoreCase(final String part) {
         return !"false".equalsIgnoreCase(part);
     }
 
-    private boolean isNullIsFirst(String part) {
+    private boolean isNullIsFirst(final String part) {
         return "true".equalsIgnoreCase(part);
     }
 
