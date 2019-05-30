@@ -22,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.StringUtils;
 import org.bremersee.comparator.model.ComparatorItem;
 
 /**
@@ -84,7 +83,10 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
       }
     }
 
-    if (getComparatorItem() == null || StringUtils.isBlank(getComparatorItem().getField())) {
+    if (getComparatorItem() == null
+        || getComparatorItem().getField() == null
+        || getComparatorItem().getField().trim().length() == 0) {
+
       if (asc && o1 instanceof Comparable) {
         if (ignoreCase && o1 instanceof String && o2 instanceof String) {
           return ((String) o1).compareToIgnoreCase((String) o2);
@@ -110,8 +112,7 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
     String[] fieldNames = getComparatorItem().getField().split(Pattern.quote("."));
     for (String fieldName : fieldNames) {
 
-      if (StringUtils.isNotBlank(fieldName) && v1 != null && v2 != null) {
-
+      if (fieldName != null && fieldName.trim().length() > 0 && v1 != null && v2 != null) {
         final Field f1 = findField(v1.getClass(), fieldName.trim());
         final Field f2 = findField(v2.getClass(), fieldName.trim());
 

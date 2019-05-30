@@ -35,7 +35,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import org.apache.commons.lang3.StringUtils;
 import org.bremersee.comparator.ObjectComparator;
 
 /**
@@ -197,7 +196,7 @@ public class ComparatorItem implements Serializable {
    */
   @JsonProperty(value = "field")
   public void setField(String field) {
-    if (StringUtils.isBlank(field)) {
+    if (field == null || field.trim().length() == 0) {
       this.field = null;
     } else {
       this.field = field;

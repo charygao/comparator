@@ -21,7 +21,6 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.StringUtils;
 import org.bremersee.comparator.model.ComparatorItem;
 
 /**
@@ -65,7 +64,9 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
     }
     try {
       return URLEncoder.encode(sb.toString(),
-          StringUtils.isBlank(charset) ? StandardCharsets.UTF_8.name() : charset);
+          charset == null || charset.trim().length() == 0
+              ? StandardCharsets.UTF_8.name()
+              : charset);
 
     } catch (UnsupportedEncodingException e) {
       throw new ComparatorItemTransformerException(e);
@@ -90,12 +91,14 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
   public ComparatorItem fromString(final String serializedComparatorItem,
       final boolean isUrlEncoded, final String charset) {
 
-    if (StringUtils.isBlank(serializedComparatorItem)) {
+    if (serializedComparatorItem == null || serializedComparatorItem.trim().length() == 0) {
       return null;
     }
 
     final String item;
-    final String enc = StringUtils.isBlank(charset) ? StandardCharsets.UTF_8.name() : charset;
+    final String enc = charset == null || charset.trim().length() == 0
+        ? StandardCharsets.UTF_8.name()
+        : charset;
 
     if (isUrlEncoded) {
       try {
@@ -128,7 +131,7 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
 
   private ComparatorItem fromString(final String serializedComparatorItem) {
 
-    if (StringUtils.isBlank(serializedComparatorItem)) {
+    if (serializedComparatorItem == null || serializedComparatorItem.trim().length() == 0) {
       return null;
     }
 
@@ -150,7 +153,7 @@ public class ComparatorItemTransformerImpl implements ComparatorItemTransformer 
   }
 
   private String getField(final String part) {
-    if (StringUtils.isBlank(part) || "null".equalsIgnoreCase(part)) {
+    if (part == null || part.trim().length() == 0 || "null".equalsIgnoreCase(part)) {
       return null;
     }
     return part;
