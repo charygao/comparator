@@ -29,7 +29,13 @@ import org.bremersee.comparator.model.ComparatorItem;
  * <p>The serialized form of a single {@link ComparatorItem} looks like:
  *
  * <pre>
- * fieldName,asc  or  fieldName,desc
+ * fieldName[,asc|desc[,ignoreCase[,nullIsFirst]]]
+ * </pre>
+ *
+ * <p>For example:
+ *
+ * <pre>
+ * lastName,asc,true,false
  * </pre>
  *
  * <p>The serialized form of a concatenated {@link ComparatorItem} looks like:

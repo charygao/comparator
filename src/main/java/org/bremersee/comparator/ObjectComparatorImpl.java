@@ -87,21 +87,30 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
         || getComparatorItem().getField() == null
         || getComparatorItem().getField().trim().length() == 0) {
 
+      int result = 0;
       if (asc && o1 instanceof Comparable) {
         if (ignoreCase && o1 instanceof String && o2 instanceof String) {
-          return ((String) o1).compareToIgnoreCase((String) o2);
+          result = ((String) o1).compareToIgnoreCase((String) o2);
+        } else {
+          result = ((Comparable) o1).compareTo(o2);
         }
-        return ((Comparable) o1).compareTo(o2);
 
       } else if (!asc && o2 instanceof Comparable) {
 
         if (ignoreCase && o1 instanceof String && o2 instanceof String) {
-          return ((String) o2).compareToIgnoreCase((String) o1);
+          result = ((String) o2).compareToIgnoreCase((String) o1);
+        } else {
+          result = ((Comparable) o2).compareTo(o1);
         }
-        return ((Comparable) o2).compareTo(o1);
+      }
 
+      if (result == 0
+          && getComparatorItem() != null
+          && getComparatorItem().getNextComparatorItem() != null) {
+        return new ObjectComparatorImpl(getComparatorItem()
+            .getNextComparatorItem()).compare(o1, o2);
       } else {
-        return 0;
+        return result;
       }
     }
 
