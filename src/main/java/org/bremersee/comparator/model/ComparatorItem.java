@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModel;
@@ -55,7 +56,7 @@ import org.bremersee.comparator.ObjectComparator;
 })
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude
+@JsonInclude(Include.NON_EMPTY)
 @JsonAutoDetect(fieldVisibility = Visibility.NONE,
     getterVisibility = Visibility.PROTECTED_AND_PUBLIC,
     creatorVisibility = Visibility.NONE,
@@ -90,6 +91,7 @@ public class ComparatorItem implements Serializable {
 
   private ComparatorItem nextComparatorItem;
 
+  @ApiModelProperty(hidden = true)
   private ComparatorItem parentComparatorItem;
 
   /**
@@ -343,6 +345,7 @@ public class ComparatorItem implements Serializable {
    */
   @XmlTransient
   @JsonIgnore
+  @ApiModelProperty(hidden = true)
   public final ComparatorItem getParentComparatorItem() {
     return parentComparatorItem;
   }
