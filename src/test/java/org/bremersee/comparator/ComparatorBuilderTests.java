@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import junit.framework.TestCase;
 import org.bremersee.comparator.testmodel.ComplexObject;
+import org.bremersee.comparator.testmodel.ComplexObjectExtension;
 import org.bremersee.comparator.testmodel.SimpleGetObject;
 import org.bremersee.comparator.testmodel.SimpleIsObject;
 import org.bremersee.comparator.testmodel.SimpleObject;
@@ -116,8 +117,8 @@ public class ComparatorBuilderTests {
    */
   @Test
   public void testComparingOfComplexObjects() {
-    ComplexObject a = new ComplexObject(new SimpleObject(1));
-    ComplexObject b = new ComplexObject(new SimpleObject(2));
+    ComplexObject a = new ComplexObjectExtension(new SimpleObject(1), "same");
+    ComplexObject b = new ComplexObjectExtension(new SimpleObject(2), "same");
 
     List<ComplexObject> list = Arrays.asList(b, a);
 
@@ -125,6 +126,7 @@ public class ComparatorBuilderTests {
     Assert.assertEquals(a, list.get(1));
 
     list.sort(ComparatorBuilder.builder()
+        .field("value", true, true, false)
         .field("simple.number", true, true, false)
         .build());
 
