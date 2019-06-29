@@ -67,7 +67,9 @@ public interface ComparatorBuilder {
    * @param comparator     the comparator
    * @return the comparator builder
    */
-  ComparatorBuilder comparator(String field, ValueExtractor valueExtractor,
+  ComparatorBuilder comparator(
+      String field,
+      ValueExtractor valueExtractor,
       Comparator<?> comparator);
 
   /**
