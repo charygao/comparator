@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.bremersee.comparator.test;
+package org.bremersee.comparator.model;
 
 import java.io.StringWriter;
 import java.util.HashMap;

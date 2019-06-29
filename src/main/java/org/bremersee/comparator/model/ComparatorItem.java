@@ -36,12 +36,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import org.bremersee.comparator.ObjectComparator;
 
 /**
- * A comparator item defines how objects are sorted by the {@link ObjectComparator}. They may build
- * a chain to compare more than one attribute. If the first attribute of two object is equal, the
- * next attribute in the comparator item chain will be compared and so on.
+ * A comparator item defines how objects are sorted by a {@link java.util.Comparator}. They may
+ * build a chain to compare more than one attribute. If the first attribute of two object is equal,
+ * the next attribute in the comparator item chain will be compared and so on.
  *
  * @author Christian Bremer
  */

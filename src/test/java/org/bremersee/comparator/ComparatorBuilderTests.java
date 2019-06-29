@@ -14,24 +14,21 @@
  * limitations under the License.
  */
 
-package org.bremersee.comparator.test;
+package org.bremersee.comparator;
 
 import junit.framework.TestCase;
-import org.bremersee.comparator.ObjectComparator;
-import org.bremersee.comparator.ObjectComparatorFactory;
-import org.bremersee.comparator.model.ComparatorItem;
+import org.bremersee.comparator.testmodel.ComplexObject;
+import org.bremersee.comparator.testmodel.SimpleGetObject;
+import org.bremersee.comparator.testmodel.SimpleIsObject;
+import org.bremersee.comparator.testmodel.SimpleObject;
 import org.junit.Test;
 
 /**
- * The object comparator tests.
+ * The comparator builder tests.
  *
  * @author Christian Bremer
  */
-public class ObjectComparatorTests {
-
-  private static ObjectComparator createObjectComparator(ComparatorItem comparatorItem) {
-    return ObjectComparatorFactory.newInstance().newObjectComparator(comparatorItem);
-  }
+public class ComparatorBuilderTests {
 
   /**
    * Test primitive type.
@@ -39,7 +36,9 @@ public class ObjectComparatorTests {
   @Test
   public void testPrimitiveType() {
     System.out.println("Testing primitive type ...");
-    int result = createObjectComparator(null).compare(1, 2);
+    int result = ComparatorBuilder.builder()
+        .build()
+        .compare(1, 2);
     System.out.println(result);
     TestCase.assertTrue(result < 0);
     System.out.println("OK\n");
@@ -51,8 +50,10 @@ public class ObjectComparatorTests {
   @Test
   public void testSimpleObject() {
     System.out.println("Testing simple object ...");
-    int result = createObjectComparator(new ComparatorItem("number")).compare(new SimpleObject(1),
-        new SimpleObject(2));
+    int result = ComparatorBuilder.builder()
+        .field("number", true, true, false)
+        .build()
+        .compare(new SimpleObject(1), new SimpleObject(2));
     System.out.println(result);
     TestCase.assertTrue(result < 0);
     System.out.println("OK\n");
@@ -64,7 +65,9 @@ public class ObjectComparatorTests {
   @Test
   public void testSimpleGetObject() {
     System.out.println("Testing simple 'get' object ...");
-    int result = createObjectComparator(new ComparatorItem("number"))
+    int result = ComparatorBuilder.builder()
+        .field("number", true, true, false)
+        .build()
         .compare(new SimpleGetObject(1),
             new SimpleGetObject(2));
     System.out.println(result);
@@ -78,7 +81,9 @@ public class ObjectComparatorTests {
   @Test
   public void testSimpleIsObject() {
     System.out.println("Testing simple 'is' object ...");
-    int result = createObjectComparator(new ComparatorItem("nice", false))
+    int result = ComparatorBuilder.builder()
+        .field("nice", false, true, false)
+        .build()
         .compare(new SimpleIsObject(true),
             new SimpleIsObject(false));
     System.out.println(result);
@@ -92,59 +97,15 @@ public class ObjectComparatorTests {
   @Test
   public void testComplexObject() {
     System.out.println("Testing complex object ...");
-    int result = createObjectComparator(new ComparatorItem("simple.number", true))
-        .compare(new ComplexObject(new SimpleObject(1)), new ComplexObject(new SimpleObject(2)));
+    int result = ComparatorBuilder.builder()
+        .field("simple.number", true, true, false)
+        .build()
+        .compare(
+            new ComplexObject(new SimpleObject(1)),
+            new ComplexObject(new SimpleObject(2)));
     System.out.println(result);
     TestCase.assertTrue(result < 0);
     System.out.println("OK\n");
-  }
-
-  private class SimpleObject {
-
-    @SuppressWarnings({"unused", "FieldCanBeLocal"})
-    private int number;
-
-    private SimpleObject(int number) {
-      this.number = number;
-    }
-  }
-
-  private class SimpleGetObject {
-
-    private int no;
-
-    private SimpleGetObject(int number) {
-      this.no = number;
-    }
-
-    @SuppressWarnings("unused")
-    private int getNumber() {
-      return no;
-    }
-  }
-
-  private class SimpleIsObject {
-
-    private boolean _isNice;
-
-    private SimpleIsObject(boolean isNice) {
-      this._isNice = isNice;
-    }
-
-    @SuppressWarnings("unused")
-    private boolean isNice() {
-      return _isNice;
-    }
-  }
-
-  private class ComplexObject {
-
-    @SuppressWarnings({"unused", "FieldCanBeLocal"})
-    private SimpleObject simple;
-
-    private ComplexObject(SimpleObject simple) {
-      this.simple = simple;
-    }
   }
 
 }

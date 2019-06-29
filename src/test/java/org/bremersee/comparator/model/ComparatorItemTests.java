@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package org.bremersee.comparator.test;
+package org.bremersee.comparator.model;
+
+import static org.junit.Assert.assertEquals;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.StringReader;
@@ -22,9 +24,6 @@ import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import junit.framework.TestCase;
-import org.bremersee.comparator.model.ComparatorItem;
-import org.bremersee.comparator.model.ObjectFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,23 +44,6 @@ public class ComparatorItemTests {
   @Before
   public void createJaxbContext() throws JAXBException {
     this.jaxbContext = JAXBContext.newInstance(ObjectFactory.class.getPackage().getName());
-  }
-
-  /**
-   * Test xml schema.
-   *
-   * @throws Exception the exception
-   */
-  @Test
-  public void testXmlSchema() throws Exception {
-
-    System.out.println("Testing XML schema ...");
-
-    BufferSchemaOutputResolver res = new BufferSchemaOutputResolver();
-    jaxbContext.generateSchema(res);
-    System.out.print(res);
-
-    System.out.println("OK\n");
   }
 
   /**
@@ -94,7 +76,7 @@ public class ComparatorItemTests {
     System.out.println(item.toList(true));
     System.out.println(readItem.toList(true));
 
-    TestCase.assertEquals(item.toList(true), readItem.toList(true));
+    assertEquals(item.toList(true), readItem.toList(true));
 
     System.out.println("OK\n");
   }
@@ -123,7 +105,7 @@ public class ComparatorItemTests {
     System.out.println(item.toList(true));
     System.out.println(readItem.toList(true));
 
-    TestCase.assertEquals(item.toList(true), readItem.toList(true));
+    assertEquals(item.toList(true), readItem.toList(true));
 
     System.out.println("OK\n");
   }

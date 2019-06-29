@@ -36,4 +36,22 @@ public class ObjectFactory {
     return new ComparatorItem();
   }
 
+  /**
+   * Create comparator field.
+   *
+   * @return the comparator field
+   */
+  public ComparatorField createComparatorField() {
+    return new ComparatorField();
+  }
+
+  /**
+   * Create comparator fields.
+   *
+   * @return the comparator fields
+   */
+  public ComparatorFields createComparatorFields() {
+    return new ComparatorFields();
+  }
+
 }

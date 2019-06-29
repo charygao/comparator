@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package org.bremersee.comparator.test;
+package org.bremersee.comparator.spring;
 
+import java.util.List;
 import junit.framework.TestCase;
+import org.bremersee.comparator.model.ComparatorField;
+import org.bremersee.comparator.model.ComparatorFields;
 import org.bremersee.comparator.model.ComparatorItem;
 import org.bremersee.comparator.spring.ComparatorSpringUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.data.domain.Sort;
 
@@ -40,10 +44,15 @@ public class ComparatorSpringUtilsTests {
     ComparatorItem comparatorItem = new ComparatorItem("lastName", true, true);
     comparatorItem.next("firstName", true, false);
 
-    Sort sort = ComparatorSpringUtils.toSort(comparatorItem);
+    ComparatorFields fields = ComparatorFields.fromComparatorItem(comparatorItem);
+    System.out.println("Expected: " + fields);
 
-    ComparatorItem testComparatorItem = ComparatorSpringUtils.fromSort(sort);
-    TestCase.assertEquals(comparatorItem, testComparatorItem);
+    Sort sort = ComparatorSpringUtils.toSort(fields.getFields());
+
+    List<ComparatorField> testFields = ComparatorSpringUtils.fromSort(sort);
+    System.out.println("Actual:   " + new ComparatorFields(testFields));
+
+    Assert.assertEquals(fields.getFields(), testFields);
 
     System.out.println("OK\n");
   }

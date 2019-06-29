@@ -20,7 +20,7 @@
  * @author Christian Bremer
  */
 @javax.xml.bind.annotation.XmlSchema(
-    namespace = "http://bremersee.org/xmlschemas/comparator/v1",
-    location = "http://bremersee.github.io/xmlschemas/bremersee-comparator-v1.xsd",
+    namespace = "http://bremersee.org/xmlschemas/comparator/v2",
+    location = "http://bremersee.github.io/xmlschemas/bremersee-comparator-v2.xsd",
     elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package org.bremersee.comparator.model;
