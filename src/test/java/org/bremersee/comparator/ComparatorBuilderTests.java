@@ -17,6 +17,7 @@
 package org.bremersee.comparator;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
 import org.bremersee.comparator.model.ComparatorField;

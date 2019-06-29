@@ -16,8 +16,10 @@
 
 package org.bremersee.comparator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.regex.Pattern;
 import org.bremersee.comparator.model.ComparatorField;
 
@@ -36,14 +38,27 @@ public interface WellKnownTextParser {
    */
   default Comparator<Object> parse(String wkt) {
     ComparatorBuilder builder = ComparatorBuilder.builder();
-    for (String fieldDescription : wkt.split(Pattern.quote("|"))) {
-      ComparatorField comparatorField = buildComparatorField(fieldDescription);
+    for (ComparatorField comparatorField : buildComparatorFields(wkt)) {
       Comparator comparator = apply(comparatorField);
       if (comparator != null) {
         builder.comparator(comparator);
       }
     }
     return builder.build();
+  }
+
+  /**
+   * Build comparator fields.
+   *
+   * @param wkt the wkt
+   * @return the list
+   */
+  default List<ComparatorField> buildComparatorFields(String wkt) {
+    List<ComparatorField> fields = new ArrayList<>();
+    for (String fieldDescription : wkt.split(Pattern.quote("|"))) {
+      fields.add(buildComparatorField(fieldDescription));
+    }
+    return fields;
   }
 
   /**
@@ -55,6 +70,10 @@ public interface WellKnownTextParser {
   default ComparatorField buildComparatorField(String fieldDescription) {
     if (fieldDescription == null || fieldDescription.trim().length() == 0) {
       return new ComparatorField(null, true, true, false);
+    }
+    if (fieldDescription.contains("|")) {
+      throw new IllegalArgumentException("The field description [" + fieldDescription
+          + "] contains more than one field description. Use 'buildComparatorFields' instead.");
     }
     return new ComparatorField(
         findStringPart(fieldDescription, ",", 0),

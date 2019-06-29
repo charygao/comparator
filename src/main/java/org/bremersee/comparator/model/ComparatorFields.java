@@ -79,7 +79,7 @@ public class ComparatorFields {
    *
    * @return the well known text
    */
-  public final String toWkt() {
+  public String toWkt() {
     return fields.stream()
         .map(ComparatorField::toWkt)
         .collect(Collectors.joining("|"));

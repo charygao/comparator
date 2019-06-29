@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.XmlType;
 @ApiModel(
     value = "ComparatorField",
     description = "A comparator field defines how a field of an object is sorted.")
-@SuppressWarnings({"UnusedAssignment", "unused", "WeakerAccess"})
+@SuppressWarnings({"UnusedAssignment", "unused"})
 public class ComparatorField {
 
   @XmlElement(name = "field")
@@ -134,7 +134,7 @@ public class ComparatorField {
    *
    * @return the well known text
    */
-  public final String toWkt() {
+  public String toWkt() {
     return (field != null ? field : "") + ","
         + (asc ? "asc," : "desc,")
         + ignoreCase + ","
