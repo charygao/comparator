@@ -22,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.StringUtils;
 import org.bremersee.comparator.model.ComparatorItem;
 
 /**
@@ -84,22 +83,34 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
       }
     }
 
-    if (getComparatorItem() == null || StringUtils.isBlank(getComparatorItem().getField())) {
+    if (getComparatorItem() == null
+        || getComparatorItem().getField() == null
+        || getComparatorItem().getField().trim().length() == 0) {
+
+      int result = 0;
       if (asc && o1 instanceof Comparable) {
         if (ignoreCase && o1 instanceof String && o2 instanceof String) {
-          return ((String) o1).compareToIgnoreCase((String) o2);
+          result = ((String) o1).compareToIgnoreCase((String) o2);
+        } else {
+          result = ((Comparable) o1).compareTo(o2);
         }
-        return ((Comparable) o1).compareTo(o2);
 
       } else if (!asc && o2 instanceof Comparable) {
 
         if (ignoreCase && o1 instanceof String && o2 instanceof String) {
-          return ((String) o2).compareToIgnoreCase((String) o1);
+          result = ((String) o2).compareToIgnoreCase((String) o1);
+        } else {
+          result = ((Comparable) o2).compareTo(o1);
         }
-        return ((Comparable) o2).compareTo(o1);
+      }
 
+      if (result == 0
+          && getComparatorItem() != null
+          && getComparatorItem().getNextComparatorItem() != null) {
+        return new ObjectComparatorImpl(getComparatorItem()
+            .getNextComparatorItem()).compare(o1, o2);
       } else {
-        return 0;
+        return result;
       }
     }
 
@@ -110,8 +121,7 @@ class ObjectComparatorImpl implements ObjectComparator, Serializable {
     String[] fieldNames = getComparatorItem().getField().split(Pattern.quote("."));
     for (String fieldName : fieldNames) {
 
-      if (StringUtils.isNotBlank(fieldName) && v1 != null && v2 != null) {
-
+      if (fieldName != null && fieldName.trim().length() > 0 && v1 != null && v2 != null) {
         final Field f1 = findField(v1.getClass(), fieldName.trim());
         final Field f2 = findField(v2.getClass(), fieldName.trim());
 
