@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 import org.bremersee.comparator.model.ComparatorField;
 import org.bremersee.comparator.testmodel.ComplexObject;
 import org.bremersee.comparator.testmodel.ComplexObjectExtension;
+import org.bremersee.comparator.testmodel.ComplexObjectExtensionComparator;
 import org.bremersee.comparator.testmodel.SimpleGetObject;
 import org.bremersee.comparator.testmodel.SimpleIsObject;
 import org.bremersee.comparator.testmodel.SimpleObject;
@@ -120,19 +121,30 @@ public class ComparatorBuilderTests {
   public void testComparingOfComplexObjects() {
     ComplexObject a = new ComplexObjectExtension(new SimpleObject(1), "same");
     ComplexObject b = new ComplexObjectExtension(new SimpleObject(2), "same");
-
     List<ComplexObject> list = Arrays.asList(b, a);
-
     Assert.assertEquals(b, list.get(0));
     Assert.assertEquals(a, list.get(1));
-
     list.sort(ComparatorBuilder.builder()
         .field(new ComparatorField("value", true, true, false))
         .fromWellKnownText(new ComparatorField("simple.number", true, true, false).toWkt())
         .build());
-
     Assert.assertEquals(a, list.get(0));
     Assert.assertEquals(b, list.get(1));
+
+    ComplexObject c = new ComplexObjectExtension(new SimpleObject(2), "first");
+    list = Arrays.asList(b, a, c);
+    list.sort(ComparatorBuilder.builder()
+        .fromWellKnownText("value|simple.number", comparatorField -> {
+          if ("value".equals(comparatorField.getField())) {
+            return new ComplexObjectExtensionComparator();
+          }
+          return new ValueComparator(comparatorField);
+        })
+        .build());
+
+    Assert.assertEquals(c, list.get(0));
+    Assert.assertEquals(a, list.get(1));
+    Assert.assertEquals(b, list.get(2));
   }
 
 }

@@ -23,7 +23,8 @@ import java.util.Objects;
  *
  * @author Christian Bremer
  */
-public class ComplexObjectExtension extends ComplexObject {
+public class ComplexObjectExtension extends ComplexObject
+    implements Comparable<ComplexObjectExtension> {
 
   private String value;
 
@@ -56,5 +57,10 @@ public class ComplexObjectExtension extends ComplexObject {
   @Override
   public int hashCode() {
     return Objects.hash(super.hashCode(), value);
+  }
+
+  @Override
+  public int compareTo(ComplexObjectExtension o) {
+    return value.compareToIgnoreCase(o.value);
   }
 }
