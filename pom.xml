@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>bremersee-comparator</artifactId>
-  <version>1.2.4-SNAPSHOT</version>
+  <version>1.2.4</version>
   <name>Bremersee Comparator</name>
   <description>A general object comparator</description>
   <url>http://bremersee.github.io/comparator/</url>
