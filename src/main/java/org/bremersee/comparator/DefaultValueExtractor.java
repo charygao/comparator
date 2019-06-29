@@ -85,8 +85,8 @@ public class DefaultValueExtractor implements ValueExtractor {
       return null;
     }
     String tmp = field
-        .trim()
-        .replace("..", ".");
+        .replace("..", ".")
+        .trim();
     while (tmp.startsWith(".")) {
       tmp = tmp.substring(1).trim();
     }
