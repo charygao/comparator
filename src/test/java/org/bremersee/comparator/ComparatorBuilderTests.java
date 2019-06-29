@@ -19,6 +19,7 @@ package org.bremersee.comparator;
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.TestCase;
+import org.bremersee.comparator.model.ComparatorField;
 import org.bremersee.comparator.testmodel.ComplexObject;
 import org.bremersee.comparator.testmodel.ComplexObjectExtension;
 import org.bremersee.comparator.testmodel.SimpleGetObject;
@@ -126,8 +127,8 @@ public class ComparatorBuilderTests {
     Assert.assertEquals(a, list.get(1));
 
     list.sort(ComparatorBuilder.builder()
-        .field("value", true, true, false)
-        .field("simple.number", true, true, false)
+        .field(new ComparatorField("value", true, true, false))
+        .fromWellKnownText(new ComparatorField("simple.number", true, true, false).toWkt())
         .build());
 
     Assert.assertEquals(a, list.get(0));
