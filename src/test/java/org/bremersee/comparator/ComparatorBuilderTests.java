@@ -134,14 +134,13 @@ public class ComparatorBuilderTests {
     ComplexObject c = new ComplexObjectExtension(new SimpleObject(2), "first");
     list = Arrays.asList(b, a, c);
     list.sort(ComparatorBuilder.builder()
-        .fromWellKnownText("value|simple.number", comparatorField -> {
-          if ("value".equals(comparatorField.getField())) {
+        .fromWellKnownText("not_exists|simple.number", comparatorField -> {
+          if ("not_exists".equals(comparatorField.getField())) {
             return new ComplexObjectExtensionComparator();
           }
           return new ValueComparator(comparatorField);
         })
         .build());
-
     Assert.assertEquals(c, list.get(0));
     Assert.assertEquals(a, list.get(1));
     Assert.assertEquals(b, list.get(2));
