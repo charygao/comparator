@@ -1,8 +1,9 @@
 # Bremersee Comparator
 
-This project contains classes for comparing and sorting objects.
+This project contains a builder for comparing and sorting objects.
   
-The comparator can compare any kind of objects which have the same attributes or the same 'getters'.
+The builder creates a comparator that can compare any kind of objects which have the same attributes
+or the same 'getters'.
 It uses reflection to get the values of these attributes or 'getters'. 
 The values may be a simple type like java.lang.String or a complex type which implements 
 java.lang.Comparable.
@@ -58,7 +59,7 @@ The objects must implement java.lang.Comparable.
 ### XML Schema
 
 The XML schema of the ComparatorItem is available 
-[here](http://bremersee.github.io/xmlschemas/bremersee-comparator-v1.xsd).
+[here](http://bremersee.github.io/xmlschemas/bremersee-comparator-v1a.xsd).
 
 
 ### Spring Framework Support

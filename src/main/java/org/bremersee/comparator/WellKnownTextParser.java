@@ -109,7 +109,6 @@ public interface WellKnownTextParser {
     String part = findStringPart(fieldDescription, delimiter, index);
     if (part != null && part.length() > 0 && expectedValues != null) {
       return Arrays.stream(expectedValues)
-          .map(String::toLowerCase)
           .anyMatch(part::equalsIgnoreCase);
     }
     return defaultValue;
