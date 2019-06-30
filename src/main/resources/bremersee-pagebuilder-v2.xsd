@@ -14,13 +14,11 @@
     | See the License for the specific language governing permissions and
     | limitations under the License.
     +-->
-<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://bremersee.org/xmlschemas/comparator/v1" xmlns:tns="http://bremersee.org/xmlschemas/comparator/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://bremersee.org/xmlschemas/comparator/v2" xmlns:tns="http://bremersee.org/xmlschemas/comparator/v2" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <xs:element name="comparatorField" type="tns:comparatorFieldType"/>
 
   <xs:element name="comparatorFields" type="tns:comparatorFieldsType"/>
-
-  <xs:element name="comparatorItem" type="tns:comparatorItemType"/>
 
   <xs:complexType name="comparatorFieldType">
     <xs:sequence>
@@ -34,16 +32,6 @@
   <xs:complexType name="comparatorFieldsType">
     <xs:sequence>
       <xs:element name="fields" type="tns:comparatorFieldType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="comparatorItemType">
-    <xs:sequence>
-      <xs:element name="field" type="xs:string" minOccurs="0"/>
-      <xs:element name="asc" type="xs:boolean" default="true"/>
-      <xs:element name="ignoreCase" type="xs:boolean" minOccurs="0"/>
-      <xs:element name="nullIsFirst" type="xs:boolean" minOccurs="0"/>
-      <xs:element name="nextComparatorItem" type="tns:comparatorItemType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

@@ -24,17 +24,39 @@ import java.util.regex.Pattern;
 import org.bremersee.comparator.model.ComparatorField;
 
 /**
- * The well known text parser.
+ * Parses the string representation of a sort order and creates a comparator.
+ *
+ * <p>
+ * The default implementation supports the following syntax:
+ * <pre>
+ * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
+ * </pre>
+ *
+ * For example
+ * <pre>
+ * person.lastName,asc,true,false|person.firstName,asc,true,false
+ * </pre>
  *
  * @author Christian Bremer
  */
 public interface WellKnownTextParser {
 
   /**
-   * Parse wkt.
+   * Parses the string representation of a sort order and creates a comparator.
    *
-   * @param wkt the wkt
-   * @return the comparator
+   * <p>
+   * The default implementation supports the following syntax:
+   * <pre>
+   * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
+   * </pre>
+   *
+   * For example
+   * <pre>
+   * person.lastName,asc,true,false|person.firstName,asc,true,false
+   * </pre>
+   *
+   * @param wkt the string representation of a sort order (as well known text)
+   * @return the created comparator
    */
   default Comparator<Object> parse(String wkt) {
     ComparatorBuilder builder = ComparatorBuilder.builder();
@@ -48,10 +70,21 @@ public interface WellKnownTextParser {
   }
 
   /**
-   * Build comparator fields.
+   * Builds a list of comparator fields from the string representation of a sort order.
    *
-   * @param wkt the wkt
-   * @return the list
+   * <p>
+   * The default implementation supports the following syntax:
+   * <pre>
+   * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
+   * </pre>
+   *
+   * For example
+   * <pre>
+   * person.lastName,asc,true,false|person.firstName,asc,true,false
+   * </pre>
+   *
+   * @param wkt the string representation of a sort order (as well known text)
+   * @return the list of comparator fields
    */
   default List<ComparatorField> buildComparatorFields(String wkt) {
     List<ComparatorField> fields = new ArrayList<>();
@@ -62,7 +95,19 @@ public interface WellKnownTextParser {
   }
 
   /**
-   * Build comparator field comparator field.
+   * Builds a comparator field from the string representation of a sort order (must be a single
+   * field, not a path).
+   *
+   * <p>
+   * The default implementation supports the following syntax:
+   * <pre>
+   * fieldNameOrPath,asc,ignoreCase,nullIsFirst
+   * </pre>
+   *
+   * For example
+   * <pre>
+   * person.lastName,asc,true,false
+   * </pre>
    *
    * @param fieldDescription the field description
    * @return the comparator field
@@ -83,7 +128,7 @@ public interface WellKnownTextParser {
   }
 
   /**
-   * Apply comparator.
+   * Creates the comparator for the given field.
    *
    * @param comparatorField the comparator field
    * @return the comparator
@@ -91,7 +136,7 @@ public interface WellKnownTextParser {
   Comparator apply(ComparatorField comparatorField);
 
   /**
-   * Find string part string.
+   * Finds a string part of the field description.
    *
    * @param fieldDescription the field description
    * @param delimiter        the delimiter
@@ -110,7 +155,7 @@ public interface WellKnownTextParser {
   }
 
   /**
-   * Find boolean part boolean.
+   * Finds a boolean part of the field description.
    *
    * @param fieldDescription the field description
    * @param delimiter        the delimiter

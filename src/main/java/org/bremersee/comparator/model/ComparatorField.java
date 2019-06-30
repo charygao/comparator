@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * Thos class defines the sort order of a field.
+ * This class defines the sort order of a field.
  *
  * <pre>
  *  ---------------------------------------------------------------------------------------------
