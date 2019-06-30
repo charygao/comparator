@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * The comparator fields.
+ * The list of comparator fields.
  *
  * @author Christian Bremer
  */
@@ -48,15 +48,15 @@ public class ComparatorFields {
   private List<ComparatorField> fields = new ArrayList<>();
 
   /**
-   * Instantiates new comparator fields.
+   * Instantiates a new list of comparator fields.
    */
   public ComparatorFields() {
   }
 
   /**
-   * Instantiates new comparator fields.
+   * Instantiates a new list of comparator fields.
    *
-   * @param fields the fields
+   * @param fields the comparator fields
    */
   @JsonCreator
   public ComparatorFields(@JsonProperty("fields") Collection<? extends ComparatorField> fields) {
@@ -66,16 +66,27 @@ public class ComparatorFields {
   }
 
   /**
-   * Gets fields.
+   * Gets the list of comparator fields.
    *
-   * @return the fields
+   * @return the list of comparator fields
    */
   public List<ComparatorField> getFields() {
     return fields;
   }
 
   /**
-   * To well known text.
+   * Creates the well known text of this list of field ordering descriptions.
+   *
+   * <p>
+   * The syntax of the field ordering description is
+   * <pre>
+   * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
+   * </pre>
+   *
+   * For example
+   * <pre>
+   * person.lastName,asc,true,false|person.firstName,asc,true,false
+   * </pre>
    *
    * @return the well known text
    */
@@ -107,26 +118,4 @@ public class ComparatorFields {
     return Objects.hash(fields);
   }
 
-  /**
-   * From comparator item.
-   *
-   * @param comparatorItem the comparator item
-   * @return the comparator fields
-   */
-  public static ComparatorFields fromComparatorItem(ComparatorItem comparatorItem) {
-    ComparatorFields fields = new ComparatorFields();
-    if (comparatorItem != null) {
-      ComparatorItem item = comparatorItem;
-      while (item != null) {
-        ComparatorField field = new ComparatorField(
-            item.getField(),
-            item.isAsc(),
-            item.isIgnoreCase(),
-            item.isNullIsFirst());
-        fields.getFields().add(field);
-        item = item.getNextComparatorItem();
-      }
-    }
-    return fields;
-  }
 }

@@ -24,39 +24,40 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * The value extractor.
+ * The value extractor finds the value of a given field name or path by reflection.
  *
  * @author Christian Bremer
  */
 public interface ValueExtractor {
 
   /**
-   * Find value object.
+   * Find the value of the given add name or path of the given object.
    *
-   * @param obj   the obj
-   * @param field the field
+   * @param obj   the object
+   * @param field the field name or path
    * @return the object
+   * @throws ValueExtractorException if no add nor method is found
    */
   Object findValue(Object obj, String field);
 
   /**
-   * Find field optional.
+   * Find field with the given name of the specified class.
    *
-   * @param clazz the clazz
-   * @param name  the name
-   * @return the optional
+   * @param clazz the class
+   * @param name  the field name
+   * @return the field
    */
   default Optional<Field> findField(final Class<?> clazz, final String name) {
     return findField(clazz, name, null);
   }
 
   /**
-   * Find field optional.
+   * Find the field with the given name of the specified class.
    *
-   * @param clazz the clazz
-   * @param name  the name
-   * @param type  the type
-   * @return the optional
+   * @param clazz the class
+   * @param name  the field name
+   * @param type  the type of the field
+   * @return the field
    */
   default Optional<Field> findField(final Class<?> clazz, final String name,
       @SuppressWarnings("SameParameterValue") final Class<?> type) {
@@ -75,10 +76,15 @@ public interface ValueExtractor {
   }
 
   /**
-   * Get possible method names string [ ].
+   * Get possible method names of the given field name. The default implementation returns the field
+   * name, it's getter for an object and a primitive boolean.
    *
-   * @param name the name
-   * @return the string [ ]
+   * <p>
+   * If '{@code firstName}' is given for example, '{@code firstName}', '{@code getFirstName}' and
+   * '{@code isFirstName}' will be returned.
+   *
+   * @param name the field name
+   * @return the possible method names
    */
   default String[] getPossibleMethodNames(final String name) {
     if (name == null || name.length() < 1) {
@@ -90,18 +96,19 @@ public interface ValueExtractor {
     } else {
       baseName = name.substring(0, 1).toUpperCase() + name.substring(1);
     }
-    String[] names = new String[2];
-    names[0] = "get" + baseName;
-    names[1] = "is" + baseName;
+    String[] names = new String[3];
+    names[0] = name;
+    names[1] = "get" + baseName;
+    names[2] = "is" + baseName;
     return names;
   }
 
   /**
-   * Find method optional.
+   * Find the method with the given name and no parameters of the specified class.
    *
-   * @param clazz the clazz
-   * @param name  the name
-   * @return the optional
+   * @param clazz the class
+   * @param name  the method name
+   * @return the method
    */
   default Optional<Method> findMethod(final Class<?> clazz, final String name) {
     return Arrays.stream(getPossibleMethodNames(name))
@@ -111,12 +118,12 @@ public interface ValueExtractor {
   }
 
   /**
-   * Find method optional.
+   * Find the method with the given name and parameters of the specified class.
    *
-   * @param clazz      the clazz
-   * @param name       the name
-   * @param paramTypes the param types
-   * @return the optional
+   * @param clazz      the class
+   * @param name       the method name
+   * @param paramTypes the parameter types
+   * @return the method
    */
   default Optional<Method> findMethod(final Class<?> clazz, final String name,
       final Class<?>... paramTypes) {
@@ -136,38 +143,44 @@ public interface ValueExtractor {
   }
 
   /**
-   * Invoke object.
+   * Invoke the given method on the given object. If the method is not accessible, {@code
+   * setAccessible(true)} will be called.
    *
-   * @param m   the m
-   * @param arg the arg
-   * @return the object
+   * @param method the method
+   * @param obj    the object
+   * @return the return value of the method
+   * @throws ValueExtractorException if a {@link IllegalAccessException} or a {@link
+   *                                 InvocationTargetException} occurs
    */
-  default Object invoke(final Method m, final Object arg) {
+  default Object invoke(final Method method, final Object obj) {
     try {
-      if (!m.isAccessible()) {
-        m.setAccessible(true);
+      if (!method.isAccessible()) {
+        method.setAccessible(true);
       }
-      return m.invoke(arg);
+      return method.invoke(obj);
     } catch (IllegalAccessException | InvocationTargetException e) {
-      throw new ComparatorException("Invoking method '" + m.getName() + "' failed.", e);
+      throw new ValueExtractorException("Invoking method '" + method.getName() + "' failed.", e);
     }
   }
 
   /**
-   * Invoke object.
+   * Invoke the given field on the given object. If the field is not accessible, {@code
+   * setAccessible(true)} will be called.
    *
-   * @param f   the f
-   * @param arg the arg
-   * @return the object
+   * @param field the field
+   * @param obj   the object
+   * @return the value of the field
+   * @throws ValueExtractorException if a {@link IllegalAccessException} occurs
    */
-  default Object invoke(final Field f, final Object arg) {
-    if (!f.isAccessible()) {
-      f.setAccessible(true);
+  default Object invoke(final Field field, final Object obj) {
+    if (!field.isAccessible()) {
+      field.setAccessible(true);
     }
     try {
-      return f.get(arg);
+      return field.get(obj);
     } catch (IllegalAccessException e) {
-      throw new ComparatorException("Getting value from field '" + f.getName() + "' failed", e);
+      throw new ValueExtractorException("Getting value from add '" + field.getName()
+          + "' failed", e);
     }
   }
 

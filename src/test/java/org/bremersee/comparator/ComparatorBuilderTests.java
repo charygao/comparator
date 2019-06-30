@@ -17,7 +17,6 @@
 package org.bremersee.comparator;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
 import org.bremersee.comparator.model.ComparatorField;
@@ -58,7 +57,7 @@ public class ComparatorBuilderTests {
   public void testSimpleObject() {
     System.out.println("Testing simple object ...");
     int result = ComparatorBuilder.builder()
-        .field("number", true, true, false)
+        .add("number", true, true, false)
         .build()
         .compare(new SimpleObject(1), new SimpleObject(2));
     System.out.println(result);
@@ -73,7 +72,7 @@ public class ComparatorBuilderTests {
   public void testSimpleGetObject() {
     System.out.println("Testing simple 'get' object ...");
     int result = ComparatorBuilder.builder()
-        .field("number", true, true, false)
+        .add("number", true, true, false)
         .build()
         .compare(new SimpleGetObject(1),
             new SimpleGetObject(2));
@@ -89,7 +88,7 @@ public class ComparatorBuilderTests {
   public void testSimpleIsObject() {
     System.out.println("Testing simple 'is' object ...");
     int result = ComparatorBuilder.builder()
-        .field("nice", false, true, false)
+        .add("nice", false, true, false)
         .build()
         .compare(new SimpleIsObject(true),
             new SimpleIsObject(false));
@@ -105,7 +104,7 @@ public class ComparatorBuilderTests {
   public void testComplexObject() {
     System.out.println("Testing complex object ...");
     int result = ComparatorBuilder.builder()
-        .field("simple.number", true, true, false)
+        .add("simple.number", true, true, false)
         .build()
         .compare(
             new ComplexObject(new SimpleObject(1)),
@@ -126,7 +125,7 @@ public class ComparatorBuilderTests {
     Assert.assertEquals(b, list.get(0));
     Assert.assertEquals(a, list.get(1));
     list.sort(ComparatorBuilder.builder()
-        .field(new ComparatorField("value", true, true, false))
+        .add(new ComparatorField("value", true, true, false))
         .fromWellKnownText(new ComparatorField("simple.number", true, true, false).toWkt())
         .build());
     Assert.assertEquals(a, list.get(0));

@@ -29,7 +29,43 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * The comparator field.
+ * Thos class defines the sort order of a field.
+ *
+ * <pre>
+ *  ---------------------------------------------------------------------------------------------
+ * | Attribute    | Description                                                       | Default  |
+ * |--------------|-------------------------------------------------------------------|----------|
+ * | add          | The add name (or method name) of the object. It can be a path.    | null     |
+ * |              | The segments are separated by a dot (.): field0.field1.field2     |          |
+ * |--------------|-------------------------------------------------------------------|----------|
+ * | asc or desc  | Defines ascending or descending ordering.                         | asc      |
+ * |--------------|-------------------------------------------------------------------|----------|
+ * | ignoreCase   | Makes a case ignoring comparison (only for strings).              | true     |
+ * |--------------|-------------------------------------------------------------------|----------|
+ * | nullIsFirst  | Defines the ordering if one of the values is null.                | false    |
+ *  ---------------------------------------------------------------------------------------------
+ * </pre>
+ *
+ * These values have a 'well known text' representation. The values are concatenated with comma
+ * (,):
+ * <pre>
+ * fieldNameOrPath,asc,ignoreCase,nullIsFirst
+ * </pre>
+ *
+ * For example:
+ * <pre>
+ * properties.customSettings.priority,asc,true,false
+ * </pre>
+ *
+ * Defaults can be omitted. This is the same:
+ * <pre>
+ * properties.customSettings.priority
+ * </pre>
+ *
+ * The building of a chain is done by concatenate the fields with a pipe (|):
+ * <pre>
+ * field0,asc,ignoreCase,nullIsFirst|field1,asc,ignoreCase,nullIsFirst
+ * </pre>
  *
  * @author Christian Bremer
  */
@@ -76,10 +112,11 @@ public class ComparatorField {
   /**
    * Instantiates a new comparator field.
    *
-   * @param field       the field
-   * @param asc         the asc
-   * @param ignoreCase  the ignore case
-   * @param nullIsFirst the null is first
+   * @param field       the field name or path (can be {@code null})
+   * @param asc         {@code true} for an ascending order, {@code false} for a descending order
+   * @param ignoreCase  {@code true} for a case insensitive order,  {@code false} for a case
+   *                    sensitive order
+   * @param nullIsFirst specifies the order of {@code null} values
    */
   @JsonCreator
   public ComparatorField(
@@ -94,27 +131,27 @@ public class ComparatorField {
   }
 
   /**
-   * Gets field.
+   * Gets field name or path.
    *
-   * @return the field
+   * @return the field name or path
    */
   public String getField() {
     return field;
   }
 
   /**
-   * Is asc or desc sorting.
+   * Is ascending or descending order.
    *
-   * @return the boolean
+   * @return {@code true} if ascending order, {@code false} if descending order
    */
   public boolean isAsc() {
     return asc;
   }
 
   /**
-   * Is ignore case.
+   * Is case insensitive or sensitive order.
    *
-   * @return the boolean
+   * @return {@code true} if case insensitive order, {@code false} if case sensitive order
    */
   public boolean isIgnoreCase() {
     return ignoreCase;
@@ -123,14 +160,25 @@ public class ComparatorField {
   /**
    * Is null is first.
    *
-   * @return the boolean
+   * @return {@code true} if null is first, otherwise {@code false}
    */
   public boolean isNullIsFirst() {
     return nullIsFirst;
   }
 
   /**
-   * To well known text.
+   * Creates the well known text of this field ordering description.
+   *
+   * <p>
+   * The syntax of the field ordering description is
+   * <pre>
+   * fieldNameOrPath,asc,ignoreCase,nullIsFirst
+   * </pre>
+   *
+   * For example
+   * <pre>
+   * person.lastName,asc,true,false
+   * </pre>
    *
    * @return the well known text
    */

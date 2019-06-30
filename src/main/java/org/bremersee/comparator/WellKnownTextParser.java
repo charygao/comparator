@@ -31,7 +31,7 @@ import org.bremersee.comparator.model.ComparatorField;
 public interface WellKnownTextParser {
 
   /**
-   * Parse comparator.
+   * Parse wkt.
    *
    * @param wkt the wkt
    * @return the comparator
@@ -41,7 +41,7 @@ public interface WellKnownTextParser {
     for (ComparatorField comparatorField : buildComparatorFields(wkt)) {
       Comparator comparator = apply(comparatorField);
       if (comparator != null) {
-        builder.comparator(comparator);
+        builder.add(comparator);
       }
     }
     return builder.build();

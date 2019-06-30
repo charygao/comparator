@@ -147,7 +147,7 @@ class Example {
 ### XML Schema
 
 The XML schema of the model is available 
-[here](http://bremersee.github.io/xmlschemas/bremersee-comparator-v1a.xsd).
+[here](http://bremersee.github.io/xmlschemas/bremersee-comparator-v2.xsd).
 
 
 ### Spring Framework Support

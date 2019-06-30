@@ -21,6 +21,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import org.bremersee.comparator.model.ComparatorField;
+import org.bremersee.comparator.model.ComparatorFields;
 
 /**
  * The comparator builder.
@@ -30,129 +31,81 @@ import org.bremersee.comparator.model.ComparatorField;
 public interface ComparatorBuilder {
 
   /**
-   * Comparator builder.
+   * Creates a new comparator builder.
    *
-   * @return the comparator builder
+   * @return the new comparator builder
    */
   static ComparatorBuilder builder() {
     return new DefaultComparatorBuilder();
   }
 
   /**
-   * Comparator comparator builder.
+   * Adds the given comparator to this builder.
    *
-   * @param comparator the comparator
+   * @param comparator the comparator (can be {@code null} - then no comparator is added)
    * @return the comparator builder
    */
-  default ComparatorBuilder comparator(Comparator<?> comparator) {
-    return comparator(null, null, comparator);
+  default ComparatorBuilder add(Comparator<?> comparator) {
+    return add(null, null, comparator);
   }
 
   /**
-   * Comparator comparator builder.
+   * Adds the given comparator for the given field name or path to this builder.
    *
-   * @param field      the field
-   * @param comparator the comparator
+   * @param field      the field name or path (can be {@code null})
+   * @param comparator the comparator (can be {@code null} - then no comparator is added)
    * @return the comparator builder
    */
-  default ComparatorBuilder comparator(String field, Comparator<?> comparator) {
-    return comparator(field, null, comparator);
+  default ComparatorBuilder add(String field, Comparator<?> comparator) {
+    return add(field, null, comparator);
   }
 
   /**
-   * Comparator comparator builder.
+   * Adds the given comparator for the given field name or path to this builder. A custom value
+   * extractor can be specified.
    *
-   * @param field          the field
-   * @param valueExtractor the value extractor
-   * @param comparator     the comparator
+   * @param field          the field name or path (can be {@code null})
+   * @param valueExtractor the value extractor (can be {@code null})
+   * @param comparator     the comparator (can be {@code null} - then no comparator is added)
    * @return the comparator builder
    */
-  ComparatorBuilder comparator(
+  ComparatorBuilder add(
       String field,
       ValueExtractor valueExtractor,
       Comparator<?> comparator);
 
   /**
-   * Fields comparator builder.
+   * Creates and adds a value comparator for the given field name or path to this builder.
    *
-   * @param fields the fields
+   * @param field       the field name or path (can be {@code null})
+   * @param asc         {@code true} for an ascending order, {@code false} for a descending order
+   * @param ignoreCase  {@code true} for a case insensitive order,  {@code false} for a case
+   *                    sensitive order
+   * @param nullIsFirst specifies the order of {@code null} values
    * @return the comparator builder
    */
-  default ComparatorBuilder fields(Collection<? extends ComparatorField> fields) {
-    return fields(fields, null);
-  }
-
-  /**
-   * Fields comparator builder.
-   *
-   * @param fields         the fields
-   * @param valueExtractor the value extractor
-   * @return the comparator builder
-   */
-  default ComparatorBuilder fields(
-      Collection<? extends ComparatorField> fields,
-      ValueExtractor valueExtractor) {
-    if (fields != null) {
-      for (ComparatorField field : fields) {
-        field(field, valueExtractor);
-      }
-    }
-    return this;
-  }
-
-  /**
-   * Field comparator builder.
-   *
-   * @param field the field
-   * @return the comparator builder
-   */
-  default ComparatorBuilder field(ComparatorField field) {
-    return field(field, null);
-  }
-
-  /**
-   * Field comparator builder.
-   *
-   * @param field          the field
-   * @param valueExtractor the value extractor
-   * @return the comparator builder
-   */
-  default ComparatorBuilder field(ComparatorField field, ValueExtractor valueExtractor) {
-    if (field == null) {
-      throw new IllegalArgumentException("Field must not be null.");
-    }
-    return field(field.getField(), field.isAsc(), field.isIgnoreCase(), field.isNullIsFirst(),
-        valueExtractor);
-  }
-
-  /**
-   * Field comparator builder.
-   *
-   * @param field       the field
-   * @param asc         the asc
-   * @param ignoreCase  the ignore case
-   * @param nullIsFirst the null is first
-   * @return the comparator builder
-   */
-  default ComparatorBuilder field(
+  default ComparatorBuilder add(
       String field,
       boolean asc,
       boolean ignoreCase,
       boolean nullIsFirst) {
-    return field(field, asc, ignoreCase, nullIsFirst, null);
+    return add(field, asc, ignoreCase, nullIsFirst, null);
   }
 
   /**
-   * Field comparator builder.
+   * Creates and adds a value comparator for the given field name or path to this builder. A custom
+   * value extractor can be specified.
    *
-   * @param field          the field
-   * @param asc            the asc
-   * @param ignoreCase     the ignore case
-   * @param nullIsFirst    the null is first
+   * @param field          the field name or path (can be {@code null})
+   * @param asc            {@code true} for an ascending order, {@code false} for a descending
+   *                       order
+   * @param ignoreCase     {@code true} for a case insensitive order,  {@code false} for a case
+   *                       sensitive order
+   * @param nullIsFirst    specifies the order of {@code null} values
    * @param valueExtractor the value extractor
    * @return the comparator builder
    */
-  ComparatorBuilder field(
+  ComparatorBuilder add(
       String field,
       boolean asc,
       boolean ignoreCase,
@@ -160,9 +113,78 @@ public interface ComparatorBuilder {
       ValueExtractor valueExtractor);
 
   /**
-   * From well known text comparator builder.
+   * Creates and adds a value comparator for the given field ordering description.
    *
-   * @param wkt the wkt
+   * @param field the field ordering description (can be {@code null})
+   * @return the comparator builder
+   */
+  default ComparatorBuilder add(ComparatorField field) {
+    return add(field, null);
+  }
+
+  /**
+   * Creates and adds a value comparator for the given field ordering description. A custom value
+   * extractor can be specified.
+   *
+   * @param field          the field ordering description (can be {@code null})
+   * @param valueExtractor the value extractor
+   * @return the comparator builder
+   */
+  default ComparatorBuilder add(ComparatorField field, ValueExtractor valueExtractor) {
+    if (field == null) {
+      throw new IllegalArgumentException("Field must not be null.");
+    }
+    return add(field.getField(), field.isAsc(), field.isIgnoreCase(), field.isNullIsFirst(),
+        valueExtractor);
+  }
+
+  /**
+   * Creates and adds value comparators for the given field ordering descriptions.
+   *
+   * @param fields the ordering descriptions (can be {@code null} - no comparator will be added)
+   * @return the comparator builder
+   */
+  @SuppressWarnings("unused")
+  default ComparatorBuilder addAll(Collection<? extends ComparatorField> fields) {
+    return addAll(fields, null);
+  }
+
+  /**
+   * Creates and adds value comparators for the given field ordering descriptions. A custom value
+   * extractor can be specified.
+   *
+   * @param fields         the ordering descriptions (can be {@code null} - no comparator will be
+   *                       added)
+   * @param valueExtractor the value extractor
+   * @return the comparator builder
+   */
+  default ComparatorBuilder addAll(
+      Collection<? extends ComparatorField> fields,
+      ValueExtractor valueExtractor) {
+    if (fields != null) {
+      for (ComparatorField field : fields) {
+        add(field, valueExtractor);
+      }
+    }
+    return this;
+  }
+
+  /**
+   * Creates and adds value comparators for the given well known text description (see {@link
+   * ComparatorField#toWkt()}, {@link ComparatorFields#toWkt()} and {@link WellKnownTextParser}).
+   *
+   * <p>
+   * The syntax of the field ordering description is
+   * <pre>
+   * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
+   * </pre>
+   *
+   * For example
+   * <pre>
+   * person.lastName,asc,true,false|person.firstName,asc,true,false
+   * </pre>
+   *
+   * @param wkt the well known text (field ordering description)
    * @return the comparator builder
    */
   default ComparatorBuilder fromWellKnownText(String wkt) {
@@ -170,10 +192,22 @@ public interface ComparatorBuilder {
   }
 
   /**
-   * From well known text comparator builder.
+   * Creates and adds value comparators for the given well known text description (see {@link
+   * ComparatorField#toWkt()}, {@link ComparatorFields#toWkt()} and {@link WellKnownTextParser}).
    *
-   * @param wkt       the wkt
-   * @param wktParser the wkt parser
+   * <p>
+   * The syntax of the field ordering depends on the {@link WellKnownTextParser}. The default is
+   * <pre>
+   * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
+   * </pre>
+   *
+   * For example
+   * <pre>
+   * person.lastName,asc,true,false|person.firstName,asc,true,false
+   * </pre>
+   *
+   * @param wkt       the well known text (field ordering description)
+   * @param wktParser the well known text parser (can be {@code null})
    * @return the comparator builder
    */
   ComparatorBuilder fromWellKnownText(String wkt, WellKnownTextParser wktParser);
@@ -193,22 +227,18 @@ public interface ComparatorBuilder {
     private final List<Comparator> comparatorChain = new LinkedList<>();
 
     @Override
-    public ComparatorBuilder comparator(Comparator<?> comparator) {
-      comparatorChain.add(comparator);
-      return this;
-    }
-
-    @Override
-    public ComparatorBuilder comparator(
+    public ComparatorBuilder add(
         String field,
         ValueExtractor valueExtractor,
         Comparator<?> comparator) {
-      comparatorChain.add(new DelegatingComparator(field, valueExtractor, comparator));
+      if (comparator != null) {
+        comparatorChain.add(new DelegatingComparator(field, valueExtractor, comparator));
+      }
       return this;
     }
 
     @Override
-    public ComparatorBuilder field(
+    public ComparatorBuilder add(
         String field,
         boolean asc,
         boolean ignoreCase,

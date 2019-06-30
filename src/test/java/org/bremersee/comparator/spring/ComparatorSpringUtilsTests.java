@@ -16,13 +16,7 @@
 
 package org.bremersee.comparator.spring;
 
-import java.util.List;
-import org.bremersee.comparator.model.ComparatorField;
-import org.bremersee.comparator.model.ComparatorFields;
-import org.bremersee.comparator.model.ComparatorItem;
-import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.data.domain.Sort;
 
 /**
  * The comparator spring utilities tests.
@@ -38,19 +32,6 @@ public class ComparatorSpringUtilsTests {
   public void testSpringUtils() {
 
     System.out.println("Testing ComparatorSpringUtils ...");
-
-    ComparatorItem comparatorItem = new ComparatorItem("lastName", true, true);
-    comparatorItem.next("firstName", true, false);
-
-    ComparatorFields fields = ComparatorFields.fromComparatorItem(comparatorItem);
-    System.out.println("Expected: " + fields);
-
-    Sort sort = ComparatorSpringUtils.toSort(fields.getFields());
-
-    List<ComparatorField> testFields = ComparatorSpringUtils.fromSort(sort);
-    System.out.println("Actual:   " + new ComparatorFields(testFields));
-
-    Assert.assertEquals(fields.getFields(), testFields);
 
     System.out.println("OK\n");
   }

@@ -57,10 +57,11 @@ public class ComparatorFieldsTests {
 
     System.out.println("Testing XML write-read operations ...");
 
-    ComparatorItem item = new ComparatorItem("i0", true);
-    item.next("i1", false).next("i2", true);
+    ComparatorField field0 = new ComparatorField("i0", true, true, false);
+    ComparatorField field1 = new ComparatorField("i1", false, true, false);
+    ComparatorField field2 = new ComparatorField("i2", true, true, false);
 
-    ComparatorFields fields = ComparatorFields.fromComparatorItem(item);
+    ComparatorFields fields = new ComparatorFields(Arrays.asList(field0, field1, field2));
 
     Marshaller marshaller = jaxbContext.createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
