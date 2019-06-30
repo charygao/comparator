@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2019 the original author or authors.
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,35 +14,33 @@
  * limitations under the License.
  */
 
-package org.bremersee.comparator.model;
-
-import javax.xml.bind.annotation.XmlRegistry;
+package org.bremersee.comparator;
 
 /**
- * The xml object factory.
+ * The comparator exception.
  *
  * @author Christian Bremer
  */
-@XmlRegistry
-@SuppressWarnings("unused")
-public class ObjectFactory {
+@SuppressWarnings("WeakerAccess")
+public class ComparatorException extends RuntimeException {
 
   /**
-   * Create comparator field.
+   * Instantiates a new comparator exception.
    *
-   * @return the comparator field
+   * @param message the message
    */
-  public ComparatorField createComparatorField() {
-    return new ComparatorField();
+  public ComparatorException(String message) {
+    super(message);
   }
 
   /**
-   * Create comparator fields.
+   * Instantiates a new comparator exception.
    *
-   * @return the comparator fields
+   * @param message the message
+   * @param cause   the cause
    */
-  public ComparatorFields createComparatorFields() {
-    return new ComparatorFields();
+  public ComparatorException(String message, Throwable cause) {
+    super(message, cause);
   }
 
 }

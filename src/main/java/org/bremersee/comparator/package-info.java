@@ -14,35 +14,9 @@
  * limitations under the License.
  */
 
-package org.bremersee.comparator.model;
-
-import javax.xml.bind.annotation.XmlRegistry;
-
 /**
- * The xml object factory.
+ * This package contains general mechanism for comparing and sorting objects.
  *
  * @author Christian Bremer
  */
-@XmlRegistry
-@SuppressWarnings("unused")
-public class ObjectFactory {
-
-  /**
-   * Create comparator field.
-   *
-   * @return the comparator field
-   */
-  public ComparatorField createComparatorField() {
-    return new ComparatorField();
-  }
-
-  /**
-   * Create comparator fields.
-   *
-   * @return the comparator fields
-   */
-  public ComparatorFields createComparatorFields() {
-    return new ComparatorFields();
-  }
-
-}
+package org.bremersee.comparator;

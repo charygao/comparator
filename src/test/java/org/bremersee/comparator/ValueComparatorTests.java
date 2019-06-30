@@ -1,0 +1,355 @@
+package org.bremersee.comparator;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.junit.Test;
+
+/**
+ * The value comparator tests.
+ *
+ * @author Christian Bremer
+ */
+public class ValueComparatorTests {
+
+  /**
+   * Test with non comparable values and expect comparator exception.
+   */
+  @Test(expected = ComparatorException.class)
+  public void testWithNonComparableValuesAndExpectComparatorException() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(any(), anyString())).thenReturn(new Object());
+
+    int result = new ValueComparator("someField", true, true, false, valueExtractor)
+        .compare(new Object(), new Object());
+
+    assertEquals(0, result);
+    verify(valueExtractor, times(2)).findValue(any(), anyString());
+  }
+
+  /**
+   * Test with two null values.
+   */
+  @Test
+  public void testWithTwoNullValues() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(any(), anyString())).thenReturn(null);
+
+    int result = new ValueComparator("someField", true, true, false, valueExtractor)
+        .compare(new Object(), new Object());
+
+    assertEquals(0, result);
+    verify(valueExtractor, times(2)).findValue(any(), anyString());
+  }
+
+  /**
+   * Test with first is null value and asc and null is first.
+   */
+  @Test
+  public void testWithFirstIsNullValueAndAscAndNullIsFirst() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
+
+    int result = new ValueComparator("someField", true, true, true, valueExtractor)
+        .compare("null", 1);
+
+    assertTrue(result < 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with first is null value and desc and null is first.
+   */
+  @Test
+  public void testWithFirstIsNullValueAndDescAndNullIsFirst() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
+
+    int result = new ValueComparator("someField", false, true, true, valueExtractor)
+        .compare("null", 1);
+
+    assertTrue(result > 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with first is null value and asc and null is last.
+   */
+  @Test
+  public void testWithFirstIsNullValueAndAscAndNullIsLast() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
+
+    int result = new ValueComparator("someField", true, true, false, valueExtractor)
+        .compare("null", 1);
+
+    assertTrue(result > 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with first is null value and desc and null is last.
+   */
+  @Test
+  public void testWithFirstIsNullValueAndDescAndNullIsLast() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
+
+    int result = new ValueComparator("someField", false, true, false, valueExtractor)
+        .compare("null", 1);
+
+    assertTrue(result < 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with second is null value and asc and null is first.
+   */
+  @Test
+  public void testWithSecondIsNullValueAndAscAndNullIsFirst() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
+
+    int result = new ValueComparator("someField", true, true, true, valueExtractor)
+        .compare(1, "null");
+
+    assertTrue(result > 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with second is null value and desc and null is first.
+   */
+  @Test
+  public void testWithSecondIsNullValueAndDescAndNullIsFirst() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
+
+    int result = new ValueComparator("someField", false, true, true, valueExtractor)
+        .compare(1, "null");
+
+    assertTrue(result < 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with second is null value and asc and null is last.
+   */
+  @Test
+  public void testWithSecondIsNullValueAndAscAndNullIsLast() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
+
+    int result = new ValueComparator("someField", true, true, false, valueExtractor)
+        .compare(1, "null");
+
+    assertTrue(result < 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with second is null value and desc and null is last.
+   */
+  @Test
+  public void testWithSecondIsNullValueAndDescAndNullIsLast() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
+
+    int result = new ValueComparator("someField", false, true, false, valueExtractor)
+        .compare(1, "null");
+
+    assertTrue(result > 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with 1 and 1.
+   */
+  @Test
+  public void testWith_1_And_1() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(1);
+
+    int result = new ValueComparator("someField", true, false, false, valueExtractor)
+        .compare("A", "A");
+
+    assertEquals(0, result);
+    verify(valueExtractor, times(2)).findValue(anyString(), anyString());
+  }
+
+  /**
+   * Test with 1 and 2 and asc.
+   */
+  @Test
+  public void testWith_1_And_2_And_Asc() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(1);
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(2);
+
+    int result = new ValueComparator("someField", true, false, false, valueExtractor)
+        .compare("A", 8);
+
+    assertTrue(result < 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with 1 and 2 and desc.
+   */
+  @Test
+  public void testWith_1_And_2_And_Desc() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(1);
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(2);
+
+    int result = new ValueComparator("someField", false, false, false, valueExtractor)
+        .compare("A", 8);
+
+    assertTrue(result > 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with 2 and 1 and asc.
+   */
+  @Test
+  public void testWith_2_And_1_And_Asc() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(1);
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(2);
+
+    int result = new ValueComparator("someField", true, false, false, valueExtractor)
+        .compare(8, "A");
+
+    assertTrue(result > 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with 2 and 1 and desc.
+   */
+  @Test
+  public void testWith_2_And_1_And_Desc() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn(1);
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(2);
+
+    int result = new ValueComparator("someField", false, false, false, valueExtractor)
+        .compare(8, "A");
+
+    assertTrue(result < 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with a and a.
+   */
+  @Test
+  public void testWith_A_And_A() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn("a");
+
+    int result = new ValueComparator("someField", true, true, false, valueExtractor)
+        .compare("A", "A");
+
+    assertEquals(0, result);
+    verify(valueExtractor, times(2)).findValue(anyString(), anyString());
+  }
+
+  /**
+   * Test with a and b and asc and ignore case.
+   */
+  @Test
+  public void testWith_A_And_B_And_Asc_And_IgnoreCase() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn("a");
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn("b");
+
+    int result = new ValueComparator("someField", true, true, false, valueExtractor)
+        .compare("A", 8);
+
+    assertTrue(result < 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with a and b and desc and ignore case.
+   */
+  @Test
+  public void testWith_A_And_B_And_Desc_And_IgnoreCase() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn("a");
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn("b");
+
+    int result = new ValueComparator("someField", false, true, false, valueExtractor)
+        .compare("A", 8);
+
+    assertTrue(result > 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with b and a and asc and ignore case.
+   */
+  @Test
+  public void testWith_B_And_A_And_Asc_And_IgnoreCase() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn("a");
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn("b");
+
+    int result = new ValueComparator("someField", true, true, false, valueExtractor)
+        .compare(8, "A");
+
+    assertTrue(result > 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+  /**
+   * Test with b and a and desc and ignore case.
+   */
+  @Test
+  public void testWith_B_And_A_And_Desc_And_IgnoreCase() {
+    ValueExtractor valueExtractor = mock(ValueExtractor.class);
+    when(valueExtractor.findValue(anyString(), anyString())).thenReturn("a");
+    when(valueExtractor.findValue(anyInt(), anyString())).thenReturn("b");
+
+    int result = new ValueComparator("someField", false, true, false, valueExtractor)
+        .compare(8, "A");
+
+    assertTrue(result < 0);
+    verify(valueExtractor, times(1)).findValue(anyString(), anyString());
+    verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
+  }
+
+
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2019 the original author or authors.
+ * Copyright 2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,35 +14,19 @@
  * limitations under the License.
  */
 
-package org.bremersee.comparator.model;
+package org.bremersee.comparator.testmodel;
 
-import javax.xml.bind.annotation.XmlRegistry;
+import java.util.Comparator;
 
 /**
- * The xml object factory.
+ * The complex object extension comparator.
  *
  * @author Christian Bremer
  */
-@XmlRegistry
-@SuppressWarnings("unused")
-public class ObjectFactory {
+public class ComplexObjectExtensionComparator implements Comparator<ComplexObjectExtension> {
 
-  /**
-   * Create comparator field.
-   *
-   * @return the comparator field
-   */
-  public ComparatorField createComparatorField() {
-    return new ComparatorField();
+  @Override
+  public int compare(ComplexObjectExtension o1, ComplexObjectExtension o2) {
+    return o1.compareTo(o2);
   }
-
-  /**
-   * Create comparator fields.
-   *
-   * @return the comparator fields
-   */
-  public ComparatorFields createComparatorFields() {
-    return new ComparatorFields();
-  }
-
 }

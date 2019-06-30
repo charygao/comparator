@@ -16,14 +16,16 @@
 
 package org.bremersee.comparator.spring;
 
-import java.util.LinkedList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import org.bremersee.comparator.model.ComparatorItem;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import org.bremersee.comparator.model.ComparatorField;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 
 /**
- * This utility class provides methods to transform a {@link ComparatorItem} into a {@code Sort}
+ * This utility class provides methods to transform a {@link ComparatorField} into a {@code Sort}
  * object from the Spring framework (spring-data-common) and vice versa.
  *
  * @author Christian Bremer
@@ -35,84 +37,73 @@ public abstract class ComparatorSpringUtils {
   }
 
   /**
-   * Transforms the comparator item into a {@code Sort} object.
+   * Transforms the comparator field into a {@code Sort} object.
    *
-   * @param comparatorItem the comparator item
+   * @param comparatorFields the comparator fields
    * @return the sort object
    */
-  public static Sort toSort(ComparatorItem comparatorItem) {
-    List<Sort.Order> orderList = new LinkedList<>();
-    ComparatorItem item = comparatorItem;
-    Sort.Order order;
-    while ((order = toSortOrder(item)) != null) {
-      orderList.add(order);
-      item = item.getNextComparatorItem();
-    }
+  public static Sort toSort(Collection<? extends ComparatorField> comparatorFields) {
+    List<Sort.Order> orderList = comparatorFields.stream()
+        .map(ComparatorSpringUtils::toSortOrder)
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
     if (orderList.isEmpty()) {
-      return null;
+      return Sort.unsorted();
     }
     return Sort.by(orderList);
   }
 
   /**
-   * Transforms a {@code Sort} object into a comparator item.
+   * Transforms a {@code Sort} object into a comparator field list.
    *
    * @param sort the {@code Sort} object
-   * @return the comparator item
+   * @return the comparator field list
    */
-  public static ComparatorItem fromSort(Sort sort) {
+  public static List<ComparatorField> fromSort(Sort sort) {
     if (sort == null) {
-      return null;
+      return Collections.emptyList();
     }
-    ComparatorItem comparatorItem = null;
-    for (Order order : sort) {
-      ComparatorItem item = fromSortOrder(order);
-      if (item != null) {
-        if (comparatorItem == null) {
-          comparatorItem = item;
-        } else {
-          comparatorItem.getLastComparatorItem().setNextComparatorItem(item);
-        }
-      }
-    }
-    return comparatorItem;
+    return sort.stream()
+        .map(ComparatorSpringUtils::fromSortOrder)
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
   }
 
   /**
-   * Transforms the comparator item into a {@code Sort.Order} object.
+   * Transforms the comparator field into a {@code Sort.Order} object.
    *
-   * @param comparatorItem the comparator item
+   * @param comparatorField the comparator field
    * @return the sort object
    */
-  public static Sort.Order toSortOrder(ComparatorItem comparatorItem) {
-    if (comparatorItem == null || comparatorItem.getField() == null
-        || comparatorItem.getField().trim().length() == 0) {
+  public static Sort.Order toSortOrder(ComparatorField comparatorField) {
+    if (comparatorField == null || comparatorField.getField() == null
+        || comparatorField.getField().trim().length() == 0) {
       return null;
     }
-    Sort.Direction direction = comparatorItem.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
+    Sort.Direction direction = comparatorField.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
     Sort.NullHandling nullHandlingHint =
-        comparatorItem.isNullIsFirst() ? Sort.NullHandling.NULLS_FIRST
+        comparatorField.isNullIsFirst() ? Sort.NullHandling.NULLS_FIRST
             : Sort.NullHandling.NULLS_LAST;
-    Sort.Order order = new Sort.Order(direction, comparatorItem.getField(), nullHandlingHint);
-    if (comparatorItem.isIgnoreCase()) {
+    Sort.Order order = new Sort.Order(direction, comparatorField.getField(), nullHandlingHint);
+    if (comparatorField.isIgnoreCase()) {
       return order.ignoreCase();
     }
     return order;
   }
 
   /**
-   * Transforms a {@code Sort.Order} object into a comparator item.
+   * Transforms a {@code Sort.Order} object into a comparator field.
    *
    * @param sortOrder the {@code Sort.Order} object
-   * @return the comparator item
+   * @return the comparator field
    */
-  public static ComparatorItem fromSortOrder(Sort.Order sortOrder) {
+  public static ComparatorField fromSortOrder(Sort.Order sortOrder) {
     if (sortOrder == null || sortOrder.getProperty() == null
         || sortOrder.getProperty().trim().length() == 0) {
       return null;
     }
     boolean nullIsFirst = Sort.NullHandling.NULLS_FIRST.equals(sortOrder.getNullHandling());
-    return new ComparatorItem(sortOrder.getProperty(), sortOrder.isAscending(),
+    return new ComparatorField(sortOrder.getProperty(), sortOrder.isAscending(),
         sortOrder.isIgnoreCase(),
         nullIsFirst);
   }
