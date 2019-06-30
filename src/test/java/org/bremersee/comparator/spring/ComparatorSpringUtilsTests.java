@@ -17,11 +17,9 @@
 package org.bremersee.comparator.spring;
 
 import java.util.List;
-import junit.framework.TestCase;
 import org.bremersee.comparator.model.ComparatorField;
 import org.bremersee.comparator.model.ComparatorFields;
 import org.bremersee.comparator.model.ComparatorItem;
-import org.bremersee.comparator.spring.ComparatorSpringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.data.domain.Sort;

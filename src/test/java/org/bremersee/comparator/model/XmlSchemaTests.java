@@ -22,6 +22,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * The xml schema tests.
+ *
  * @author Christian Bremer
  */
 public class XmlSchemaTests {

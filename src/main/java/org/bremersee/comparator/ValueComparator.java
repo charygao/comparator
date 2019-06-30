@@ -24,7 +24,7 @@ import org.bremersee.comparator.model.ComparatorField;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"unused"})
 public class ValueComparator implements Comparator<Object> {
 
   private final ValueExtractor valueExtractor;
@@ -65,7 +65,7 @@ public class ValueComparator implements Comparator<Object> {
   }
 
   /**
-   * Instantiates a new Value comparator.
+   * Instantiates a new value comparator.
    *
    * @param field       the field name
    * @param asc         the asc
@@ -81,7 +81,7 @@ public class ValueComparator implements Comparator<Object> {
   }
 
   /**
-   * Instantiates a new Value comparator.
+   * Instantiates a new value comparator.
    *
    * @param field          the field name
    * @param asc            the asc

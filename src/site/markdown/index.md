@@ -20,7 +20,7 @@ import java.util.Date;
 abstract class Node {
   private Date createdAt;
   private String name;
-  // getter ans setter
+  // getter and setter
 }
 ```
   
@@ -41,7 +41,7 @@ The Leaf class:
 ```java
 class Leaf extends Node {
   private String value;
-  // getter ans setter
+  // getter and setter
 }
 ```
 
@@ -113,7 +113,7 @@ is a short form for
 type,asc,true,false|name,asc,true,false|createdAt,asc,true,false
 ```
 
-The field name can also be a path to value, if you have complex objects:
+The field name can also be a path to a value, if you have complex objects:
 ```text
 properties.color.default,desc,true,false
 ```
@@ -146,7 +146,7 @@ class Example {
 
 ### XML Schema
 
-The XML schema of the ComparatorItem is available 
+The XML schema of the model is available 
 [here](http://bremersee.github.io/xmlschemas/bremersee-comparator-v1a.xsd).
 
 

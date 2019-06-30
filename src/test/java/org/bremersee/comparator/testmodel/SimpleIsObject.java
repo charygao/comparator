@@ -25,7 +25,7 @@ import java.util.Objects;
  */
 public class SimpleIsObject {
 
-  private boolean _isNice;
+  private boolean value;
 
   /**
    * Instantiates a new simple test object of a boolean.
@@ -33,11 +33,11 @@ public class SimpleIsObject {
    * @param isNice the is nice
    */
   public SimpleIsObject(boolean isNice) {
-    this._isNice = isNice;
+    this.value = isNice;
   }
 
   private boolean isNice() {
-    return _isNice;
+    return value;
   }
 
   @Override
