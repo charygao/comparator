@@ -21,7 +21,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * The comparator chain.
+ * The comparator chain has a list of comparators. Beginning with the first each comparator is
+ * invoked as long the previous one returns zero on {@link Comparator#compare(Object, Object)}.
  *
  * @author Christian Bremer
  */

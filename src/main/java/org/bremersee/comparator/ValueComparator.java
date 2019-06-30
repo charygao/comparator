@@ -20,7 +20,9 @@ import java.util.Comparator;
 import org.bremersee.comparator.model.ComparatorField;
 
 /**
- * The value comparator.
+ * The value comparator extracts field value of the specified field name or path and uses the
+ * specified description (ascending or descending, case sensitive or insensitive and 'null is
+ * first') for sorting.
  *
  * @author Christian Bremer
  */
@@ -67,10 +69,10 @@ public class ValueComparator implements Comparator<Object> {
   /**
    * Instantiates a new value comparator.
    *
-   * @param field       the field name
-   * @param asc         the asc
-   * @param ignoreCase  the ignore case
-   * @param nullIsFirst the null is first
+   * @param field       the field name or path
+   * @param asc         ascending or descending
+   * @param ignoreCase  case insensitive or sensitive
+   * @param nullIsFirst null is first
    */
   public ValueComparator(
       String field,
@@ -83,11 +85,12 @@ public class ValueComparator implements Comparator<Object> {
   /**
    * Instantiates a new value comparator.
    *
-   * @param field          the field name
-   * @param asc            the asc
-   * @param ignoreCase     the ignore case
-   * @param nullIsFirst    the null is first
-   * @param valueExtractor the value extractor (if it is {@code null}, a default will be used)
+   * @param field          the field name or path
+   * @param field          the field name or path
+   * @param asc            ascending or descending
+   * @param ignoreCase     case insensitive or sensitive
+   * @param nullIsFirst    null is first
+   * @param valueExtractor a custom value extractor (if it is {@code null}, a default will be used)
    */
   public ValueComparator(
       String field,

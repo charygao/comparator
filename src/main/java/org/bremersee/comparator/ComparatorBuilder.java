@@ -231,6 +231,7 @@ public interface ComparatorBuilder {
         String field,
         ValueExtractor valueExtractor,
         Comparator<?> comparator) {
+
       if (comparator != null) {
         comparatorChain.add(new DelegatingComparator(field, valueExtractor, comparator));
       }
@@ -244,6 +245,7 @@ public interface ComparatorBuilder {
         boolean ignoreCase,
         boolean nullIsFirst,
         ValueExtractor valueExtractor) {
+
       comparatorChain.add(new ValueComparator(field, asc, ignoreCase, nullIsFirst, valueExtractor));
       return this;
     }
@@ -252,6 +254,7 @@ public interface ComparatorBuilder {
     public ComparatorBuilder fromWellKnownText(
         String wkt,
         WellKnownTextParser wktParser) {
+
       if (wktParser != null) {
         comparatorChain.add(wktParser.parse(wkt));
       } else {

@@ -19,7 +19,8 @@ package org.bremersee.comparator;
 import java.util.Comparator;
 
 /**
- * The delegating comparator.
+ * The delegating comparator extracts the field value of the specified field name or path and uses
+ * the specified comparator for sorting.
  *
  * @author Christian Bremer
  */
@@ -35,8 +36,8 @@ public class DelegatingComparator implements Comparator<Object> {
   /**
    * Instantiates a new delegating comparator.
    *
-   * @param field      the field
-   * @param comparator the comparator
+   * @param field      the field name or path (can be {@code null})
+   * @param comparator the comparator to compare the value of the field
    */
   public DelegatingComparator(String field, Comparator<?> comparator) {
     this(field, null, comparator);
@@ -45,9 +46,9 @@ public class DelegatingComparator implements Comparator<Object> {
   /**
    * Instantiates a new delegating comparator.
    *
-   * @param field          the field
-   * @param valueExtractor the value extractor
-   * @param comparator     the comparator
+   * @param field          the field name or path (can be {@code null})
+   * @param valueExtractor a custom value extractor (can be {@code null})
+   * @param comparator     the comparator to compare the value of the field
    */
   public DelegatingComparator(
       String field,

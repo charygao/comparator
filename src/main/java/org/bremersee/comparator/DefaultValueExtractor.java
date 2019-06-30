@@ -35,8 +35,8 @@ public class DefaultValueExtractor implements ValueExtractor {
   private final boolean throwingException;
 
   /**
-   * Instantiates a new default value extractor that will throw an exception, if the given field
-   * cannot be found.
+   * Instantiates a new default value extractor that will throw {@link ValueExtractorException}, if
+   * the given field cannot be found.
    */
   public DefaultValueExtractor() {
     this(true);
@@ -45,8 +45,9 @@ public class DefaultValueExtractor implements ValueExtractor {
   /**
    * Instantiates a new default value extractor.
    *
-   * @param throwingException if {@code true} and the given field cannot be found, an exception will
-   *                          be thrown; otherwise {@code null} will be returned
+   * @param throwingException if {@code true} and the given field cannot be found, {@link
+   *                          ValueExtractorException} will be thrown; otherwise {@code null} will
+   *                          be returned
    */
   public DefaultValueExtractor(boolean throwingException) {
     this.throwingException = throwingException;
@@ -60,7 +61,7 @@ public class DefaultValueExtractor implements ValueExtractor {
     }
 
     final int index = fieldIdentifier.indexOf('.');
-    final String fieldName = index == -1 ? fieldIdentifier : fieldIdentifier.substring(0, index);
+    final String fieldName = index < 0 ? fieldIdentifier : fieldIdentifier.substring(0, index);
     if (fieldName.length() == 0) {
       return findValue(obj, fieldIdentifier.substring(index + 1));
     }
@@ -81,7 +82,7 @@ public class DefaultValueExtractor implements ValueExtractor {
       }
     }
 
-    return index == -1 ? value : findValue(value, fieldIdentifier.substring(index + 1));
+    return index < 0 ? value : findValue(value, fieldIdentifier.substring(index + 1));
   }
 
   private static String trimFieldPath(String field) {
