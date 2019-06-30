@@ -7,7 +7,7 @@ The values may be a simple type like java.lang.String or a complex type which im
 java.lang.Comparable.
 
 The generated maven site is available 
-[here](https://nexus.bremersee.org/repository/maven-sites/bremersee-comparator/2.0.1-SNAPSHOT/index.html).
+[here](https://nexus.bremersee.org/repository/maven-sites/bremersee-comparator/2.0.1/index.html).
 
 ### Usage
 
