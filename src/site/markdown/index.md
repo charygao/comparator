@@ -57,8 +57,8 @@ class Example {
     List<Node> list = new ArrayList<>();
     // add nodes
     list.sort(ComparatorBuilder.builder()
-        .field("name", true, true, false)        // fieldName, asc, ignoreCase, nullIsFirst
-        .field("createdAt", false, true, false)  // fieldName, asc, ignoreCase, nullIsFirst
+        .add("name", true, true, false)        // fieldName, asc, ignoreCase, nullIsFirst
+        .add("createdAt", false, true, false)  // fieldName, asc, ignoreCase, nullIsFirst
         .build());
   }
 }
@@ -78,10 +78,10 @@ class Example {
     List<Node> list = new ArrayList<>();
     // add nodes
     list.sort(ComparatorBuilder.builder()
-        .comparator((o1, o2) ->
+        .add((o1, o2) ->
             (o1 instanceof Branch && o2 instanceof Branch) ? 0 : o1 instanceof Branch ? -1 : 1)
-        .field("name", true, true, false)        // fieldName, asc, ignoreCase, nullIsFirst
-        .field("createdAt", false, true, false)  // fieldName, asc, ignoreCase, nullIsFirst
+        .add("name", true, true, false)        // fieldName, asc, ignoreCase, nullIsFirst
+        .add("createdAt", false, true, false)  // fieldName, asc, ignoreCase, nullIsFirst
         .build());
   }
 }
@@ -115,7 +115,33 @@ type,asc,true,false|name,asc,true,false|createdAt,asc,true,false
 
 The field name can also be a path to a value, if you have complex objects:
 ```text
-properties.color.default,desc,true,false
+room.number,asc,true,false|person.lastName,asc,true,false|person.firstName,asc,true,false
+```
+
+if your class looks like this for example:
+```java
+class Employee {
+  private Person person;
+  private Room room;
+  // getter and setter
+}
+```
+
+with Person
+```java
+class Person {
+  private String lastName;
+  private String firstName;
+  // getter and setter
+}
+```
+
+and Room
+```java
+class Room {
+  private int number;
+  // getter and setter
+}
 ```
 
 Let's sort our list with this 'well known text':
@@ -163,6 +189,6 @@ dependency to your project:
 <dependency>
     <groupId>org.springframework.data</groupId>
     <artifactId>spring-data-commons</artifactId>
-    <version>2.1.5.RELEASE</version>
+    <version>{your-spring-data-commons-version}</version>
 </dependency>
 ```

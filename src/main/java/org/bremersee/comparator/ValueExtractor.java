@@ -79,9 +79,8 @@ public interface ValueExtractor {
    * Get possible method names of the given field name. The default implementation returns the field
    * name, it's getter for an object and a primitive boolean.
    *
-   * <p>
-   * If '{@code firstName}' is given for example, '{@code firstName}', '{@code getFirstName}' and
-   * '{@code isFirstName}' will be returned.
+   * <p>If '{@code firstName}' is given for example, '{@code firstName}', '{@code getFirstName}'
+   * and  '{@code isFirstName}' will be returned.
    *
    * @param name the field name
    * @return the possible method names

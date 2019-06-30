@@ -26,13 +26,12 @@ import org.bremersee.comparator.model.ComparatorField;
 /**
  * Parses the string representation of a sort order and creates a comparator.
  *
- * <p>
- * The default implementation supports the following syntax:
+ * <p>The default implementation supports the following syntax:
  * <pre>
  * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
  * </pre>
  *
- * For example
+ * <p>For example
  * <pre>
  * person.lastName,asc,true,false|person.firstName,asc,true,false
  * </pre>
@@ -44,13 +43,12 @@ public interface WellKnownTextParser {
   /**
    * Parses the string representation of a sort order and creates a comparator.
    *
-   * <p>
-   * The default implementation supports the following syntax:
+   * <p>The default implementation supports the following syntax:
    * <pre>
    * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
    * </pre>
    *
-   * For example
+   * <p>For example
    * <pre>
    * person.lastName,asc,true,false|person.firstName,asc,true,false
    * </pre>
@@ -72,13 +70,12 @@ public interface WellKnownTextParser {
   /**
    * Builds a list of comparator fields from the string representation of a sort order.
    *
-   * <p>
-   * The default implementation supports the following syntax:
+   * <p>The default implementation supports the following syntax:
    * <pre>
    * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
    * </pre>
    *
-   * For example
+   * <p>For example
    * <pre>
    * person.lastName,asc,true,false|person.firstName,asc,true,false
    * </pre>
@@ -98,13 +95,12 @@ public interface WellKnownTextParser {
    * Builds a comparator field from the string representation of a sort order (must be a single
    * field, not a path).
    *
-   * <p>
-   * The default implementation supports the following syntax:
+   * <p>The default implementation supports the following syntax:
    * <pre>
    * fieldNameOrPath,asc,ignoreCase,nullIsFirst
    * </pre>
    *
-   * For example
+   * <p>For example
    * <pre>
    * person.lastName,asc,true,false
    * </pre>

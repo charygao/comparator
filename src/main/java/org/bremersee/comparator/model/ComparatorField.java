@@ -46,23 +46,23 @@ import javax.xml.bind.annotation.XmlType;
  *  ---------------------------------------------------------------------------------------------
  * </pre>
  *
- * These values have a 'well known text' representation. The values are concatenated with comma
+ * <p>These values have a 'well known text' representation. The values are concatenated with comma
  * (,):
  * <pre>
  * fieldNameOrPath,asc,ignoreCase,nullIsFirst
  * </pre>
  *
- * For example:
+ * <p>For example:
  * <pre>
  * properties.customSettings.priority,asc,true,false
  * </pre>
  *
- * Defaults can be omitted. This is the same:
+ * <p>Defaults can be omitted. This is the same:
  * <pre>
  * properties.customSettings.priority
  * </pre>
  *
- * The building of a chain is done by concatenate the fields with a pipe (|):
+ * <p>The building of a chain is done by concatenate the fields with a pipe (|):
  * <pre>
  * field0,asc,ignoreCase,nullIsFirst|field1,asc,ignoreCase,nullIsFirst
  * </pre>
@@ -169,13 +169,12 @@ public class ComparatorField {
   /**
    * Creates the well known text of this field ordering description.
    *
-   * <p>
-   * The syntax of the field ordering description is
+   * <p>The syntax of the field ordering description is
    * <pre>
    * fieldNameOrPath,asc,ignoreCase,nullIsFirst
    * </pre>
    *
-   * For example
+   * <p>For example
    * <pre>
    * person.lastName,asc,true,false
    * </pre>

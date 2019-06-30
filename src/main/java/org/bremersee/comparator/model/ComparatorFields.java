@@ -77,15 +77,14 @@ public class ComparatorFields {
   /**
    * Creates the well known text of this list of field ordering descriptions.
    *
-   * <p>
-   * The syntax of the field ordering description is
+   * <p>The syntax of the field ordering description is
    * <pre>
    * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
    * </pre>
    *
-   * For example
+   * <p>For example
    * <pre>
-   * person.lastName,asc,true,false|person.firstName,asc,true,false
+   * room.number,asc,true,false|person.lastName,asc,true,false|person.firstName,asc,true,false
    * </pre>
    *
    * @return the well known text

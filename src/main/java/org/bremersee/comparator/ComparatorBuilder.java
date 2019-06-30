@@ -173,13 +173,12 @@ public interface ComparatorBuilder {
    * Creates and adds value comparators for the given well known text description (see {@link
    * ComparatorField#toWkt()}, {@link ComparatorFields#toWkt()} and {@link WellKnownTextParser}).
    *
-   * <p>
-   * The syntax of the field ordering description is
+   * <p>The syntax of the field ordering description is
    * <pre>
    * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
    * </pre>
    *
-   * For example
+   * <p>For example
    * <pre>
    * person.lastName,asc,true,false|person.firstName,asc,true,false
    * </pre>
@@ -195,13 +194,12 @@ public interface ComparatorBuilder {
    * Creates and adds value comparators for the given well known text description (see {@link
    * ComparatorField#toWkt()}, {@link ComparatorFields#toWkt()} and {@link WellKnownTextParser}).
    *
-   * <p>
-   * The syntax of the field ordering depends on the {@link WellKnownTextParser}. The default is
+   * <p>The syntax of the field ordering depends on the {@link WellKnownTextParser}. The default is
    * <pre>
    * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
    * </pre>
    *
-   * For example
+   * <p>For example
    * <pre>
    * person.lastName,asc,true,false|person.firstName,asc,true,false
    * </pre>

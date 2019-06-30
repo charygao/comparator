@@ -86,7 +86,6 @@ public class ValueComparator implements Comparator<Object> {
    * Instantiates a new value comparator.
    *
    * @param field          the field name or path
-   * @param field          the field name or path
    * @param asc            ascending or descending
    * @param ignoreCase     case insensitive or sensitive
    * @param nullIsFirst    null is first
