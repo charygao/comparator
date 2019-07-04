@@ -10,9 +10,9 @@
     <relativePath/>
   </parent>
 
-  <artifactId>bremersee-comparator</artifactId>
+  <artifactId>comparator</artifactId>
   <version>2.0.2-SNAPSHOT</version>
-  <name>Bremersee Comparator</name>
+  <name>Comparator</name>
   <description>A general object comparator</description>
   <url>https://github.com/bremersee/comparator</url>
 
@@ -35,7 +35,7 @@
     <site>
       <id>bremersee-sites</id>
       <url>
-        dav:https://nexus.bremersee.org/repository/maven-sites/bremersee-comparator/${project.version}
+        dav:https://nexus.bremersee.org/repository/maven-sites/comparator/${project.version}
       </url>
     </site>
   </distributionManagement>

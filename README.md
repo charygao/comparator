@@ -7,7 +7,7 @@ The values may be a simple type like java.lang.String or a complex type which im
 java.lang.Comparable.
 
 The generated maven site is available 
-[here](https://nexus.bremersee.org/repository/maven-sites/bremersee-comparator/2.0.2-SNAPSHOT/index.html).
+[here](https://nexus.bremersee.org/repository/maven-sites/comparator/2.0.2-SNAPSHOT/index.html).
 
 ### Usage
 
@@ -90,14 +90,14 @@ class Example {
 
 Now you have a list, that contains the branches first, sorted by name and date, and then the leafs.
 
-The definition of the sorting can also by described by a string. The string of the example above can
+The definition of the sorting can also be described by a string. The string of the example above can
 look like this:
 
 ```text
 type|name|createdAt,desc
 ```
 
-The synatax is:
+The syntax is:
 
 ```text
 fieldName0,asc,ignoreCase,nullIsFirst|fieldName1,desc,ignoreCase,nullIsFirst
@@ -145,7 +145,7 @@ class Room {
 }
 ```
 
-Let's sort our list with this 'well known text':
+Let's sort our list of nodes with this 'well known text':
 
 ```java
 import org.bremersee.comparator.*;
@@ -174,7 +174,7 @@ class Example {
 ### XML Schema
 
 The XML schema of the model is available 
-[here](http://bremersee.github.io/xmlschemas/bremersee-comparator-v2.xsd).
+[here](http://bremersee.github.io/xmlschemas/comparator-v2.xsd).
 
 
 ### Spring Framework Support
