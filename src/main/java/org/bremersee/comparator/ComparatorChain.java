@@ -42,7 +42,9 @@ public class ComparatorChain implements Comparator<Object> {
 
   @Override
   public int compare(Object o1, Object o2) {
+    boolean wasCompared = false;
     for (Comparator comparator : comparators) {
+      wasCompared = true;
       //noinspection unchecked
       int result = comparator.compare(o1, o2);
       if (result != 0) {
@@ -52,6 +54,9 @@ public class ComparatorChain implements Comparator<Object> {
     if (o1 instanceof Comparable && o2 instanceof Comparable) {
       //noinspection unchecked
       return ((Comparable) o1).compareTo(o2);
+    }
+    if (wasCompared) {
+      return 0;
     }
     throw new ComparatorException("Comparison of objects is not possible.");
   }
