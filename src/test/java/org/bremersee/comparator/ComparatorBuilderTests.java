@@ -146,4 +146,16 @@ public class ComparatorBuilderTests {
     Assert.assertEquals(b, list.get(2));
   }
 
+  /**
+   * Test objects with same values.
+   */
+  @Test
+  public void testObjectsWithSameValues() {
+    SimpleObject a = new SimpleObject(1);
+    SimpleObject b = new SimpleObject(1);
+    List<SimpleObject> list = Arrays.asList(b, a);
+    list.sort(ComparatorBuilder.builder().fromWellKnownText("number").build());
+    Assert.assertEquals(list.get(0), list.get(1));
+  }
+
 }

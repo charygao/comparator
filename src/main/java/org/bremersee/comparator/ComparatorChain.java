@@ -42,12 +42,17 @@ public class ComparatorChain implements Comparator<Object> {
 
   @Override
   public int compare(Object o1, Object o2) {
+    boolean wasCompared = false;
     for (Comparator comparator : comparators) {
+      wasCompared = true;
       //noinspection unchecked
       int result = comparator.compare(o1, o2);
       if (result != 0) {
         return result;
       }
+    }
+    if (wasCompared) {
+      return 0;
     }
     if (o1 instanceof Comparable && o2 instanceof Comparable) {
       //noinspection unchecked
