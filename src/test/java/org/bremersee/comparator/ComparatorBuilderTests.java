@@ -146,6 +146,9 @@ public class ComparatorBuilderTests {
     Assert.assertEquals(b, list.get(2));
   }
 
+  /**
+   * Test objects with same values.
+   */
   @Test
   public void testObjectsWithSameValues() {
     SimpleObject a = new SimpleObject(1);
