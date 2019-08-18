@@ -51,12 +51,12 @@ public class ComparatorChain implements Comparator<Object> {
         return result;
       }
     }
+    if (wasCompared) {
+      return 0;
+    }
     if (o1 instanceof Comparable && o2 instanceof Comparable) {
       //noinspection unchecked
       return ((Comparable) o1).compareTo(o2);
-    }
-    if (wasCompared) {
-      return 0;
     }
     throw new ComparatorException("Comparison of objects is not possible.");
   }
