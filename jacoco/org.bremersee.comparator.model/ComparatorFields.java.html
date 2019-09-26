@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ComparatorFields.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Comparator</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.comparator.model</a> &gt; <span class="el_source">ComparatorFields.java</span></div><h1>ComparatorFields.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.comparator.model;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+/**
+ * The list of comparator fields.
+ *
+ * @author Christian Bremer
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = &quot;comparatorFields&quot;)
+@XmlType(name = &quot;comparatorFieldsType&quot;)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@ApiModel(
+    value = &quot;ComparatorFields&quot;,
+    description = &quot;A list of comparator fields.&quot;)
+@SuppressWarnings(&quot;WeakerAccess&quot;)
+public class ComparatorFields {
+
+<span class="fc" id="L48">  private List&lt;ComparatorField&gt; fields = new ArrayList&lt;&gt;();</span>
+
+  /**
+   * Instantiates a new list of comparator fields.
+   */
+<span class="fc" id="L53">  public ComparatorFields() {</span>
+<span class="fc" id="L54">  }</span>
+
+  /**
+   * Instantiates a new list of comparator fields.
+   *
+   * @param fields the comparator fields
+   */
+  @JsonCreator
+<span class="fc" id="L62">  public ComparatorFields(@JsonProperty(&quot;fields&quot;) Collection&lt;? extends ComparatorField&gt; fields) {</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">    if (fields != null) {</span>
+<span class="fc" id="L64">      this.fields.addAll(fields);</span>
+    }
+<span class="fc" id="L66">  }</span>
+
+  /**
+   * Gets the list of comparator fields.
+   *
+   * @return the list of comparator fields
+   */
+  public List&lt;ComparatorField&gt; getFields() {
+<span class="fc" id="L74">    return fields;</span>
+  }
+
+  /**
+   * Creates the well known text of this list of field ordering descriptions.
+   *
+   * &lt;p&gt;The syntax of the field ordering description is
+   * &lt;pre&gt;
+   * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
+   * &lt;/pre&gt;
+   *
+   * &lt;p&gt;For example
+   * &lt;pre&gt;
+   * room.number,asc,true,false|person.lastName,asc,true,false|person.firstName,asc,true,false
+   * &lt;/pre&gt;
+   *
+   * @return the well known text
+   */
+  public String toWkt() {
+<span class="fc" id="L93">    return fields.stream()</span>
+<span class="fc" id="L94">        .map(ComparatorField::toWkt)</span>
+<span class="fc" id="L95">        .collect(Collectors.joining(&quot;|&quot;));</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L100">    return toWkt();</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L106">      return true;</span>
+    }
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">    if (!(o instanceof ComparatorFields)) {</span>
+<span class="nc" id="L109">      return false;</span>
+    }
+<span class="fc" id="L111">    ComparatorFields fields1 = (ComparatorFields) o;</span>
+<span class="fc" id="L112">    return Objects.equals(fields, fields1.fields);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L117">    return Objects.hash(fields);</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

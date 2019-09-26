@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ComparatorChain.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Comparator</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.comparator</a> &gt; <span class="el_source">ComparatorChain.java</span></div><h1>ComparatorChain.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.comparator;
+
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
+/**
+ * The comparator chain has a list of comparators. Beginning with the first each comparator is
+ * invoked as long the previous one returns zero on {@link Comparator#compare(Object, Object)}.
+ *
+ * @author Christian Bremer
+ */
+public class ComparatorChain implements Comparator&lt;Object&gt; {
+
+  private final List&lt;Comparator&gt; comparators;
+
+  /**
+   * Instantiates a new comparator chain.
+   *
+   * @param comparators the comparators (can be {@code null} or empty)
+   */
+  @SuppressWarnings(&quot;WeakerAccess&quot;)
+<span class="fc" id="L39">  public ComparatorChain(List&lt;Comparator&gt; comparators) {</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">    this.comparators = comparators != null ? comparators : new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L41">  }</span>
+
+  @Override
+  public int compare(Object o1, Object o2) {
+<span class="fc" id="L45">    boolean wasCompared = false;</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">    for (Comparator comparator : comparators) {</span>
+<span class="fc" id="L47">      wasCompared = true;</span>
+      //noinspection unchecked
+<span class="fc" id="L49">      int result = comparator.compare(o1, o2);</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">      if (result != 0) {</span>
+<span class="fc" id="L51">        return result;</span>
+      }
+<span class="fc" id="L53">    }</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">    if (wasCompared) {</span>
+<span class="fc" id="L55">      return 0;</span>
+    }
+<span class="pc bpc" id="L57" title="1 of 4 branches missed.">    if (o1 instanceof Comparable &amp;&amp; o2 instanceof Comparable) {</span>
+      //noinspection unchecked
+<span class="fc" id="L59">      return ((Comparable) o1).compareTo(o2);</span>
+    }
+<span class="fc" id="L61">    throw new ComparatorException(&quot;Comparison of objects is not possible.&quot;);</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

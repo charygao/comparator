@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValueExtractor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Comparator</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.comparator</a> &gt; <span class="el_source">ValueExtractor.java</span></div><h1>ValueExtractor.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.comparator;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+/**
+ * The value extractor finds the value of a given field name or path by reflection.
+ *
+ * @author Christian Bremer
+ */
+public interface ValueExtractor {
+
+  /**
+   * Find the value of the given add name or path of the given object.
+   *
+   * @param obj   the object
+   * @param field the field name or path
+   * @return the object
+   * @throws ValueExtractorException if no add nor method is found
+   */
+  Object findValue(Object obj, String field);
+
+  /**
+   * Find field with the given name of the specified class.
+   *
+   * @param clazz the class
+   * @param name  the field name
+   * @return the field
+   */
+  default Optional&lt;Field&gt; findField(final Class&lt;?&gt; clazz, final String name) {
+<span class="fc" id="L51">    return findField(clazz, name, null);</span>
+  }
+
+  /**
+   * Find the field with the given name of the specified class.
+   *
+   * @param clazz the class
+   * @param name  the field name
+   * @param type  the type of the field
+   * @return the field
+   */
+  default Optional&lt;Field&gt; findField(final Class&lt;?&gt; clazz, final String name,
+      @SuppressWarnings(&quot;SameParameterValue&quot;) final Class&lt;?&gt; type) {
+<span class="fc" id="L64">    Class&lt;?&gt; searchType = clazz;</span>
+<span class="pc bpc" id="L65" title="1 of 4 branches missed.">    while (!Object.class.equals(searchType) &amp;&amp; searchType != null) {</span>
+<span class="fc" id="L66">      Field[] fields = searchType.getDeclaredFields();</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">      for (Field field : fields) {</span>
+<span class="pc bpc" id="L68" title="2 of 6 branches missed.">        if ((name == null || name.equals(field.getName())) &amp;&amp; (type == null || type</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            .equals(field.getType()))) {</span>
+<span class="fc" id="L70">          return Optional.of(field);</span>
+        }
+      }
+<span class="fc" id="L73">      searchType = searchType.getSuperclass();</span>
+<span class="fc" id="L74">    }</span>
+<span class="fc" id="L75">    return Optional.empty();</span>
+  }
+
+  /**
+   * Get possible method names of the given field name. The default implementation returns the field
+   * name, it's getter for an object and a primitive boolean.
+   *
+   * &lt;p&gt;If '{@code firstName}' is given for example, '{@code firstName}', '{@code getFirstName}'
+   * and  '{@code isFirstName}' will be returned.
+   *
+   * @param name the field name
+   * @return the possible method names
+   */
+  default String[] getPossibleMethodNames(final String name) {
+<span class="pc bpc" id="L89" title="2 of 4 branches missed.">    if (name == null || name.length() &lt; 1) {</span>
+<span class="nc" id="L90">      return new String[0];</span>
+    }
+    final String baseName;
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">    if (name.length() == 1) {</span>
+<span class="nc" id="L94">      baseName = name.toUpperCase();</span>
+    } else {
+<span class="fc" id="L96">      baseName = name.substring(0, 1).toUpperCase() + name.substring(1);</span>
+    }
+<span class="fc" id="L98">    String[] names = new String[3];</span>
+<span class="fc" id="L99">    names[0] = name;</span>
+<span class="fc" id="L100">    names[1] = &quot;get&quot; + baseName;</span>
+<span class="fc" id="L101">    names[2] = &quot;is&quot; + baseName;</span>
+<span class="fc" id="L102">    return names;</span>
+  }
+
+  /**
+   * Find the method with the given name and no parameters of the specified class.
+   *
+   * @param clazz the class
+   * @param name  the method name
+   * @return the method
+   */
+  default Optional&lt;Method&gt; findMethod(final Class&lt;?&gt; clazz, final String name) {
+<span class="fc" id="L113">    return Arrays.stream(getPossibleMethodNames(name))</span>
+<span class="fc" id="L114">        .map(methodName -&gt; findMethod(clazz, methodName, new Class[0]))</span>
+<span class="fc" id="L115">        .flatMap(method -&gt; method.map(Stream::of).orElseGet(Stream::empty))</span>
+<span class="fc" id="L116">        .findFirst();</span>
+  }
+
+  /**
+   * Find the method with the given name and parameters of the specified class.
+   *
+   * @param clazz      the class
+   * @param name       the method name
+   * @param paramTypes the parameter types
+   * @return the method
+   */
+  default Optional&lt;Method&gt; findMethod(final Class&lt;?&gt; clazz, final String name,
+      final Class&lt;?&gt;... paramTypes) {
+<span class="fc" id="L129">    Class&lt;?&gt; searchType = clazz;</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">    while (searchType != null) {</span>
+<span class="fc" id="L131">      Method[] methods =</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">          searchType.isInterface() ? searchType.getMethods() : searchType.getDeclaredMethods();</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">      for (Method method : methods) {</span>
+<span class="pc bpc" id="L134" title="1 of 4 branches missed.">        if (name.equals(method.getName())</span>
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">            &amp;&amp; (paramTypes == null || Arrays.equals(paramTypes, method.getParameterTypes()))) {</span>
+<span class="fc" id="L136">          return Optional.of(method);</span>
+        }
+      }
+<span class="fc" id="L139">      searchType = searchType.getSuperclass();</span>
+<span class="fc" id="L140">    }</span>
+<span class="fc" id="L141">    return Optional.empty();</span>
+  }
+
+  /**
+   * Invoke the given method on the given object. If the method is not accessible, {@code
+   * setAccessible(true)} will be called.
+   *
+   * @param method the method
+   * @param obj    the object
+   * @return the return value of the method
+   * @throws ValueExtractorException if a {@link IllegalAccessException} or a {@link
+   *                                 InvocationTargetException} occurs
+   */
+  default Object invoke(final Method method, final Object obj) {
+    try {
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">      if (!method.isAccessible()) {</span>
+<span class="fc" id="L157">        method.setAccessible(true);</span>
+      }
+<span class="fc" id="L159">      return method.invoke(obj);</span>
+<span class="nc" id="L160">    } catch (IllegalAccessException | InvocationTargetException e) {</span>
+<span class="nc" id="L161">      throw new ValueExtractorException(&quot;Invoking method '&quot; + method.getName() + &quot;' failed.&quot;, e);</span>
+    }
+  }
+
+  /**
+   * Invoke the given field on the given object. If the field is not accessible, {@code
+   * setAccessible(true)} will be called.
+   *
+   * @param field the field
+   * @param obj   the object
+   * @return the value of the field
+   * @throws ValueExtractorException if a {@link IllegalAccessException} occurs
+   */
+  default Object invoke(final Field field, final Object obj) {
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">    if (!field.isAccessible()) {</span>
+<span class="fc" id="L176">      field.setAccessible(true);</span>
+    }
+    try {
+<span class="fc" id="L179">      return field.get(obj);</span>
+<span class="nc" id="L180">    } catch (IllegalAccessException e) {</span>
+<span class="nc" id="L181">      throw new ValueExtractorException(&quot;Getting value from add '&quot; + field.getName()</span>
+          + &quot;' failed&quot;, e);
+    }
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

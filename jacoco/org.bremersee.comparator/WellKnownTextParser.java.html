@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WellKnownTextParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Comparator</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.comparator</a> &gt; <span class="el_source">WellKnownTextParser.java</span></div><h1>WellKnownTextParser.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.comparator;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.regex.Pattern;
+import org.bremersee.comparator.model.ComparatorField;
+
+/**
+ * Parses the string representation of a sort order and creates a comparator.
+ *
+ * &lt;p&gt;The default implementation supports the following syntax:
+ * &lt;pre&gt;
+ * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;For example
+ * &lt;pre&gt;
+ * person.lastName,asc,true,false|person.firstName,asc,true,false
+ * &lt;/pre&gt;
+ *
+ * @author Christian Bremer
+ */
+public interface WellKnownTextParser {
+
+  /**
+   * Parses the string representation of a sort order and creates a comparator.
+   *
+   * &lt;p&gt;The default implementation supports the following syntax:
+   * &lt;pre&gt;
+   * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
+   * &lt;/pre&gt;
+   *
+   * &lt;p&gt;For example
+   * &lt;pre&gt;
+   * person.lastName,asc,true,false|person.firstName,asc,true,false
+   * &lt;/pre&gt;
+   *
+   * @param wkt the string representation of a sort order (as well known text)
+   * @return the created comparator
+   */
+  default Comparator&lt;Object&gt; parse(String wkt) {
+<span class="fc" id="L60">    ComparatorBuilder builder = ComparatorBuilder.builder();</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">    for (ComparatorField comparatorField : buildComparatorFields(wkt)) {</span>
+<span class="fc" id="L62">      Comparator comparator = apply(comparatorField);</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">      if (comparator != null) {</span>
+<span class="fc" id="L64">        builder.add(comparator);</span>
+      }
+<span class="fc" id="L66">    }</span>
+<span class="fc" id="L67">    return builder.build();</span>
+  }
+
+  /**
+   * Builds a list of comparator fields from the string representation of a sort order.
+   *
+   * &lt;p&gt;The default implementation supports the following syntax:
+   * &lt;pre&gt;
+   * fieldNameOrPath0,asc,ignoreCase,nullIsFirst|fieldNameOrPath1,asc,ignoreCase,nullIsFirst
+   * &lt;/pre&gt;
+   *
+   * &lt;p&gt;For example
+   * &lt;pre&gt;
+   * person.lastName,asc,true,false|person.firstName,asc,true,false
+   * &lt;/pre&gt;
+   *
+   * @param wkt the string representation of a sort order (as well known text)
+   * @return the list of comparator fields
+   */
+  default List&lt;ComparatorField&gt; buildComparatorFields(String wkt) {
+<span class="fc" id="L87">    List&lt;ComparatorField&gt; fields = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">    for (String fieldDescription : wkt.split(Pattern.quote(&quot;|&quot;))) {</span>
+<span class="fc" id="L89">      fields.add(buildComparatorField(fieldDescription));</span>
+    }
+<span class="fc" id="L91">    return fields;</span>
+  }
+
+  /**
+   * Builds a comparator field from the string representation of a sort order (must be a single
+   * field, not a path).
+   *
+   * &lt;p&gt;The default implementation supports the following syntax:
+   * &lt;pre&gt;
+   * fieldNameOrPath,asc,ignoreCase,nullIsFirst
+   * &lt;/pre&gt;
+   *
+   * &lt;p&gt;For example
+   * &lt;pre&gt;
+   * person.lastName,asc,true,false
+   * &lt;/pre&gt;
+   *
+   * @param fieldDescription the field description
+   * @return the comparator field
+   */
+  default ComparatorField buildComparatorField(String fieldDescription) {
+<span class="pc bpc" id="L112" title="2 of 4 branches missed.">    if (fieldDescription == null || fieldDescription.trim().length() == 0) {</span>
+<span class="nc" id="L113">      return new ComparatorField(null, true, true, false);</span>
+    }
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">    if (fieldDescription.contains(&quot;|&quot;)) {</span>
+<span class="nc" id="L116">      throw new IllegalArgumentException(&quot;The field description [&quot; + fieldDescription</span>
+          + &quot;] contains more than one field description. Use 'buildComparatorFields' instead.&quot;);
+    }
+<span class="fc" id="L119">    return new ComparatorField(</span>
+<span class="fc" id="L120">        findStringPart(fieldDescription, &quot;,&quot;, 0),</span>
+<span class="fc" id="L121">        findBooleanPart(fieldDescription, &quot;,&quot;, 1, true, &quot;asc&quot;, &quot;true&quot;, &quot;1&quot;),</span>
+<span class="fc" id="L122">        findBooleanPart(fieldDescription, &quot;,&quot;, 2, true, &quot;ignoreCase&quot;, &quot;true&quot;, &quot;1&quot;),</span>
+<span class="fc" id="L123">        findBooleanPart(fieldDescription, &quot;,&quot;, 3, false, &quot;nullIsFirst&quot;, &quot;true&quot;, &quot;1&quot;));</span>
+  }
+
+  /**
+   * Creates the comparator for the given field.
+   *
+   * @param comparatorField the comparator field
+   * @return the comparator
+   */
+  Comparator apply(ComparatorField comparatorField);
+
+  /**
+   * Finds a string part of the field description.
+   *
+   * @param fieldDescription the field description
+   * @param delimiter        the delimiter
+   * @param index            the index
+   * @return the string
+   */
+  static String findStringPart(String fieldDescription, String delimiter, int index) {
+<span class="pc bpc" id="L143" title="3 of 6 branches missed.">    if (delimiter == null || delimiter.length() == 0 || fieldDescription == null) {</span>
+<span class="nc" id="L144">      return fieldDescription;</span>
+    }
+<span class="fc" id="L146">    String[] parts = fieldDescription.split(Pattern.quote(delimiter));</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">    if (parts.length &gt; index) {</span>
+<span class="fc" id="L148">      return parts[index].trim();</span>
+    }
+<span class="fc" id="L150">    return null;</span>
+  }
+
+  /**
+   * Finds a boolean part of the field description.
+   *
+   * @param fieldDescription the field description
+   * @param delimiter        the delimiter
+   * @param index            the index
+   * @param defaultValue     the default value
+   * @param expectedValues   the expected values
+   * @return the boolean
+   */
+  static boolean findBooleanPart(
+      String fieldDescription,
+      String delimiter,
+      int index,
+      boolean defaultValue,
+      String... expectedValues) {
+<span class="fc" id="L169">    String part = findStringPart(fieldDescription, delimiter, index);</span>
+<span class="pc bpc" id="L170" title="2 of 6 branches missed.">    if (part != null &amp;&amp; part.length() &gt; 0 &amp;&amp; expectedValues != null) {</span>
+<span class="fc" id="L171">      return Arrays.stream(expectedValues)</span>
+<span class="fc" id="L172">          .anyMatch(part::equalsIgnoreCase);</span>
+    }
+<span class="fc" id="L174">    return defaultValue;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

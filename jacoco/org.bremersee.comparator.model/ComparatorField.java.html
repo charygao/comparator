@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ComparatorField.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Comparator</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.comparator.model</a> &gt; <span class="el_source">ComparatorField.java</span></div><h1>ComparatorField.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.comparator.model;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.annotations.ApiModel;
+import java.util.Objects;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+/**
+ * This class defines the sort order of a field.
+ *
+ * &lt;pre&gt;
+ *  ---------------------------------------------------------------------------------------------
+ * | Attribute    | Description                                                       | Default  |
+ * |--------------|-------------------------------------------------------------------|----------|
+ * | add          | The add name (or method name) of the object. It can be a path.    | null     |
+ * |              | The segments are separated by a dot (.): field0.field1.field2     |          |
+ * |--------------|-------------------------------------------------------------------|----------|
+ * | asc or desc  | Defines ascending or descending ordering.                         | asc      |
+ * |--------------|-------------------------------------------------------------------|----------|
+ * | ignoreCase   | Makes a case ignoring comparison (only for strings).              | true     |
+ * |--------------|-------------------------------------------------------------------|----------|
+ * | nullIsFirst  | Defines the ordering if one of the values is null.                | false    |
+ *  ---------------------------------------------------------------------------------------------
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;These values have a 'well known text' representation. The values are concatenated with comma
+ * (,):
+ * &lt;pre&gt;
+ * fieldNameOrPath,asc,ignoreCase,nullIsFirst
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;For example:
+ * &lt;pre&gt;
+ * properties.customSettings.priority,asc,true,false
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;Defaults can be omitted. This is the same:
+ * &lt;pre&gt;
+ * properties.customSettings.priority
+ * &lt;/pre&gt;
+ *
+ * &lt;p&gt;The building of a chain is done by concatenate the fields with a pipe (|):
+ * &lt;pre&gt;
+ * field0,asc,ignoreCase,nullIsFirst|field1,asc,ignoreCase,nullIsFirst
+ * &lt;/pre&gt;
+ *
+ * @author Christian Bremer
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = &quot;comparatorField&quot;)
+@XmlType(name = &quot;comparatorFieldType&quot;, propOrder = {
+    &quot;field&quot;,
+    &quot;asc&quot;,
+    &quot;ignoreCase&quot;,
+    &quot;nullIsFirst&quot;
+})
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonPropertyOrder(value = {
+    &quot;field&quot;,
+    &quot;asc&quot;,
+    &quot;ignoreCase&quot;,
+    &quot;nullIsFirst&quot;
+})
+@ApiModel(
+    value = &quot;ComparatorField&quot;,
+    description = &quot;A comparator field defines how a field of an object is sorted.&quot;)
+@SuppressWarnings({&quot;UnusedAssignment&quot;, &quot;unused&quot;})
+public class ComparatorField {
+
+  @XmlElement(name = &quot;field&quot;)
+  private String field;
+
+<span class="fc" id="L96">  @XmlElement(name = &quot;asc&quot;, defaultValue = &quot;true&quot;)</span>
+  private boolean asc = true;
+
+<span class="fc" id="L99">  @XmlElement(name = &quot;ignoreCase&quot;, defaultValue = &quot;true&quot;)</span>
+  private boolean ignoreCase = true;
+
+<span class="fc" id="L102">  @XmlElement(name = &quot;nullIsFirst&quot;, defaultValue = &quot;false&quot;)</span>
+  private boolean nullIsFirst = false;
+
+  /**
+   * Instantiates a new comparator field.
+   */
+  public ComparatorField() {
+<span class="fc" id="L109">    this(null, true, true, false);</span>
+<span class="fc" id="L110">  }</span>
+
+  /**
+   * Instantiates a new comparator field.
+   *
+   * @param field       the field name or path (can be {@code null})
+   * @param asc         {@code true} for an ascending order, {@code false} for a descending order
+   * @param ignoreCase  {@code true} for a case insensitive order,  {@code false} for a case
+   *                    sensitive order
+   * @param nullIsFirst specifies the order of {@code null} values
+   */
+  @JsonCreator
+  public ComparatorField(
+      @JsonProperty(&quot;field&quot;) String field,
+      @JsonProperty(value = &quot;asc&quot;, defaultValue = &quot;true&quot;) boolean asc,
+      @JsonProperty(value = &quot;ignoreCase&quot;, defaultValue = &quot;true&quot;) boolean ignoreCase,
+<span class="fc" id="L126">      @JsonProperty(value = &quot;nullIsFirst&quot;, defaultValue = &quot;false&quot;) boolean nullIsFirst) {</span>
+<span class="fc" id="L127">    this.field = field;</span>
+<span class="fc" id="L128">    this.asc = asc;</span>
+<span class="fc" id="L129">    this.ignoreCase = ignoreCase;</span>
+<span class="fc" id="L130">    this.nullIsFirst = nullIsFirst;</span>
+<span class="fc" id="L131">  }</span>
+
+  /**
+   * Gets field name or path.
+   *
+   * @return the field name or path
+   */
+  public String getField() {
+<span class="fc" id="L139">    return field;</span>
+  }
+
+  /**
+   * Is ascending or descending order.
+   *
+   * @return {@code true} if ascending order, {@code false} if descending order
+   */
+  public boolean isAsc() {
+<span class="fc" id="L148">    return asc;</span>
+  }
+
+  /**
+   * Is case insensitive or sensitive order.
+   *
+   * @return {@code true} if case insensitive order, {@code false} if case sensitive order
+   */
+  public boolean isIgnoreCase() {
+<span class="fc" id="L157">    return ignoreCase;</span>
+  }
+
+  /**
+   * Is null is first.
+   *
+   * @return {@code true} if null is first, otherwise {@code false}
+   */
+  public boolean isNullIsFirst() {
+<span class="fc" id="L166">    return nullIsFirst;</span>
+  }
+
+  /**
+   * Creates the well known text of this field ordering description.
+   *
+   * &lt;p&gt;The syntax of the field ordering description is
+   * &lt;pre&gt;
+   * fieldNameOrPath,asc,ignoreCase,nullIsFirst
+   * &lt;/pre&gt;
+   *
+   * &lt;p&gt;For example
+   * &lt;pre&gt;
+   * person.lastName,asc,true,false
+   * &lt;/pre&gt;
+   *
+   * @return the well known text
+   */
+  public String toWkt() {
+<span class="pc bpc" id="L185" title="1 of 4 branches missed.">    return (field != null ? field : &quot;&quot;) + &quot;,&quot;</span>
+        + (asc ? &quot;asc,&quot; : &quot;desc,&quot;)
+        + ignoreCase + &quot;,&quot;
+        + nullIsFirst;
+  }
+
+  @Override
+  public String toString() {
+<span class="fc" id="L193">    return toWkt();</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L199">      return true;</span>
+    }
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">    if (!(o instanceof ComparatorField)) {</span>
+<span class="nc" id="L202">      return false;</span>
+    }
+<span class="fc" id="L204">    ComparatorField that = (ComparatorField) o;</span>
+<span class="pc bpc" id="L205" title="3 of 6 branches missed.">    return asc == that.asc</span>
+        &amp;&amp; ignoreCase == that.ignoreCase
+        &amp;&amp; nullIsFirst == that.nullIsFirst
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(field, that.field);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L213">    return Objects.hash(field, asc, ignoreCase, nullIsFirst);</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

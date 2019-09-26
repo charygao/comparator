@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ValueComparator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Comparator</a> &gt; <a href="index.source.html" class="el_package">org.bremersee.comparator</a> &gt; <span class="el_source">ValueComparator.java</span></div><h1>ValueComparator.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2019 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.bremersee.comparator;
+
+import java.util.Comparator;
+import org.bremersee.comparator.model.ComparatorField;
+
+/**
+ * The value comparator extracts field value of the specified field name or path and uses the
+ * specified description (ascending or descending, case sensitive or insensitive and 'null is
+ * first') for sorting.
+ *
+ * @author Christian Bremer
+ */
+@SuppressWarnings({&quot;unused&quot;})
+public class ValueComparator implements Comparator&lt;Object&gt; {
+
+  private final ValueExtractor valueExtractor;
+
+  private final String field;
+
+  private final boolean asc;
+
+  private final boolean ignoreCase;
+
+  private final boolean nullIsFirst;
+
+  /**
+   * Instantiates a new value comparator.
+   *
+   * @param comparatorField the comparator field (cannot be {@code null})
+   */
+  public ValueComparator(ComparatorField comparatorField) {
+<span class="fc" id="L48">    this(comparatorField.getField(),</span>
+<span class="fc" id="L49">        comparatorField.isAsc(),</span>
+<span class="fc" id="L50">        comparatorField.isIgnoreCase(),</span>
+<span class="fc" id="L51">        comparatorField.isNullIsFirst(),</span>
+        null);
+<span class="fc" id="L53">  }</span>
+
+  /**
+   * Instantiates a new value comparator.
+   *
+   * @param comparatorField the comparator field (cannot be {@code null})
+   * @param valueExtractor  the value extractor (if it is {@code null}, a default will be used)
+   */
+  public ValueComparator(ComparatorField comparatorField, ValueExtractor valueExtractor) {
+<span class="nc" id="L62">    this(comparatorField.getField(),</span>
+<span class="nc" id="L63">        comparatorField.isAsc(),</span>
+<span class="nc" id="L64">        comparatorField.isIgnoreCase(),</span>
+<span class="nc" id="L65">        comparatorField.isNullIsFirst(),</span>
+        valueExtractor);
+<span class="nc" id="L67">  }</span>
+
+  /**
+   * Instantiates a new value comparator.
+   *
+   * @param field       the field name or path
+   * @param asc         ascending or descending
+   * @param ignoreCase  case insensitive or sensitive
+   * @param nullIsFirst null is first
+   */
+  public ValueComparator(
+      String field,
+      boolean asc,
+      boolean ignoreCase,
+      boolean nullIsFirst) {
+<span class="nc" id="L82">    this(field, asc, ignoreCase, nullIsFirst, null);</span>
+<span class="nc" id="L83">  }</span>
+
+  /**
+   * Instantiates a new value comparator.
+   *
+   * @param field          the field name or path
+   * @param asc            ascending or descending
+   * @param ignoreCase     case insensitive or sensitive
+   * @param nullIsFirst    null is first
+   * @param valueExtractor a custom value extractor (if it is {@code null}, a default will be used)
+   */
+  public ValueComparator(
+      String field,
+      boolean asc,
+      boolean ignoreCase,
+      boolean nullIsFirst,
+<span class="fc" id="L99">      ValueExtractor valueExtractor) {</span>
+<span class="fc" id="L100">    this.field = field;</span>
+<span class="fc" id="L101">    this.asc = asc;</span>
+<span class="fc" id="L102">    this.ignoreCase = ignoreCase;</span>
+<span class="fc" id="L103">    this.nullIsFirst = nullIsFirst;</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">    this.valueExtractor = valueExtractor != null ? valueExtractor : new DefaultValueExtractor();</span>
+<span class="fc" id="L105">  }</span>
+
+  @Override
+  public int compare(Object o1, Object o2) {
+<span class="fc" id="L109">    final Object v1 = valueExtractor.findValue(o1, field);</span>
+<span class="fc" id="L110">    final Object v2 = valueExtractor.findValue(o2, field);</span>
+
+<span class="fc bfc" id="L112" title="All 4 branches covered.">    if (v1 == null &amp;&amp; v2 == null) {</span>
+<span class="fc" id="L113">      return 0;</span>
+    }
+<span class="fc bfc" id="L115" title="All 2 branches covered.">    if (v1 == null) {</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">      if (asc) {</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        return nullIsFirst ? -1 : 1;</span>
+      } else {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        return nullIsFirst ? 1 : -1;</span>
+      }
+    }
+<span class="fc bfc" id="L122" title="All 2 branches covered.">    if (v2 == null) {</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">      if (asc) {</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        return nullIsFirst ? 1 : -1;</span>
+      } else {
+<span class="fc bfc" id="L126" title="All 2 branches covered.">        return nullIsFirst ? -1 : 1;</span>
+      }
+    }
+
+<span class="fc bfc" id="L130" title="All 4 branches covered.">    if (asc &amp;&amp; v1 instanceof Comparable) {</span>
+<span class="pc bpc" id="L131" title="1 of 6 branches missed.">      if (ignoreCase &amp;&amp; v1 instanceof String &amp;&amp; v2 instanceof String) {</span>
+<span class="fc" id="L132">        return ((String) v1).compareToIgnoreCase((String) v2);</span>
+      } else {
+        //noinspection unchecked
+<span class="fc" id="L135">        return ((Comparable) v1).compareTo(v2);</span>
+      }
+
+<span class="pc bpc" id="L138" title="1 of 4 branches missed.">    } else if (!asc &amp;&amp; v2 instanceof Comparable) {</span>
+
+<span class="pc bpc" id="L140" title="1 of 6 branches missed.">      if (ignoreCase &amp;&amp; v1 instanceof String &amp;&amp; v2 instanceof String) {</span>
+<span class="fc" id="L141">        return ((String) v2).compareToIgnoreCase((String) v1);</span>
+      } else {
+        //noinspection unchecked
+<span class="fc" id="L144">        return ((Comparable) v2).compareTo(v1);</span>
+      }
+    }
+
+<span class="fc" id="L148">    throw new ComparatorException(&quot;Comparison of field '&quot; + field + &quot;' is not possible.&quot;);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
