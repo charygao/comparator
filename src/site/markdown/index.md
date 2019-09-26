@@ -6,9 +6,6 @@ It uses reflection to get the values of these attributes or 'getters'.
 The values may be a simple type like java.lang.String or a complex type which implements 
 java.lang.Comparable.
 
-The generated maven site is available 
-[here](https://nexus.bremersee.org/repository/maven-sites/comparator/2.0.4/index.html).
-
 ### Usage
 
 Given is for example a tree that is represented by these classes:
