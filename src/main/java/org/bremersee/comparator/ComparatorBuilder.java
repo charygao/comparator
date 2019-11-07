@@ -56,6 +56,7 @@ public interface ComparatorBuilder {
    * @param comparator the comparator (can be {@code null} - then no comparator is added)
    * @return the comparator builder
    */
+  @SuppressWarnings("unused")
   default ComparatorBuilder add(String field, Comparator<?> comparator) {
     return add(field, null, comparator);
   }
@@ -170,8 +171,36 @@ public interface ComparatorBuilder {
   }
 
   /**
+   * Creates and adds value comparators for the given field ordering descriptions.
+   *
+   * @param comparatorFields the ordering descriptions (can be {@code null} - no comparator will be
+   *                         added)
+   * @return the comparator builder
+   */
+  @SuppressWarnings("unused")
+  default ComparatorBuilder addAll(ComparatorFields comparatorFields) {
+    return comparatorFields != null ? addAll(comparatorFields.getFields()) : this;
+  }
+
+  /**
+   * Creates and adds value comparators for the given field ordering descriptions. A custom value
+   * extractor can be specified.
+   *
+   * @param comparatorFields the ordering descriptions (can be {@code null} - no comparator will be
+   *                         added)
+   * @param valueExtractor   the value extractor
+   * @return the comparator builder
+   */
+  @SuppressWarnings("unused")
+  default ComparatorBuilder addAll(
+      ComparatorFields comparatorFields,
+      ValueExtractor valueExtractor) {
+    return comparatorFields != null ? addAll(comparatorFields.getFields(), valueExtractor) : this;
+  }
+
+  /**
    * Creates and adds value comparators for the given well known text description (see {@link
-   * ComparatorField#toWkt()}, {@link ComparatorFields#toWkt()} and {@link WellKnownTextParser}).
+   * ComparatorField#toWkt()}*, {@link ComparatorFields#toWkt()} and {@link WellKnownTextParser}).
    *
    * <p>The syntax of the field ordering description is
    * <pre>
@@ -192,7 +221,7 @@ public interface ComparatorBuilder {
 
   /**
    * Creates and adds value comparators for the given well known text description (see {@link
-   * ComparatorField#toWkt()}, {@link ComparatorFields#toWkt()} and {@link WellKnownTextParser}).
+   * ComparatorField#toWkt()}*, {@link ComparatorFields#toWkt()} and {@link WellKnownTextParser}).
    *
    * <p>The syntax of the field ordering depends on the {@link WellKnownTextParser}. The default is
    * <pre>
