@@ -38,7 +38,7 @@ public class WellKnownTextConverter implements Converter<String, ComparatorField
   }
 
   /**
-   * Instantiates a new Well known test converter.
+   * Instantiates a new well known text converter.
    *
    * @param wellKnownTextParser the well known text parser
    */
