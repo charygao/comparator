@@ -56,8 +56,9 @@ public interface ComparatorBuilder {
    * @param comparator the comparator (can be {@code null} - then no comparator is added)
    * @return the comparator builder
    */
+  @SuppressWarnings(&quot;unused&quot;)
   default ComparatorBuilder add(String field, Comparator&lt;?&gt; comparator) {
-<span class="nc" id="L60">    return add(field, null, comparator);</span>
+<span class="nc" id="L61">    return add(field, null, comparator);</span>
   }
 
   /**
@@ -89,7 +90,7 @@ public interface ComparatorBuilder {
       boolean asc,
       boolean ignoreCase,
       boolean nullIsFirst) {
-<span class="fc" id="L92">    return add(field, asc, ignoreCase, nullIsFirst, null);</span>
+<span class="fc" id="L93">    return add(field, asc, ignoreCase, nullIsFirst, null);</span>
   }
 
   /**
@@ -119,7 +120,7 @@ public interface ComparatorBuilder {
    * @return the comparator builder
    */
   default ComparatorBuilder add(ComparatorField field) {
-<span class="fc" id="L122">    return add(field, null);</span>
+<span class="fc" id="L123">    return add(field, null);</span>
   }
 
   /**
@@ -131,10 +132,10 @@ public interface ComparatorBuilder {
    * @return the comparator builder
    */
   default ComparatorBuilder add(ComparatorField field, ValueExtractor valueExtractor) {
-<span class="pc bpc" id="L134" title="1 of 2 branches missed.">    if (field == null) {</span>
-<span class="nc" id="L135">      throw new IllegalArgumentException(&quot;Field must not be null.&quot;);</span>
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">    if (field == null) {</span>
+<span class="nc" id="L136">      throw new IllegalArgumentException(&quot;Field must not be null.&quot;);</span>
     }
-<span class="fc" id="L137">    return add(field.getField(), field.isAsc(), field.isIgnoreCase(), field.isNullIsFirst(),</span>
+<span class="fc" id="L138">    return add(field.getField(), field.isAsc(), field.isIgnoreCase(), field.isNullIsFirst(),</span>
         valueExtractor);
   }
 
@@ -146,7 +147,7 @@ public interface ComparatorBuilder {
    */
   @SuppressWarnings(&quot;unused&quot;)
   default ComparatorBuilder addAll(Collection&lt;? extends ComparatorField&gt; fields) {
-<span class="nc" id="L149">    return addAll(fields, null);</span>
+<span class="nc" id="L150">    return addAll(fields, null);</span>
   }
 
   /**
@@ -161,12 +162,40 @@ public interface ComparatorBuilder {
   default ComparatorBuilder addAll(
       Collection&lt;? extends ComparatorField&gt; fields,
       ValueExtractor valueExtractor) {
-<span class="nc bnc" id="L164" title="All 2 branches missed.">    if (fields != null) {</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">      for (ComparatorField field : fields) {</span>
-<span class="nc" id="L166">        add(field, valueExtractor);</span>
-<span class="nc" id="L167">      }</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">    if (fields != null) {</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">      for (ComparatorField field : fields) {</span>
+<span class="nc" id="L167">        add(field, valueExtractor);</span>
+<span class="nc" id="L168">      }</span>
     }
-<span class="nc" id="L169">    return this;</span>
+<span class="nc" id="L170">    return this;</span>
+  }
+
+  /**
+   * Creates and adds value comparators for the given field ordering descriptions.
+   *
+   * @param comparatorFields the ordering descriptions (can be {@code null} - no comparator will be
+   *                         added)
+   * @return the comparator builder
+   */
+  @SuppressWarnings(&quot;unused&quot;)
+  default ComparatorBuilder addAll(ComparatorFields comparatorFields) {
+<span class="nc bnc" id="L182" title="All 2 branches missed.">    return comparatorFields != null ? addAll(comparatorFields.getFields()) : this;</span>
+  }
+
+  /**
+   * Creates and adds value comparators for the given field ordering descriptions. A custom value
+   * extractor can be specified.
+   *
+   * @param comparatorFields the ordering descriptions (can be {@code null} - no comparator will be
+   *                         added)
+   * @param valueExtractor   the value extractor
+   * @return the comparator builder
+   */
+  @SuppressWarnings(&quot;unused&quot;)
+  default ComparatorBuilder addAll(
+      ComparatorFields comparatorFields,
+      ValueExtractor valueExtractor) {
+<span class="nc bnc" id="L198" title="All 2 branches missed.">    return comparatorFields != null ? addAll(comparatorFields.getFields(), valueExtractor) : this;</span>
   }
 
   /**
@@ -187,7 +216,7 @@ public interface ComparatorBuilder {
    * @return the comparator builder
    */
   default ComparatorBuilder fromWellKnownText(String wkt) {
-<span class="fc" id="L190">    return fromWellKnownText(wkt, null);</span>
+<span class="fc" id="L219">    return fromWellKnownText(wkt, null);</span>
   }
 
   /**
@@ -220,9 +249,10 @@ public interface ComparatorBuilder {
   /**
    * The default comparator builder.
    */
-<span class="fc" id="L223">  class DefaultComparatorBuilder implements ComparatorBuilder {</span>
+<span class="fc" id="L252">  class DefaultComparatorBuilder implements ComparatorBuilder {</span>
 
-<span class="fc" id="L225">    private final List&lt;Comparator&gt; comparatorChain = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L254">    @SuppressWarnings(&quot;rawtypes&quot;)</span>
+    private final List&lt;Comparator&gt; comparatorChain = new LinkedList&lt;&gt;();
 
     @Override
     public ComparatorBuilder add(
@@ -230,10 +260,10 @@ public interface ComparatorBuilder {
         ValueExtractor valueExtractor,
         Comparator&lt;?&gt; comparator) {
 
-<span class="pc bpc" id="L233" title="1 of 2 branches missed.">      if (comparator != null) {</span>
-<span class="fc" id="L234">        comparatorChain.add(new DelegatingComparator(field, valueExtractor, comparator));</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">      if (comparator != null) {</span>
+<span class="fc" id="L264">        comparatorChain.add(new DelegatingComparator(field, valueExtractor, comparator));</span>
       }
-<span class="fc" id="L236">      return this;</span>
+<span class="fc" id="L266">      return this;</span>
     }
 
     @Override
@@ -244,8 +274,8 @@ public interface ComparatorBuilder {
         boolean nullIsFirst,
         ValueExtractor valueExtractor) {
 
-<span class="fc" id="L247">      comparatorChain.add(new ValueComparator(field, asc, ignoreCase, nullIsFirst, valueExtractor));</span>
-<span class="fc" id="L248">      return this;</span>
+<span class="fc" id="L277">      comparatorChain.add(new ValueComparator(field, asc, ignoreCase, nullIsFirst, valueExtractor));</span>
+<span class="fc" id="L278">      return this;</span>
     }
 
     @Override
@@ -253,18 +283,18 @@ public interface ComparatorBuilder {
         String wkt,
         WellKnownTextParser wktParser) {
 
-<span class="fc bfc" id="L256" title="All 2 branches covered.">      if (wktParser != null) {</span>
-<span class="fc" id="L257">        comparatorChain.add(wktParser.parse(wkt));</span>
+<span class="fc bfc" id="L286" title="All 2 branches covered.">      if (wktParser != null) {</span>
+<span class="fc" id="L287">        comparatorChain.add(wktParser.parse(wkt));</span>
       } else {
-<span class="fc" id="L259">        WellKnownTextParser parser = ValueComparator::new;</span>
-<span class="fc" id="L260">        comparatorChain.add(parser.parse(wkt));</span>
+<span class="fc" id="L289">        WellKnownTextParser parser = ValueComparator::new;</span>
+<span class="fc" id="L290">        comparatorChain.add(parser.parse(wkt));</span>
       }
-<span class="fc" id="L262">      return this;</span>
+<span class="fc" id="L292">      return this;</span>
     }
 
     @Override
     public Comparator&lt;Object&gt; build() {
-<span class="fc" id="L267">      return new ComparatorChain(comparatorChain);</span>
+<span class="fc" id="L297">      return new ComparatorChain(comparatorChain);</span>
     }
   }
 

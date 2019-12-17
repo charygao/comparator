@@ -25,7 +25,7 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2019 bremersee.org</copyright>
     <item>
-      <title>File: 32,
+      <title>File: 34,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -75,6 +75,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/bremersee/comparator/checkstyle.html#org.bremersee.comparator.spring.ComparatorSpringUtilsTests.java">org/bremersee/comparator/spring/ComparatorSpringUtilsTests.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/comparator/checkstyle.html#org.bremersee.comparator.WellKnownTextConverterTest.java">org/bremersee/comparator/WellKnownTextConverterTest.java</a>
                 </td>
                 <td>
                   0
@@ -201,6 +215,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="https://github.com/bremersee/comparator/checkstyle.html#org.bremersee.comparator.testmodel.ComplexObject.java">org/bremersee/comparator/testmodel/ComplexObject.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://github.com/bremersee/comparator/checkstyle.html#org.bremersee.comparator.WellKnownTextConverter.java">org/bremersee/comparator/WellKnownTextConverter.java</a>
                 </td>
                 <td>
                   0
