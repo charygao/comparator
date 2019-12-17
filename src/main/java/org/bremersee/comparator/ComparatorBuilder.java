@@ -200,7 +200,7 @@ public interface ComparatorBuilder {
 
   /**
    * Creates and adds value comparators for the given well known text description (see {@link
-   * ComparatorField#toWkt()}*, {@link ComparatorFields#toWkt()} and {@link WellKnownTextParser}).
+   * ComparatorField#toWkt()}, {@link ComparatorFields#toWkt()} and {@link WellKnownTextParser}).
    *
    * <p>The syntax of the field ordering description is
    * <pre>
@@ -221,7 +221,7 @@ public interface ComparatorBuilder {
 
   /**
    * Creates and adds value comparators for the given well known text description (see {@link
-   * ComparatorField#toWkt()}*, {@link ComparatorFields#toWkt()} and {@link WellKnownTextParser}).
+   * ComparatorField#toWkt()}, {@link ComparatorFields#toWkt()} and {@link WellKnownTextParser}).
    *
    * <p>The syntax of the field ordering depends on the {@link WellKnownTextParser}. The default is
    * <pre>
@@ -251,6 +251,7 @@ public interface ComparatorBuilder {
    */
   class DefaultComparatorBuilder implements ComparatorBuilder {
 
+    @SuppressWarnings("rawtypes")
     private final List<Comparator> comparatorChain = new LinkedList<>();
 
     @Override
