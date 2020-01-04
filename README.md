@@ -1,4 +1,5 @@
 # Bremersee Comparator
+
 This project contains a builder for comparing and sorting objects.
 
 The comparator can compare any kind of objects which have the same attributes or the same 'getters'.
