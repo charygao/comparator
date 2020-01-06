@@ -2,6 +2,9 @@ pipeline {
   agent {
     label 'maven'
   }
+  environment {
+    CODECOV_TOKEN = credentials('comparator-codecov-token')
+  }
   tools {
     jdk 'jdk8'
     maven 'm3'
@@ -21,6 +24,7 @@ pipeline {
       }
       steps {
         sh 'mvn -B clean test'
+        sh 'curl -s https://codecov.io/bash | bash -s - -t ${CODECOV_TOKEN}'
       }
       post {
         always {

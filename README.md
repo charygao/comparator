@@ -1,4 +1,7 @@
 # Bremersee Comparator
+
+[![codecov](https://codecov.io/gh/bremersee/comparator/branch/2.0.develop/graph/badge.svg)](https://codecov.io/gh/bremersee/comparator)
+
 This project contains a builder for comparing and sorting objects.
 
 The comparator can compare any kind of objects which have the same attributes or the same 'getters'.
