@@ -20,18 +20,7 @@ pipeline {
         }
       }
       steps {
-        sh 'mvn -B -P feature,allow-features clean test'
-      }
-      post {
-        always {
-          junit 'target/surefire-reports/*.xml'
-          jacoco(
-              execPattern: '**/coverage-reports/*.exec',
-              classPattern: 'target/classes',
-              sourcePattern: 'src/main/java',
-              exclusionPattern: 'src/test*'
-          )
-        }
+        sh 'mvn -B clean test'
       }
     }
     stage('Deploy Feature') {
@@ -51,6 +40,17 @@ pipeline {
       }
       steps {
         sh 'mvn -B -P deploy clean deploy'
+      }
+      post {
+        always {
+          junit 'target/surefire-reports/*.xml'
+          jacoco(
+              execPattern: '**/coverage-reports/*.exec',
+              classPattern: 'target/classes',
+              sourcePattern: 'src/main/java',
+              exclusionPattern: 'src/test*'
+          )
+        }
       }
     }
     stage('Snapshot Site') {
