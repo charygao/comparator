@@ -24,7 +24,6 @@ pipeline {
       }
       steps {
         sh 'mvn -B clean test'
-        sh 'curl -s https://codecov.io/bash | bash -s - -t ${CODECOV_TOKEN}'
       }
       post {
         always {
@@ -62,20 +61,20 @@ pipeline {
         sh 'mvn -B -P deploy clean deploy'
       }
     }
-    stage('Snapshot Site') {
+    stage('Deploy Site') {
       when {
-        branch '2.0.develop'
+        anyOf {
+          branch '2.0.develop'
+          branch '2.0.master'
+        }
       }
       steps {
         sh 'mvn -B clean site-deploy'
       }
-    }
-    stage('Release Site') {
-      when {
-        branch '2.0.master'
-      }
-      steps {
-        sh 'mvn -B -P gh-pages-site clean site site:stage scm-publish:publish-scm'
+      post {
+        always {
+          sh 'curl -s https://codecov.io/bash | bash -s - -t ${CODECOV_TOKEN}'
+        }
       }
     }
   }
