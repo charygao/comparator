@@ -6,11 +6,7 @@ It uses reflection to get the values of these attributes or 'getters'.
 The values may be a simple type like java.lang.String or a complex type which implements 
 java.lang.Comparable.
 
-#### Maven Site
-
-- [Release](https://bremersee.github.io/comparator/index.html)
-
-- [Snapshot](https://nexus.bremersee.org/repository/maven-sites/comparator/2.0.7-SNAPSHOT/index.html)
+[Maven Site](https://nexus.bremersee.org/repository/maven-sites/comparator/2.0.8-SNAPSHOT-SNAPSHOT/index.html)
 
 ### Usage
 

@@ -2,31 +2,49 @@ pipeline {
   agent {
     label 'maven'
   }
+  tools {
+    jdk 'jdk8'
+    maven 'm3'
+  }
   stages {
-    stage('Build') {
+    stage('Tools') {
       steps {
-        sh 'mvn clean compile'
+        sh 'java -version'
+        sh 'mvn -B --version'
       }
     }
     stage('Test') {
+      when {
+        not {
+          branch 'feature/*'
+        }
+      }
       steps {
-        sh 'mvn test'
+        sh 'mvn -B clean test'
+      }
+      post {
+        always {
+          junit 'target/surefire-reports/*.xml'
+          jacoco(
+              execPattern: '**/coverage-reports/*.exec'
+          )
+        }
       }
     }
-    stage('Snapshot Site') {
+    stage('Deploy Feature') {
       when {
-        branch 'develop'
+        branch 'feature/*'
       }
       steps {
-        sh 'mvn site-deploy'
+        sh 'mvn -B -P feature,allow-features clean deploy'
       }
-    }
-    stage('Release Site') {
-      when {
-        branch 'master'
-      }
-      steps {
-        sh 'mvn -P gh-pages-site site site:stage scm-publish:publish-scm'
+      post {
+        always {
+          junit 'target/surefire-reports/*.xml'
+          jacoco(
+              execPattern: '**/coverage-reports/*.exec'
+          )
+        }
       }
     }
     stage('Deploy') {
@@ -37,7 +55,23 @@ pipeline {
         }
       }
       steps {
-        sh 'mvn -P deploy deploy'
+        sh 'mvn -B -P deploy clean deploy'
+      }
+    }
+    stage('Snapshot Site') {
+      when {
+        branch 'develop'
+      }
+      steps {
+        sh 'mvn -B clean site-deploy'
+      }
+    }
+    stage('Release Site') {
+      when {
+        branch 'master'
+      }
+      steps {
+        sh 'mvn -B -P gh-pages-site clean site site:stage scm-publish:publish-scm'
       }
     }
   }
