@@ -50,8 +50,8 @@ pipeline {
     stage('Deploy') {
       when {
         anyOf {
-          branch 'develop'
-          branch 'master'
+          branch '2.0.develop'
+          branch '2.0.master'
         }
       }
       steps {
@@ -60,7 +60,7 @@ pipeline {
     }
     stage('Snapshot Site') {
       when {
-        branch 'develop'
+        branch '2.0.develop'
       }
       steps {
         sh 'mvn -B clean site-deploy'
@@ -68,7 +68,7 @@ pipeline {
     }
     stage('Release Site') {
       when {
-        branch 'master'
+        branch '2.0.master'
       }
       steps {
         sh 'mvn -B -P gh-pages-site clean site site:stage scm-publish:publish-scm'
