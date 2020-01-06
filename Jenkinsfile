@@ -30,17 +30,6 @@ pipeline {
       steps {
         sh 'mvn -B -P feature,allow-features clean deploy'
       }
-    }
-    stage('Deploy') {
-      when {
-        anyOf {
-          branch 'develop'
-          branch 'master'
-        }
-      }
-      steps {
-        sh 'mvn -B -P deploy clean deploy'
-      }
       post {
         always {
           junit 'target/surefire-reports/*.xml'
@@ -51,6 +40,17 @@ pipeline {
               exclusionPattern: 'src/test*'
           )
         }
+      }
+    }
+    stage('Deploy') {
+      when {
+        anyOf {
+          branch 'develop'
+          branch 'master'
+        }
+      }
+      steps {
+        sh 'mvn -B -P deploy clean deploy'
       }
     }
     stage('Snapshot Site') {
