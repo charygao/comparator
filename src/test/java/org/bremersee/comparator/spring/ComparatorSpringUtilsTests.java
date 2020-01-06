@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.bremersee.comparator.model.ComparatorField;
 import org.junit.Assert;
@@ -68,6 +69,15 @@ public class ComparatorSpringUtilsTests {
   }
 
   /**
+   * To sort with empty list.
+   */
+  @Test
+  public void toSortWithEmptyList() {
+    Sort sort = ComparatorSpringUtils.toSort(Collections.emptyList());
+    assertTrue(sort.isUnsorted());
+  }
+
+  /**
    * Test from sort.
    */
   @Test
@@ -85,6 +95,15 @@ public class ComparatorSpringUtilsTests {
     Assert.assertEquals(fields, actualFields);
 
     System.out.println("OK\n");
+  }
+
+  /**
+   * From sort with null.
+   */
+  @Test
+  public void fromSortWithNull() {
+    List<ComparatorField> fields = ComparatorSpringUtils.fromSort(null);
+    assertTrue(fields.isEmpty());
   }
 
 }
