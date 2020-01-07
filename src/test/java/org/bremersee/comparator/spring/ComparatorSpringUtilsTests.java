@@ -19,6 +19,7 @@ package org.bremersee.comparator.spring;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -104,6 +105,24 @@ public class ComparatorSpringUtilsTests {
   public void fromSortWithNull() {
     List<ComparatorField> fields = ComparatorSpringUtils.fromSort(null);
     assertTrue(fields.isEmpty());
+  }
+
+  /**
+   * To sort order.
+   */
+  @Test
+  public void toSortOrder() {
+    assertNull(ComparatorSpringUtils.toSortOrder(null));
+    assertNull(ComparatorSpringUtils.toSortOrder(new ComparatorField()));
+    assertNull(ComparatorSpringUtils.toSortOrder(new ComparatorField("", true, true, true)));
+  }
+
+  /**
+   * From sort order.
+   */
+  @Test
+  public void fromSortOrder() {
+    assertNull(ComparatorSpringUtils.fromSortOrder(null));
   }
 
 }

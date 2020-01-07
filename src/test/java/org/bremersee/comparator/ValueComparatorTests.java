@@ -388,12 +388,12 @@ public class ValueComparatorTests {
   }
 
   /**
-   * Test equals.
+   * Test equals and hash code.
    */
   @SuppressWarnings({"EqualsWithItself", "SimplifiableJUnitAssertion",
       "EqualsBetweenInconvertibleTypes"})
   @Test
-  public void testEquals() {
+  public void testEqualsAndHashCode() {
     ValueExtractor valueExtractor = new DefaultValueExtractor();
     ValueComparator valueComparator = new ValueComparator(
         "someField", true, true, false, valueExtractor);
@@ -404,6 +404,10 @@ public class ValueComparatorTests {
     assertFalse(valueComparator.equals("test"));
     //noinspection ConstantConditions
     assertFalse(valueComparator.equals(null));
+
+    assertEquals(
+        valueComparator.hashCode(),
+        new ValueComparator("someField", true, true, false, valueExtractor).hashCode());
   }
 
 }

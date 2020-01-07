@@ -82,12 +82,12 @@ public class DelegatingComparatorTests {
   }
 
   /**
-   * Test equals.
+   * Test equals and hash code.
    */
   @SuppressWarnings({"EqualsWithItself", "SimplifiableJUnitAssertion",
       "EqualsBetweenInconvertibleTypes", "ConstantConditions"})
   @Test
-  public void testEquals() {
+  public void testEqualsAndHashCode() {
     ValueExtractor extractor = new DefaultValueExtractor();
     Comparator<?> comparator = Comparator.naturalOrder();
     DelegatingComparator delegate = new DelegatingComparator("number", extractor, comparator);
@@ -96,6 +96,14 @@ public class DelegatingComparatorTests {
     assertFalse(delegate.equals(new DelegatingComparator("ch", extractor, comparator)));
     assertFalse(delegate.equals("test"));
     assertFalse(delegate.equals(null));
+
+    assertEquals(
+        new DelegatingComparator("field", comparator),
+        new DelegatingComparator("field", comparator));
+
+    assertEquals(
+        delegate.hashCode(),
+        new DelegatingComparator("number", extractor, comparator).hashCode());
   }
 
 }

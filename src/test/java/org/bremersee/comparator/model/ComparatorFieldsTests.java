@@ -138,6 +138,7 @@ public class ComparatorFieldsTests {
     //noinspection EqualsBetweenInconvertibleTypes,SimplifiableJUnitAssertion
     assertFalse(fields0.equals(field0));
 
+    assertEquals(new ComparatorFields(null), new ComparatorFields());
   }
 
 }
