@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2019 the original author or authors.
+ * Copyright 2015-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -186,6 +186,18 @@ public class ComparatorBuilderTests {
             return new ComplexObjectExtensionComparator();
           }
           return new ValueComparator(comparatorField);
+        })
+        .build());
+    assertEquals(c, list.get(0));
+    assertEquals(a, list.get(1));
+    assertEquals(b, list.get(2));
+
+    list.sort(ComparatorBuilder.builder()
+        .fromWellKnownText("not_exists|simple.number", comparatorField -> {
+          if ("not_exists".equals(comparatorField.getField())) {
+            return new ComplexObjectExtensionComparator();
+          }
+          return new ValueComparator(comparatorField, new DefaultValueExtractor());
         })
         .build());
     assertEquals(c, list.get(0));

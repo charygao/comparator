@@ -19,6 +19,8 @@ package org.bremersee.comparator;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Optional;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * The default value extractor supports field names and paths as described in {@link
@@ -29,7 +31,8 @@ import java.util.Optional;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings("WeakerAccess")
+@ToString
+@EqualsAndHashCode
 public class DefaultValueExtractor implements ValueExtractor {
 
   private final boolean throwingException;
@@ -61,11 +64,9 @@ public class DefaultValueExtractor implements ValueExtractor {
     }
 
     final int index = fieldIdentifier.indexOf('.');
-    final String fieldName = index < 0 ? fieldIdentifier : fieldIdentifier.substring(0, index);
-    if (fieldName.length() == 0) {
-      return findValue(obj, fieldIdentifier.substring(index + 1));
-    }
-
+    final String fieldName = index < 0
+        ? fieldIdentifier
+        : fieldIdentifier.substring(0, index).trim();
     Object value;
     Optional<Field> field = findField(obj.getClass(), fieldName);
     if (field.isPresent()) {

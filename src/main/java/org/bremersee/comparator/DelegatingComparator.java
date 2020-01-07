@@ -17,6 +17,8 @@
 package org.bremersee.comparator;
 
 import java.util.Comparator;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * The delegating comparator extracts the field value of the specified field name or path and uses
@@ -25,12 +27,15 @@ import java.util.Comparator;
  * @author Christian Bremer
  */
 @SuppressWarnings("WeakerAccess")
+@ToString
+@EqualsAndHashCode
 public class DelegatingComparator implements Comparator<Object> {
 
   private final ValueExtractor valueExtractor;
 
   private final String field;
 
+  @SuppressWarnings("rawtypes")
   private final Comparator comparator;
 
   /**

@@ -98,6 +98,7 @@ public abstract class ComparatorSpringUtils {
    * @return the comparator field
    */
   public static ComparatorField fromSortOrder(Sort.Order sortOrder) {
+    //noinspection ConstantConditions
     if (sortOrder == null || sortOrder.getProperty() == null
         || sortOrder.getProperty().trim().length() == 0) {
       return null;

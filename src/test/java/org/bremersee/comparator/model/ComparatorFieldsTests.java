@@ -17,6 +17,7 @@
 package org.bremersee.comparator.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -134,6 +135,9 @@ public class ComparatorFieldsTests {
     assertEquals(fields0, fields1);
     assertEquals(fields0, fields2);
     assertNotEquals(fields0, fields3);
+    //noinspection EqualsBetweenInconvertibleTypes,SimplifiableJUnitAssertion
+    assertFalse(fields0.equals(field0));
+
   }
 
 }
