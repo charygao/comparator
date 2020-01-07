@@ -17,6 +17,8 @@
 package org.bremersee.comparator;
 
 import java.util.Comparator;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bremersee.comparator.model.ComparatorField;
 
 /**
@@ -26,7 +28,8 @@ import org.bremersee.comparator.model.ComparatorField;
  *
  * @author Christian Bremer
  */
-@SuppressWarnings({"unused"})
+@ToString
+@EqualsAndHashCode
 public class ValueComparator implements Comparator<Object> {
 
   private final ValueExtractor valueExtractor;
@@ -131,7 +134,7 @@ public class ValueComparator implements Comparator<Object> {
       if (ignoreCase && v1 instanceof String && v2 instanceof String) {
         return ((String) v1).compareToIgnoreCase((String) v2);
       } else {
-        //noinspection unchecked
+        //noinspection unchecked,rawtypes
         return ((Comparable) v1).compareTo(v2);
       }
 
@@ -140,7 +143,7 @@ public class ValueComparator implements Comparator<Object> {
       if (ignoreCase && v1 instanceof String && v2 instanceof String) {
         return ((String) v2).compareToIgnoreCase((String) v1);
       } else {
-        //noinspection unchecked
+        //noinspection unchecked,rawtypes
         return ((Comparable) v2).compareTo(v1);
       }
     }

@@ -59,6 +59,7 @@ public interface WellKnownTextParser {
   default Comparator<Object> parse(String wkt) {
     ComparatorBuilder builder = ComparatorBuilder.builder();
     for (ComparatorField comparatorField : buildComparatorFields(wkt)) {
+      //noinspection rawtypes
       Comparator comparator = apply(comparatorField);
       if (comparator != null) {
         builder.add(comparator);
@@ -129,6 +130,7 @@ public interface WellKnownTextParser {
    * @param comparatorField the comparator field
    * @return the comparator
    */
+  @SuppressWarnings("rawtypes")
   Comparator apply(ComparatorField comparatorField);
 
   /**
