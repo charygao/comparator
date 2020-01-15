@@ -58,7 +58,6 @@ public class SimpleGetObject {
    *
    * @return the another number
    */
-  @SuppressWarnings("unused")
   public int getAnotherNumber() {
     return anotherNumber;
   }
@@ -68,7 +67,6 @@ public class SimpleGetObject {
    *
    * @param anotherNumber the another number
    */
-  @SuppressWarnings("unused")
   public void setAnotherNumber(int anotherNumber) {
     this.anotherNumber = anotherNumber;
   }

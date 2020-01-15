@@ -27,23 +27,7 @@ pipeline {
       }
       post {
         always {
-          junit 'target/surefire-reports/*.xml'
-          jacoco(
-              execPattern: '**/coverage-reports/*.exec'
-          )
-        }
-      }
-    }
-    stage('Deploy Feature') {
-      when {
-        branch 'feature/*'
-      }
-      steps {
-        sh 'mvn -B -P feature,allow-features clean deploy'
-      }
-      post {
-        always {
-          junit 'target/surefire-reports/*.xml'
+          junit '**/surefire-reports/*.xml'
           jacoco(
               execPattern: '**/coverage-reports/*.exec'
           )
@@ -84,6 +68,22 @@ pipeline {
       post {
         always {
           sh 'curl -s https://codecov.io/bash | bash -s - -t ${CODECOV_TOKEN}'
+        }
+      }
+    }
+    stage('Deploy Feature') {
+      when {
+        branch 'feature/*'
+      }
+      steps {
+        sh 'mvn -B -P feature,allow-features clean deploy'
+      }
+      post {
+        always {
+          junit '**/surefire-reports/*.xml'
+          jacoco(
+              execPattern: '**/coverage-reports/*.exec'
+          )
         }
       }
     }
