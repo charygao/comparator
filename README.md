@@ -9,7 +9,7 @@ It uses reflection to get the values of these attributes or 'getters'.
 The values may be a simple type like java.lang.String or a complex type which implements 
 java.lang.Comparable.
 
-[Maven Site](https://nexus.bremersee.org/repository/maven-sites/comparator/2.0.8-SNAPSHOT-SNAPSHOT/index.html)
+[Maven Site](https://nexus.bremersee.org/repository/maven-sites/comparator/2.0.9-SNAPSHOT-SNAPSHOT/index.html)
 
 ### Usage
 
