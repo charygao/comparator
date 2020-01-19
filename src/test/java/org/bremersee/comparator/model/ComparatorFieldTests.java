@@ -17,6 +17,8 @@
 package org.bremersee.comparator.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.StringReader;
@@ -104,6 +106,37 @@ public class ComparatorFieldTests {
     assertEquals(field, readField);
 
     System.out.println("OK\n");
+  }
+
+  /**
+   * Test equals and hash code.
+   */
+  @SuppressWarnings({"UnnecessaryLocalVariable"})
+  @Test
+  public void testEqualsAndHashCode() {
+    ComparatorField field0 = new ComparatorField("i0", true, false, true);
+    ComparatorField field1 = field0;
+    ComparatorField field2 = new ComparatorField("i0", true, false, true);
+    ComparatorField field3 = new ComparatorField("i1", true, false, true);
+    assertEquals(field0.hashCode(), field2.hashCode());
+    assertEquals(field0, field0);
+    assertEquals(field0, field1);
+    assertEquals(field0, field2);
+    assertNotEquals(field0, field3);
+
+    //noinspection EqualsBetweenInconvertibleTypes,SimplifiableJUnitAssertion
+    assertFalse(field0.equals(new ComparatorFields()));
+  }
+
+  /**
+   * Test to wkt.
+   */
+  @Test
+  public void testToWkt() {
+    ComparatorField field0 = new ComparatorField("i0", true, false, true);
+    ComparatorField field1 = new ComparatorField(null, false, false, true);
+    assertEquals("i0,asc,false,true", field0.toWkt());
+    assertEquals(",desc,false,true", field1.toWkt());
   }
 
 }

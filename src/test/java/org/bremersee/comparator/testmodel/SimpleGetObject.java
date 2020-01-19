@@ -27,6 +27,8 @@ public class SimpleGetObject {
 
   private int no;
 
+  private int anotherNumber;
+
   /**
    * Instantiates a new simple object with getter.
    *
@@ -36,8 +38,37 @@ public class SimpleGetObject {
     this.no = number;
   }
 
+  /**
+   * Instantiates a new Simple get object.
+   *
+   * @param no            the no
+   * @param anotherNumber the another number
+   */
+  public SimpleGetObject(int no, int anotherNumber) {
+    this.no = no;
+    this.anotherNumber = anotherNumber;
+  }
+
   private int getNumber() {
     return no;
+  }
+
+  /**
+   * Gets another number.
+   *
+   * @return the another number
+   */
+  public int getAnotherNumber() {
+    return anotherNumber;
+  }
+
+  /**
+   * Sets another number.
+   *
+   * @param anotherNumber the another number
+   */
+  public void setAnotherNumber(int anotherNumber) {
+    this.anotherNumber = anotherNumber;
   }
 
   @Override
@@ -49,11 +80,11 @@ public class SimpleGetObject {
       return false;
     }
     SimpleGetObject that = (SimpleGetObject) o;
-    return getNumber() == that.getNumber();
+    return getNumber() == that.getNumber() && anotherNumber == that.anotherNumber;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getNumber());
+    return Objects.hash(getNumber(), anotherNumber);
   }
 }

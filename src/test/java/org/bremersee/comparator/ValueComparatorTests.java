@@ -1,6 +1,23 @@
+/*
+ * Copyright 2015-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.bremersee.comparator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -32,6 +49,14 @@ public class ValueComparatorTests {
 
     assertEquals(0, result);
     verify(valueExtractor, times(2)).findValue(any(), anyString());
+
+    result = new ValueComparator("someField", true, true, false)
+        .compare(new Object(), new Object());
+    assertEquals(0, result);
+
+    result = new ValueComparator("someField", true, true, true)
+        .compare(new Object(), new Object());
+    assertEquals(0, result);
   }
 
   /**
@@ -351,5 +376,38 @@ public class ValueComparatorTests {
     verify(valueExtractor, times(1)).findValue(anyInt(), anyString());
   }
 
+  /**
+   * Test to string.
+   */
+  @Test
+  public void testToString() {
+    ValueExtractor valueExtractor = new DefaultValueExtractor();
+    ValueComparator valueComparator = new ValueComparator(
+        "someField", true, true, false, valueExtractor);
+    assertTrue(valueComparator.toString().contains("someField"));
+  }
+
+  /**
+   * Test equals and hash code.
+   */
+  @SuppressWarnings({"EqualsWithItself", "SimplifiableJUnitAssertion",
+      "EqualsBetweenInconvertibleTypes"})
+  @Test
+  public void testEqualsAndHashCode() {
+    ValueExtractor valueExtractor = new DefaultValueExtractor();
+    ValueComparator valueComparator = new ValueComparator(
+        "someField", true, true, false, valueExtractor);
+    assertTrue(valueComparator.equals(valueComparator));
+    assertTrue(valueComparator
+        .equals(new ValueComparator("someField", true, true, false, valueExtractor)));
+    assertFalse(valueComparator.equals(new ValueComparator("anotherField", true, true, true)));
+    assertFalse(valueComparator.equals("test"));
+    //noinspection ConstantConditions
+    assertFalse(valueComparator.equals(null));
+
+    assertEquals(
+        valueComparator.hashCode(),
+        new ValueComparator("someField", true, true, false, valueExtractor).hashCode());
+  }
 
 }
