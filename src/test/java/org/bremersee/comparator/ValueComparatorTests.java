@@ -16,9 +16,9 @@
 
 package org.bremersee.comparator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,43 +27,46 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * The value comparator tests.
  *
  * @author Christian Bremer
  */
-public class ValueComparatorTests {
+class ValueComparatorTests {
 
   /**
    * Test with non comparable values and expect comparator exception.
    */
-  @Test(expected = ComparatorException.class)
-  public void testWithNonComparableValuesAndExpectComparatorException() {
-    ValueExtractor valueExtractor = mock(ValueExtractor.class);
-    when(valueExtractor.findValue(any(), anyString())).thenReturn(new Object());
+  @Test
+  void testWithNonComparableValuesAndExpectComparatorException() {
+    Assertions.assertThrows(ComparatorException.class, () -> {
+      ValueExtractor valueExtractor = mock(ValueExtractor.class);
+      when(valueExtractor.findValue(any(), anyString())).thenReturn(new Object());
 
-    int result = new ValueComparator("someField", true, true, false, valueExtractor)
-        .compare(new Object(), new Object());
+      int result = new ValueComparator("someField", true, true, false, valueExtractor)
+          .compare(new Object(), new Object());
 
-    assertEquals(0, result);
-    verify(valueExtractor, times(2)).findValue(any(), anyString());
+      assertEquals(0, result);
+      verify(valueExtractor, times(2)).findValue(any(), anyString());
 
-    result = new ValueComparator("someField", true, true, false)
-        .compare(new Object(), new Object());
-    assertEquals(0, result);
+      result = new ValueComparator("someField", true, true, false)
+          .compare(new Object(), new Object());
+      assertEquals(0, result);
 
-    result = new ValueComparator("someField", true, true, true)
-        .compare(new Object(), new Object());
-    assertEquals(0, result);
+      result = new ValueComparator("someField", true, true, true)
+          .compare(new Object(), new Object());
+      assertEquals(0, result);
+    });
   }
 
   /**
    * Test with two null values.
    */
   @Test
-  public void testWithTwoNullValues() {
+  void testWithTwoNullValues() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(any(), anyString())).thenReturn(null);
 
@@ -78,7 +81,7 @@ public class ValueComparatorTests {
    * Test with first is null value and asc and null is first.
    */
   @Test
-  public void testWithFirstIsNullValueAndAscAndNullIsFirst() {
+  void testWithFirstIsNullValueAndAscAndNullIsFirst() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
@@ -95,7 +98,7 @@ public class ValueComparatorTests {
    * Test with first is null value and desc and null is first.
    */
   @Test
-  public void testWithFirstIsNullValueAndDescAndNullIsFirst() {
+  void testWithFirstIsNullValueAndDescAndNullIsFirst() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
@@ -112,7 +115,7 @@ public class ValueComparatorTests {
    * Test with first is null value and asc and null is last.
    */
   @Test
-  public void testWithFirstIsNullValueAndAscAndNullIsLast() {
+  void testWithFirstIsNullValueAndAscAndNullIsLast() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
@@ -129,7 +132,7 @@ public class ValueComparatorTests {
    * Test with first is null value and desc and null is last.
    */
   @Test
-  public void testWithFirstIsNullValueAndDescAndNullIsLast() {
+  void testWithFirstIsNullValueAndDescAndNullIsLast() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
@@ -146,7 +149,7 @@ public class ValueComparatorTests {
    * Test with second is null value and asc and null is first.
    */
   @Test
-  public void testWithSecondIsNullValueAndAscAndNullIsFirst() {
+  void testWithSecondIsNullValueAndAscAndNullIsFirst() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
@@ -163,7 +166,7 @@ public class ValueComparatorTests {
    * Test with second is null value and desc and null is first.
    */
   @Test
-  public void testWithSecondIsNullValueAndDescAndNullIsFirst() {
+  void testWithSecondIsNullValueAndDescAndNullIsFirst() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
@@ -180,7 +183,7 @@ public class ValueComparatorTests {
    * Test with second is null value and asc and null is last.
    */
   @Test
-  public void testWithSecondIsNullValueAndAscAndNullIsLast() {
+  void testWithSecondIsNullValueAndAscAndNullIsLast() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
@@ -197,7 +200,7 @@ public class ValueComparatorTests {
    * Test with second is null value and desc and null is last.
    */
   @Test
-  public void testWithSecondIsNullValueAndDescAndNullIsLast() {
+  void testWithSecondIsNullValueAndDescAndNullIsLast() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(null);
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(1);
@@ -214,7 +217,7 @@ public class ValueComparatorTests {
    * Test with 1 and 1.
    */
   @Test
-  public void testWith_1_And_1() {
+  void testWith_1_And_1() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(1);
 
@@ -229,7 +232,7 @@ public class ValueComparatorTests {
    * Test with 1 and 2 and asc.
    */
   @Test
-  public void testWith_1_And_2_And_Asc() {
+  void testWith_1_And_2_And_Asc() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(1);
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(2);
@@ -246,7 +249,7 @@ public class ValueComparatorTests {
    * Test with 1 and 2 and desc.
    */
   @Test
-  public void testWith_1_And_2_And_Desc() {
+  void testWith_1_And_2_And_Desc() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(1);
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(2);
@@ -263,7 +266,7 @@ public class ValueComparatorTests {
    * Test with 2 and 1 and asc.
    */
   @Test
-  public void testWith_2_And_1_And_Asc() {
+  void testWith_2_And_1_And_Asc() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(1);
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(2);
@@ -280,7 +283,7 @@ public class ValueComparatorTests {
    * Test with 2 and 1 and desc.
    */
   @Test
-  public void testWith_2_And_1_And_Desc() {
+  void testWith_2_And_1_And_Desc() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn(1);
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn(2);
@@ -297,7 +300,7 @@ public class ValueComparatorTests {
    * Test with a and a.
    */
   @Test
-  public void testWith_A_And_A() {
+  void testWith_A_And_A() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn("a");
 
@@ -312,7 +315,7 @@ public class ValueComparatorTests {
    * Test with a and b and asc and ignore case.
    */
   @Test
-  public void testWith_A_And_B_And_Asc_And_IgnoreCase() {
+  void testWith_A_And_B_And_Asc_And_IgnoreCase() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn("a");
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn("b");
@@ -329,7 +332,7 @@ public class ValueComparatorTests {
    * Test with a and b and desc and ignore case.
    */
   @Test
-  public void testWith_A_And_B_And_Desc_And_IgnoreCase() {
+  void testWith_A_And_B_And_Desc_And_IgnoreCase() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn("a");
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn("b");
@@ -346,7 +349,7 @@ public class ValueComparatorTests {
    * Test with b and a and asc and ignore case.
    */
   @Test
-  public void testWith_B_And_A_And_Asc_And_IgnoreCase() {
+  void testWith_B_And_A_And_Asc_And_IgnoreCase() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn("a");
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn("b");
@@ -363,7 +366,7 @@ public class ValueComparatorTests {
    * Test with b and a and desc and ignore case.
    */
   @Test
-  public void testWith_B_And_A_And_Desc_And_IgnoreCase() {
+  void testWith_B_And_A_And_Desc_And_IgnoreCase() {
     ValueExtractor valueExtractor = mock(ValueExtractor.class);
     when(valueExtractor.findValue(anyString(), anyString())).thenReturn("a");
     when(valueExtractor.findValue(anyInt(), anyString())).thenReturn("b");
@@ -380,7 +383,7 @@ public class ValueComparatorTests {
    * Test to string.
    */
   @Test
-  public void testToString() {
+  void testToString() {
     ValueExtractor valueExtractor = new DefaultValueExtractor();
     ValueComparator valueComparator = new ValueComparator(
         "someField", true, true, false, valueExtractor);
@@ -393,7 +396,7 @@ public class ValueComparatorTests {
   @SuppressWarnings({"EqualsWithItself", "SimplifiableJUnitAssertion",
       "EqualsBetweenInconvertibleTypes"})
   @Test
-  public void testEqualsAndHashCode() {
+  void testEqualsAndHashCode() {
     ValueExtractor valueExtractor = new DefaultValueExtractor();
     ValueComparator valueComparator = new ValueComparator(
         "someField", true, true, false, valueExtractor);

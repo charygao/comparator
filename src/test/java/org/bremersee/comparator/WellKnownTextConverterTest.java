@@ -16,25 +16,28 @@
 
 package org.bremersee.comparator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
 import org.bremersee.comparator.model.ComparatorField;
 import org.bremersee.comparator.model.ComparatorFields;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The well known text converter test.
  *
  * @author Christian Bremer
  */
-public class WellKnownTextConverterTest {
+class WellKnownTextConverterTest {
 
   /**
    * Convert.
    */
   @Test
-  public void convert() {
+  void convert() {
     WellKnownTextConverter converter = new WellKnownTextConverter();
 
     ComparatorField field0 = new ComparatorField("field0", true, true, true);
@@ -52,10 +55,10 @@ public class WellKnownTextConverterTest {
             + "|field3,true,false,false"
             + "|field4,false,false,true"
             + "|field5,false,false,false");
-    Assert.assertNotNull(fields);
-    Assert.assertEquals(expected.size(), fields.getFields().size());
+    assertNotNull(fields);
+    assertEquals(expected.size(), fields.getFields().size());
     for (int i = 0; i < expected.size(); i++) {
-      Assert.assertEquals(expected.get(i), fields.getFields().get(i));
+      assertEquals(expected.get(i), fields.getFields().get(i));
     }
   }
 
@@ -63,12 +66,12 @@ public class WellKnownTextConverterTest {
    * Convert and expect empty.
    */
   @Test
-  public void convertAndExpectEmpty() {
+  void convertAndExpectEmpty() {
     WellKnownTextConverter converter = new WellKnownTextConverter(ValueComparator::new);
     //noinspection ConstantConditions
     ComparatorFields fields = converter.convert(null);
-    Assert.assertNotNull(fields);
-    Assert.assertTrue(fields.getFields().isEmpty());
+    assertNotNull(fields);
+    assertTrue(fields.getFields().isEmpty());
   }
 
 }

@@ -16,20 +16,21 @@
 
 package org.bremersee.comparator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.bremersee.comparator.model.ComparatorField;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The well known text parser test.
  *
  * @author Christian Bremer
  */
-public class WellKnownTextParserTest {
+class WellKnownTextParserTest {
 
   private static final WellKnownTextParser parser = ValueComparator::new;
 
@@ -37,7 +38,7 @@ public class WellKnownTextParserTest {
    * Build comparator field.
    */
   @Test
-  public void buildComparatorField() {
+  void buildComparatorField() {
     assertEquals(
         new ComparatorField(null, true, true, false),
         parser.buildComparatorField(null));
@@ -49,16 +50,17 @@ public class WellKnownTextParserTest {
   /**
    * Build comparator field and expect illegal argument exception.
    */
-  @Test(expected = IllegalArgumentException.class)
-  public void buildComparatorFieldAndExpectIllegalArgumentException() {
-    parser.buildComparatorField("hallo|world");
+  @Test
+  void buildComparatorFieldAndExpectIllegalArgumentException() {
+    assertThrows(IllegalArgumentException.class, () -> parser
+        .buildComparatorField("hallo|world"));
   }
 
   /**
    * Find string part.
    */
   @Test
-  public void findStringPart() {
+  void findStringPart() {
     assertNull(WellKnownTextParser.findStringPart(null, "|", 0));
     assertEquals("abc", WellKnownTextParser.findStringPart("abc", null, 0));
     assertEquals("abc", WellKnownTextParser.findStringPart("abc", "", 0));
@@ -69,7 +71,7 @@ public class WellKnownTextParserTest {
    * Find boolean part.
    */
   @Test
-  public void findBooleanPart() {
+  void findBooleanPart() {
     assertFalse(WellKnownTextParser.findBooleanPart("a|b|c", "|", 10, false));
     assertTrue(WellKnownTextParser.findBooleanPart(
         "a|b|c",

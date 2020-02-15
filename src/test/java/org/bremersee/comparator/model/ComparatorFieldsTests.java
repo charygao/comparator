@@ -16,9 +16,9 @@
 
 package org.bremersee.comparator.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.StringReader;
@@ -27,26 +27,26 @@ import java.util.Arrays;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * The comparator fields tests.
  *
  * @author Christian Bremer
  */
-public class ComparatorFieldsTests {
+class ComparatorFieldsTests {
 
-  private JAXBContext jaxbContext;
+  private static JAXBContext jaxbContext;
 
   /**
    * Create jaxb context.
    *
    * @throws JAXBException the jaxb exception
    */
-  @Before
-  public void createJaxbContext() throws JAXBException {
-    this.jaxbContext = JAXBContext.newInstance(ObjectFactory.class.getPackage().getName());
+  @BeforeAll
+  static void createJaxbContext() throws JAXBException {
+    jaxbContext = JAXBContext.newInstance(ObjectFactory.class.getPackage().getName());
   }
 
   /**
@@ -55,7 +55,7 @@ public class ComparatorFieldsTests {
    * @throws Exception the exception
    */
   @Test
-  public void testXmlComparatorFields() throws Exception {
+  void testXmlComparatorFields() throws Exception {
 
     System.out.println("Testing XML write-read operations ...");
 
@@ -92,7 +92,7 @@ public class ComparatorFieldsTests {
    * @throws Exception the exception
    */
   @Test
-  public void testJsonComparatorFields() throws Exception {
+  void testJsonComparatorFields() throws Exception {
 
     System.out.println("Testing JSON write-read operations ...");
 
@@ -121,7 +121,7 @@ public class ComparatorFieldsTests {
    */
   @SuppressWarnings({"UnnecessaryLocalVariable"})
   @Test
-  public void testEqualsAndHashCode() {
+  void testEqualsAndHashCode() {
     ComparatorField field0 = new ComparatorField("i0", true, false, true);
     ComparatorField field1 = new ComparatorField("i1", true, false, true);
     ComparatorField field2 = new ComparatorField("i0", true, false, true);

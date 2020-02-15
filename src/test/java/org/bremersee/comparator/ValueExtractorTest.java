@@ -16,11 +16,11 @@
 
 package org.bremersee.comparator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.bremersee.comparator.testmodel.SimpleObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The value extractor test.
@@ -35,7 +35,7 @@ public class ValueExtractorTest {
    * Find field with class and name.
    */
   @Test
-  public void findFieldWithClassAndName() {
+  void findFieldWithClassAndName() {
     assertTrue(extractor.findField(SimpleObject.class, "number").isPresent());
   }
 
@@ -43,7 +43,7 @@ public class ValueExtractorTest {
    * Gets possible method names.
    */
   @Test
-  public void getPossibleMethodNames() {
+  void getPossibleMethodNames() {
     assertEquals(0, extractor.getPossibleMethodNames(null).length);
     assertEquals(0, extractor.getPossibleMethodNames("").length);
 

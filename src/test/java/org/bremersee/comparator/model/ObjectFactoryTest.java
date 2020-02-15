@@ -16,16 +16,16 @@
 
 package org.bremersee.comparator.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The object factory test.
  *
  * @author Christian Bremer
  */
-public class ObjectFactoryTest {
+class ObjectFactoryTest {
 
   private static final ObjectFactory factory = new ObjectFactory();
 
@@ -33,7 +33,7 @@ public class ObjectFactoryTest {
    * Create comparator field.
    */
   @Test
-  public void createComparatorField() {
+  void createComparatorField() {
     assertEquals(new ComparatorField(), factory.createComparatorField());
   }
 

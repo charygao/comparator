@@ -16,8 +16,9 @@
 
 package org.bremersee.comparator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -30,20 +31,21 @@ import org.bremersee.comparator.testmodel.ComplexObjectExtensionComparator;
 import org.bremersee.comparator.testmodel.SimpleGetObject;
 import org.bremersee.comparator.testmodel.SimpleIsObject;
 import org.bremersee.comparator.testmodel.SimpleObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * The comparator builder tests.
  *
  * @author Christian Bremer
  */
-public class ComparatorBuilderTests {
+class ComparatorBuilderTests {
 
   /**
    * Test primitive type.
    */
   @Test
-  public void testPrimitiveType() {
+  void testPrimitiveType() {
     System.out.println("Testing primitive type ...");
     int result = ComparatorBuilder.builder()
         .build()
@@ -57,7 +59,7 @@ public class ComparatorBuilderTests {
    * Test simple object.
    */
   @Test
-  public void testSimpleObject() {
+  void testSimpleObject() {
     System.out.println("Testing simple object ...");
     int result = ComparatorBuilder.builder()
         .add("number", true, true, false)
@@ -72,7 +74,7 @@ public class ComparatorBuilderTests {
    * Test simple get object.
    */
   @Test
-  public void testSimpleGetObject() {
+  void testSimpleGetObject() {
     System.out.println("Testing simple 'get' object ...");
     int result = ComparatorBuilder.builder()
         .add("number", true, true, false)
@@ -88,7 +90,7 @@ public class ComparatorBuilderTests {
    * Test simple get object with comparator fields.
    */
   @Test
-  public void testSimpleGetObjectWithComparatorFields() {
+  void testSimpleGetObjectWithComparatorFields() {
     System.out.println("Testing simple 'get' object with list of comparator fields...");
     List<ComparatorField> fields = Arrays.asList(
         new ComparatorField("number", true, false, false),
@@ -132,7 +134,7 @@ public class ComparatorBuilderTests {
    * Test simple is object.
    */
   @Test
-  public void testSimpleIsObject() {
+  void testSimpleIsObject() {
     System.out.println("Testing simple 'is' object ...");
     int result = ComparatorBuilder.builder()
         .add("nice", false, true, false)
@@ -148,7 +150,7 @@ public class ComparatorBuilderTests {
    * Test complex object.
    */
   @Test
-  public void testComplexObject() {
+  void testComplexObject() {
     System.out.println("Testing complex object ...");
     int result = ComparatorBuilder.builder()
         .add("simple.number", true, true, false)
@@ -165,7 +167,7 @@ public class ComparatorBuilderTests {
    * Test comparing of complex objects.
    */
   @Test
-  public void testComparingOfComplexObjects() {
+  void testComparingOfComplexObjects() {
     ComplexObject a = new ComplexObjectExtension(new SimpleObject(1), "same");
     ComplexObject b = new ComplexObjectExtension(new SimpleObject(2), "same");
     List<ComplexObject> list = Arrays.asList(b, a);
@@ -209,7 +211,7 @@ public class ComparatorBuilderTests {
    * Test objects with same values.
    */
   @Test
-  public void testObjectsWithSameValues() {
+  void testObjectsWithSameValues() {
     SimpleObject a = new SimpleObject(1);
     SimpleObject b = new SimpleObject(1);
     List<SimpleObject> list = Arrays.asList(b, a);
@@ -221,7 +223,7 @@ public class ComparatorBuilderTests {
    * Test strings.
    */
   @Test
-  public void testStrings() {
+  void testStrings() {
     List<String> list = Arrays.asList("b", "a");
     list.sort(ComparatorBuilder.builder().add(null, Comparator.naturalOrder()).build());
     assertEquals("a", list.get(0));
@@ -231,13 +233,15 @@ public class ComparatorBuilderTests {
   /**
    * Test objects and expect illegal argument exception.
    */
-  @Test(expected = IllegalArgumentException.class)
-  public void testObjectsAndExpectIllegalArgumentException() {
-    SimpleObject a = new SimpleObject(1);
-    SimpleObject b = new SimpleObject(1);
-    List<SimpleObject> list = Arrays.asList(b, a);
-    list.sort(ComparatorBuilder.builder().add(null, new DefaultValueExtractor()).build());
-    assertEquals(list.get(0), list.get(1));
+  @Test
+  void testObjectsAndExpectIllegalArgumentException() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      SimpleObject a = new SimpleObject(1);
+      SimpleObject b = new SimpleObject(1);
+      List<SimpleObject> list = Arrays.asList(b, a);
+      list.sort(ComparatorBuilder.builder().add(null, new DefaultValueExtractor()).build());
+      assertEquals(list.get(0), list.get(1));
+    });
   }
 
 }

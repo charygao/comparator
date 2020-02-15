@@ -41,7 +41,7 @@ public class SimpleGetObject {
   /**
    * Instantiates a new Simple get object.
    *
-   * @param no            the no
+   * @param no the no
    * @param anotherNumber the another number
    */
   public SimpleGetObject(int no, int anotherNumber) {
@@ -58,6 +58,7 @@ public class SimpleGetObject {
    *
    * @return the another number
    */
+  @SuppressWarnings("unused")
   public int getAnotherNumber() {
     return anotherNumber;
   }
@@ -67,6 +68,7 @@ public class SimpleGetObject {
    *
    * @param anotherNumber the another number
    */
+  @SuppressWarnings("unused")
   public void setAnotherNumber(int anotherNumber) {
     this.anotherNumber = anotherNumber;
   }

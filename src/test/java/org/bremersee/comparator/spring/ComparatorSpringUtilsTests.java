@@ -16,18 +16,17 @@
 
 package org.bremersee.comparator.spring;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.bremersee.comparator.model.ComparatorField;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.NullHandling;
 
@@ -36,13 +35,13 @@ import org.springframework.data.domain.Sort.NullHandling;
  *
  * @author Christian Bremer
  */
-public class ComparatorSpringUtilsTests {
+class ComparatorSpringUtilsTests {
 
   /**
    * Test to sort.
    */
   @Test
-  public void toSort() {
+  void toSort() {
 
     System.out.println("Testing ComparatorSpringUtils 'toSort' ...");
 
@@ -73,7 +72,7 @@ public class ComparatorSpringUtilsTests {
    * To sort with empty list.
    */
   @Test
-  public void toSortWithEmptyList() {
+  void toSortWithEmptyList() {
     Sort sort = ComparatorSpringUtils.toSort(Collections.emptyList());
     assertTrue(sort.isUnsorted());
   }
@@ -82,7 +81,7 @@ public class ComparatorSpringUtilsTests {
    * Test from sort.
    */
   @Test
-  public void fromSort() {
+  void fromSort() {
 
     System.out.println("Testing ComparatorSpringUtils 'fromSort' ...");
 
@@ -93,7 +92,7 @@ public class ComparatorSpringUtilsTests {
     assertNotNull(sort);
 
     List<ComparatorField> actualFields = ComparatorSpringUtils.fromSort(sort);
-    Assert.assertEquals(fields, actualFields);
+    assertEquals(fields, actualFields);
 
     System.out.println("OK\n");
   }
@@ -102,7 +101,7 @@ public class ComparatorSpringUtilsTests {
    * From sort with null.
    */
   @Test
-  public void fromSortWithNull() {
+  void fromSortWithNull() {
     List<ComparatorField> fields = ComparatorSpringUtils.fromSort(null);
     assertTrue(fields.isEmpty());
   }
@@ -111,7 +110,7 @@ public class ComparatorSpringUtilsTests {
    * To sort order.
    */
   @Test
-  public void toSortOrder() {
+  void toSortOrder() {
     assertNull(ComparatorSpringUtils.toSortOrder(null));
     assertNull(ComparatorSpringUtils.toSortOrder(new ComparatorField()));
     assertNull(ComparatorSpringUtils.toSortOrder(new ComparatorField("", true, true, true)));
@@ -121,7 +120,7 @@ public class ComparatorSpringUtilsTests {
    * From sort order.
    */
   @Test
-  public void fromSortOrder() {
+  void fromSortOrder() {
     assertNull(ComparatorSpringUtils.fromSortOrder(null));
   }
 

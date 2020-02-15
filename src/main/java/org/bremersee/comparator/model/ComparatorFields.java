@@ -19,7 +19,7 @@ package org.bremersee.comparator.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -39,12 +39,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "comparatorFields")
 @XmlType(name = "comparatorFieldsType")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@ApiModel(
-    value = "ComparatorFields",
-    description = "A list of comparator fields.")
+@Schema(description = "A list of comparator fields.")
 @SuppressWarnings("WeakerAccess")
 public class ComparatorFields {
 
+  @Schema(description = "The list of comparator fields.")
   private List<ComparatorField> fields = new ArrayList<>();
 
   /**

@@ -16,8 +16,9 @@
 
 package org.bremersee.comparator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -27,20 +28,20 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The comparator chain tests.
  *
  * @author Christian Bremer
  */
-public class ComparatorChainTests {
+class ComparatorChainTests {
 
   /**
    * Test empty comparator chain.
    */
   @Test
-  public void testEmptyComparatorChain() {
+  void testEmptyComparatorChain() {
     int result = new ComparatorChain(Collections.emptyList())
         .compare(1, 2);
     assertTrue(result < 0);
@@ -57,21 +58,25 @@ public class ComparatorChainTests {
   /**
    * Test not comparable objects and expect comparator exception.
    */
-  @Test(expected = ComparatorException.class)
-  public void testNotComparableObjectsAndExpectComparatorException() {
-    //noinspection ResultOfMethodCallIgnored
-    new ComparatorChain(Collections.emptyList())
-        .compare(new Object(), new Object());
+  @Test
+  void testNotComparableObjectsAndExpectComparatorException() {
+    assertThrows(ComparatorException.class, () -> {
+      //noinspection ResultOfMethodCallIgnored
+      new ComparatorChain(Collections.emptyList())
+          .compare(new Object(), new Object());
+    });
   }
 
   /**
    * Test null objects and expect comparator exception.
    */
-  @Test(expected = ComparatorException.class)
-  public void testNullObjectsAndExpectComparatorException() {
-    //noinspection ResultOfMethodCallIgnored
-    new ComparatorChain(Collections.emptyList())
-        .compare(null, null);
+  @Test
+  void testNullObjectsAndExpectComparatorException() {
+    assertThrows(ComparatorException.class, () -> {
+      //noinspection ResultOfMethodCallIgnored
+      new ComparatorChain(Collections.emptyList())
+          .compare(null, null);
+    });
   }
 
   /**
@@ -79,7 +84,7 @@ public class ComparatorChainTests {
    */
   @Test
   @SuppressWarnings({"unchecked", "ResultOfMethodCallIgnored", "rawtypes"})
-  public void testTwoComparatorsAndUseBoth() {
+  void testTwoComparatorsAndUseBoth() {
     Comparator comparatorA = mock(Comparator.class);
     when(comparatorA.compare(any(), any())).thenReturn(0);
 
@@ -100,7 +105,7 @@ public class ComparatorChainTests {
    */
   @Test
   @SuppressWarnings({"unchecked", "ResultOfMethodCallIgnored", "rawtypes"})
-  public void testTwoComparatorsAndUseOnlyFirst() {
+  void testTwoComparatorsAndUseOnlyFirst() {
     Comparator comparatorA = mock(Comparator.class);
     when(comparatorA.compare(any(), any())).thenReturn(-1);
 

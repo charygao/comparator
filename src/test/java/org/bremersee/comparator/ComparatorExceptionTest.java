@@ -16,7 +16,9 @@
 
 package org.bremersee.comparator;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * The comparator exception test.
@@ -28,17 +30,21 @@ public class ComparatorExceptionTest {
   /**
    * Test with one argument.
    */
-  @Test(expected = ComparatorException.class)
-  public void testWithOneArgument() {
-    throw new ComparatorException("Test exception");
+  @Test
+  void testWithOneArgument() {
+    assertThrows(ComparatorException.class, () -> {
+      throw new ComparatorException("Test exception");
+    });
   }
 
   /**
    * Test with two arguments.
    */
-  @Test(expected = ComparatorException.class)
-  public void testWithTwoArguments() {
-    throw new ComparatorException("Test exception", new Exception("Cause"));
+  @Test
+  void testWithTwoArguments() {
+    assertThrows(ComparatorException.class, () -> {
+      throw new ComparatorException("Test exception", new Exception("Cause"));
+    });
   }
 
 }

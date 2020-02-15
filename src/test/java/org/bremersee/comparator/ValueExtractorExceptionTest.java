@@ -16,7 +16,8 @@
 
 package org.bremersee.comparator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * The value extractor exception test.
@@ -28,17 +29,21 @@ public class ValueExtractorExceptionTest {
   /**
    * Test with one argument.
    */
-  @Test(expected = ValueExtractorException.class)
-  public void testWithOneArgument() {
-    throw new ValueExtractorException("Test exception");
+  @Test
+  void testWithOneArgument() {
+    Assertions.assertThrows(ValueExtractorException.class, () -> {
+      throw new ValueExtractorException("Test exception");
+    });
   }
 
   /**
    * Test with two arguments.
    */
-  @Test(expected = ValueExtractorException.class)
-  public void testWithTwoArguments() {
-    throw new ValueExtractorException("Test exception", new Exception("Cause"));
+  @Test
+  void testWithTwoArguments() {
+    Assertions.assertThrows(ValueExtractorException.class, () -> {
+      throw new ValueExtractorException("Test exception", new Exception("Cause"));
+    });
   }
 
 }
