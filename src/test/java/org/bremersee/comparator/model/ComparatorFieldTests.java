@@ -16,7 +16,9 @@
 
 package org.bremersee.comparator.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.StringReader;
@@ -24,26 +26,26 @@ import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * The comparator field tests.
  *
  * @author Christian Bremer
  */
-public class ComparatorFieldTests {
+class ComparatorFieldTests {
 
-  private JAXBContext jaxbContext;
+  private static JAXBContext jaxbContext;
 
   /**
    * Create jaxb context.
    *
    * @throws JAXBException the jaxb exception
    */
-  @Before
-  public void createJaxbContext() throws JAXBException {
-    this.jaxbContext = JAXBContext.newInstance(ObjectFactory.class.getPackage().getName());
+  @BeforeAll
+  static void createJaxbContext() throws JAXBException {
+    jaxbContext = JAXBContext.newInstance(ObjectFactory.class.getPackage().getName());
   }
 
   /**
@@ -52,7 +54,7 @@ public class ComparatorFieldTests {
    * @throws Exception the exception
    */
   @Test
-  public void testXmlComparatorField() throws Exception {
+  void testXmlComparatorField() throws Exception {
 
     System.out.println("Testing XML write-read operations ...");
 
@@ -85,7 +87,7 @@ public class ComparatorFieldTests {
    * @throws Exception the exception
    */
   @Test
-  public void testJsonComparatorItem() throws Exception {
+  void testJsonComparatorItem() throws Exception {
 
     System.out.println("Testing JSON write-read operations ...");
 
@@ -104,6 +106,37 @@ public class ComparatorFieldTests {
     assertEquals(field, readField);
 
     System.out.println("OK\n");
+  }
+
+  /**
+   * Test equals and hash code.
+   */
+  @SuppressWarnings({"UnnecessaryLocalVariable"})
+  @Test
+  void testEqualsAndHashCode() {
+    ComparatorField field0 = new ComparatorField("i0", true, false, true);
+    ComparatorField field1 = field0;
+    ComparatorField field2 = new ComparatorField("i0", true, false, true);
+    ComparatorField field3 = new ComparatorField("i1", true, false, true);
+    assertEquals(field0.hashCode(), field2.hashCode());
+    assertEquals(field0, field0);
+    assertEquals(field0, field1);
+    assertEquals(field0, field2);
+    assertNotEquals(field0, field3);
+
+    //noinspection EqualsBetweenInconvertibleTypes,SimplifiableJUnitAssertion
+    assertFalse(field0.equals(new ComparatorFields()));
+  }
+
+  /**
+   * Test to wkt.
+   */
+  @Test
+  void testToWkt() {
+    ComparatorField field0 = new ComparatorField("i0", true, false, true);
+    ComparatorField field1 = new ComparatorField(null, false, false, true);
+    assertEquals("i0,asc,false,true", field0.toWkt());
+    assertEquals(",desc,false,true", field1.toWkt());
   }
 
 }

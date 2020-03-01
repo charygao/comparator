@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -84,21 +84,23 @@ import javax.xml.bind.annotation.XmlType;
     "ignoreCase",
     "nullIsFirst"
 })
-@ApiModel(
-    value = "ComparatorField",
-    description = "A comparator field defines how a field of an object is sorted.")
+@Schema(description = "A comparator field defines how a field of an object is sorted.")
 @SuppressWarnings({"UnusedAssignment", "unused"})
 public class ComparatorField {
 
+  @Schema(description = "The field name or path.")
   @XmlElement(name = "field")
   private String field;
 
+  @Schema(description = "Is ascending or descending order.", required = true)
   @XmlElement(name = "asc", defaultValue = "true")
   private boolean asc = true;
 
+  @Schema(description = "Is case insensitive or sensitive order.", required = true)
   @XmlElement(name = "ignoreCase", defaultValue = "true")
   private boolean ignoreCase = true;
 
+  @Schema(description = "Is null is first.", required = true)
   @XmlElement(name = "nullIsFirst", defaultValue = "false")
   private boolean nullIsFirst = false;
 
@@ -112,18 +114,18 @@ public class ComparatorField {
   /**
    * Instantiates a new comparator field.
    *
-   * @param field       the field name or path (can be {@code null})
-   * @param asc         {@code true} for an ascending order, {@code false} for a descending order
-   * @param ignoreCase  {@code true} for a case insensitive order,  {@code false} for a case
-   *                    sensitive order
+   * @param field the field name or path (can be {@code null})
+   * @param asc {@code true} for an ascending order, {@code false} for a descending order
+   * @param ignoreCase {@code true} for a case insensitive order,  {@code false} for a case
+   *     sensitive order
    * @param nullIsFirst specifies the order of {@code null} values
    */
   @JsonCreator
   public ComparatorField(
       @JsonProperty("field") String field,
-      @JsonProperty(value = "asc", defaultValue = "true") boolean asc,
-      @JsonProperty(value = "ignoreCase", defaultValue = "true") boolean ignoreCase,
-      @JsonProperty(value = "nullIsFirst", defaultValue = "false") boolean nullIsFirst) {
+      @JsonProperty(value = "asc", required = true) boolean asc,
+      @JsonProperty(value = "ignoreCase", required = true) boolean ignoreCase,
+      @JsonProperty(value = "nullIsFirst", required = true) boolean nullIsFirst) {
     this.field = field;
     this.asc = asc;
     this.ignoreCase = ignoreCase;

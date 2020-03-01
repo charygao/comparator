@@ -1,4 +1,7 @@
 # Bremersee Comparator
+
+[![codecov](https://codecov.io/gh/bremersee/comparator/branch/develop/graph/badge.svg)](https://codecov.io/gh/bremersee/comparator)
+
 This project contains a builder for comparing and sorting objects.
 
 The comparator can compare any kind of objects which have the same attributes or the same 'getters'.
@@ -10,7 +13,7 @@ java.lang.Comparable.
 
 - [Release](https://bremersee.github.io/comparator/index.html)
 
-- [Snapshot](https://nexus.bremersee.org/repository/maven-sites/comparator/2.0.7-SNAPSHOT/index.html)
+- [Snapshot](https://nexus.bremersee.org/repository/maven-sites/comparator/2.1.1-SNAPSHOT/index.html)
 
 ### Usage
 

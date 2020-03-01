@@ -26,6 +26,7 @@ import java.util.List;
  *
  * @author Christian Bremer
  */
+@SuppressWarnings("rawtypes")
 public class ComparatorChain implements Comparator<Object> {
 
   private final List<Comparator> comparators;

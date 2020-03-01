@@ -18,8 +18,8 @@ package org.bremersee.comparator.model;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * The xml schema tests.
@@ -28,16 +28,16 @@ import org.junit.Test;
  */
 public class XmlSchemaTests {
 
-  private JAXBContext jaxbContext;
+  private static JAXBContext jaxbContext;
 
   /**
    * Create jaxb context.
    *
    * @throws JAXBException the jaxb exception
    */
-  @Before
-  public void createJaxbContext() throws JAXBException {
-    this.jaxbContext = JAXBContext.newInstance(ObjectFactory.class.getPackage().getName());
+  @BeforeAll
+  static void createJaxbContext() throws JAXBException {
+    jaxbContext = JAXBContext.newInstance(ObjectFactory.class.getPackage().getName());
   }
 
   /**
@@ -46,7 +46,7 @@ public class XmlSchemaTests {
    * @throws Exception the exception
    */
   @Test
-  public void testXmlSchema() throws Exception {
+  void testXmlSchema() throws Exception {
 
     System.out.println("Testing XML schema ...");
 
