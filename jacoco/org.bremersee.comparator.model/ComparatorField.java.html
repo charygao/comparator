@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -84,51 +84,53 @@ import javax.xml.bind.annotation.XmlType;
     &quot;ignoreCase&quot;,
     &quot;nullIsFirst&quot;
 })
-@ApiModel(
-    value = &quot;ComparatorField&quot;,
-    description = &quot;A comparator field defines how a field of an object is sorted.&quot;)
+@Schema(description = &quot;A comparator field defines how a field of an object is sorted.&quot;)
 @SuppressWarnings({&quot;UnusedAssignment&quot;, &quot;unused&quot;})
 public class ComparatorField {
 
+  @Schema(description = &quot;The field name or path.&quot;)
   @XmlElement(name = &quot;field&quot;)
   private String field;
 
-<span class="fc" id="L96">  @XmlElement(name = &quot;asc&quot;, defaultValue = &quot;true&quot;)</span>
+<span class="fc" id="L95">  @Schema(description = &quot;Is ascending or descending order.&quot;, required = true)</span>
+  @XmlElement(name = &quot;asc&quot;, defaultValue = &quot;true&quot;)
   private boolean asc = true;
 
-<span class="fc" id="L99">  @XmlElement(name = &quot;ignoreCase&quot;, defaultValue = &quot;true&quot;)</span>
+<span class="fc" id="L99">  @Schema(description = &quot;Is case insensitive or sensitive order.&quot;, required = true)</span>
+  @XmlElement(name = &quot;ignoreCase&quot;, defaultValue = &quot;true&quot;)
   private boolean ignoreCase = true;
 
-<span class="fc" id="L102">  @XmlElement(name = &quot;nullIsFirst&quot;, defaultValue = &quot;false&quot;)</span>
+<span class="fc" id="L103">  @Schema(description = &quot;Is null is first.&quot;, required = true)</span>
+  @XmlElement(name = &quot;nullIsFirst&quot;, defaultValue = &quot;false&quot;)
   private boolean nullIsFirst = false;
 
   /**
    * Instantiates a new comparator field.
    */
   public ComparatorField() {
-<span class="fc" id="L109">    this(null, true, true, false);</span>
-<span class="fc" id="L110">  }</span>
+<span class="fc" id="L111">    this(null, true, true, false);</span>
+<span class="fc" id="L112">  }</span>
 
   /**
    * Instantiates a new comparator field.
    *
-   * @param field       the field name or path (can be {@code null})
-   * @param asc         {@code true} for an ascending order, {@code false} for a descending order
-   * @param ignoreCase  {@code true} for a case insensitive order,  {@code false} for a case
-   *                    sensitive order
+   * @param field the field name or path (can be {@code null})
+   * @param asc {@code true} for an ascending order, {@code false} for a descending order
+   * @param ignoreCase {@code true} for a case insensitive order,  {@code false} for a case
+   *     sensitive order
    * @param nullIsFirst specifies the order of {@code null} values
    */
   @JsonCreator
   public ComparatorField(
       @JsonProperty(&quot;field&quot;) String field,
-      @JsonProperty(value = &quot;asc&quot;, defaultValue = &quot;true&quot;) boolean asc,
-      @JsonProperty(value = &quot;ignoreCase&quot;, defaultValue = &quot;true&quot;) boolean ignoreCase,
-<span class="fc" id="L126">      @JsonProperty(value = &quot;nullIsFirst&quot;, defaultValue = &quot;false&quot;) boolean nullIsFirst) {</span>
-<span class="fc" id="L127">    this.field = field;</span>
-<span class="fc" id="L128">    this.asc = asc;</span>
-<span class="fc" id="L129">    this.ignoreCase = ignoreCase;</span>
-<span class="fc" id="L130">    this.nullIsFirst = nullIsFirst;</span>
-<span class="fc" id="L131">  }</span>
+      @JsonProperty(value = &quot;asc&quot;, required = true) boolean asc,
+      @JsonProperty(value = &quot;ignoreCase&quot;, required = true) boolean ignoreCase,
+<span class="fc" id="L128">      @JsonProperty(value = &quot;nullIsFirst&quot;, required = true) boolean nullIsFirst) {</span>
+<span class="fc" id="L129">    this.field = field;</span>
+<span class="fc" id="L130">    this.asc = asc;</span>
+<span class="fc" id="L131">    this.ignoreCase = ignoreCase;</span>
+<span class="fc" id="L132">    this.nullIsFirst = nullIsFirst;</span>
+<span class="fc" id="L133">  }</span>
 
   /**
    * Gets field name or path.
@@ -136,7 +138,7 @@ public class ComparatorField {
    * @return the field name or path
    */
   public String getField() {
-<span class="fc" id="L139">    return field;</span>
+<span class="fc" id="L141">    return field;</span>
   }
 
   /**
@@ -145,7 +147,7 @@ public class ComparatorField {
    * @return {@code true} if ascending order, {@code false} if descending order
    */
   public boolean isAsc() {
-<span class="fc" id="L148">    return asc;</span>
+<span class="fc" id="L150">    return asc;</span>
   }
 
   /**
@@ -154,7 +156,7 @@ public class ComparatorField {
    * @return {@code true} if case insensitive order, {@code false} if case sensitive order
    */
   public boolean isIgnoreCase() {
-<span class="fc" id="L157">    return ignoreCase;</span>
+<span class="fc" id="L159">    return ignoreCase;</span>
   }
 
   /**
@@ -163,7 +165,7 @@ public class ComparatorField {
    * @return {@code true} if null is first, otherwise {@code false}
    */
   public boolean isNullIsFirst() {
-<span class="fc" id="L166">    return nullIsFirst;</span>
+<span class="fc" id="L168">    return nullIsFirst;</span>
   }
 
   /**
@@ -182,36 +184,36 @@ public class ComparatorField {
    * @return the well known text
    */
   public String toWkt() {
-<span class="pc bpc" id="L185" title="1 of 4 branches missed.">    return (field != null ? field : &quot;&quot;) + &quot;,&quot;</span>
-        + (asc ? &quot;asc,&quot; : &quot;desc,&quot;)
+<span class="fc bfc" id="L187" title="All 2 branches covered.">    return (field != null ? field : &quot;&quot;) + &quot;,&quot;</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">        + (asc ? &quot;asc,&quot; : &quot;desc,&quot;)</span>
         + ignoreCase + &quot;,&quot;
         + nullIsFirst;
   }
 
   @Override
   public String toString() {
-<span class="fc" id="L193">    return toWkt();</span>
+<span class="fc" id="L195">    return toWkt();</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L198" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L199">      return true;</span>
+<span class="fc bfc" id="L200" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L201">      return true;</span>
     }
-<span class="pc bpc" id="L201" title="1 of 2 branches missed.">    if (!(o instanceof ComparatorField)) {</span>
-<span class="nc" id="L202">      return false;</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">    if (!(o instanceof ComparatorField)) {</span>
+<span class="fc" id="L204">      return false;</span>
     }
-<span class="fc" id="L204">    ComparatorField that = (ComparatorField) o;</span>
-<span class="pc bpc" id="L205" title="3 of 6 branches missed.">    return asc == that.asc</span>
+<span class="fc" id="L206">    ComparatorField that = (ComparatorField) o;</span>
+<span class="pc bpc" id="L207" title="3 of 6 branches missed.">    return asc == that.asc</span>
         &amp;&amp; ignoreCase == that.ignoreCase
         &amp;&amp; nullIsFirst == that.nullIsFirst
-<span class="pc bpc" id="L208" title="1 of 2 branches missed.">        &amp;&amp; Objects.equals(field, that.field);</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        &amp;&amp; Objects.equals(field, that.field);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L213">    return Objects.hash(field, asc, ignoreCase, nullIsFirst);</span>
+<span class="fc" id="L215">    return Objects.hash(field, asc, ignoreCase, nullIsFirst);</span>
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

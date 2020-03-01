@@ -58,7 +58,7 @@ public interface ComparatorBuilder {
    */
   @SuppressWarnings(&quot;unused&quot;)
   default ComparatorBuilder add(String field, Comparator&lt;?&gt; comparator) {
-<span class="nc" id="L61">    return add(field, null, comparator);</span>
+<span class="fc" id="L61">    return add(field, null, comparator);</span>
   }
 
   /**
@@ -132,8 +132,8 @@ public interface ComparatorBuilder {
    * @return the comparator builder
    */
   default ComparatorBuilder add(ComparatorField field, ValueExtractor valueExtractor) {
-<span class="pc bpc" id="L135" title="1 of 2 branches missed.">    if (field == null) {</span>
-<span class="nc" id="L136">      throw new IllegalArgumentException(&quot;Field must not be null.&quot;);</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">    if (field == null) {</span>
+<span class="fc" id="L136">      throw new IllegalArgumentException(&quot;Field must not be null.&quot;);</span>
     }
 <span class="fc" id="L138">    return add(field.getField(), field.isAsc(), field.isIgnoreCase(), field.isNullIsFirst(),</span>
         valueExtractor);
@@ -147,7 +147,7 @@ public interface ComparatorBuilder {
    */
   @SuppressWarnings(&quot;unused&quot;)
   default ComparatorBuilder addAll(Collection&lt;? extends ComparatorField&gt; fields) {
-<span class="nc" id="L150">    return addAll(fields, null);</span>
+<span class="fc" id="L150">    return addAll(fields, null);</span>
   }
 
   /**
@@ -162,12 +162,12 @@ public interface ComparatorBuilder {
   default ComparatorBuilder addAll(
       Collection&lt;? extends ComparatorField&gt; fields,
       ValueExtractor valueExtractor) {
-<span class="nc bnc" id="L165" title="All 2 branches missed.">    if (fields != null) {</span>
-<span class="nc bnc" id="L166" title="All 2 branches missed.">      for (ComparatorField field : fields) {</span>
-<span class="nc" id="L167">        add(field, valueExtractor);</span>
-<span class="nc" id="L168">      }</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">    if (fields != null) {</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">      for (ComparatorField field : fields) {</span>
+<span class="fc" id="L167">        add(field, valueExtractor);</span>
+<span class="fc" id="L168">      }</span>
     }
-<span class="nc" id="L170">    return this;</span>
+<span class="fc" id="L170">    return this;</span>
   }
 
   /**
@@ -179,7 +179,7 @@ public interface ComparatorBuilder {
    */
   @SuppressWarnings(&quot;unused&quot;)
   default ComparatorBuilder addAll(ComparatorFields comparatorFields) {
-<span class="nc bnc" id="L182" title="All 2 branches missed.">    return comparatorFields != null ? addAll(comparatorFields.getFields()) : this;</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">    return comparatorFields != null ? addAll(comparatorFields.getFields()) : this;</span>
   }
 
   /**
@@ -195,7 +195,7 @@ public interface ComparatorBuilder {
   default ComparatorBuilder addAll(
       ComparatorFields comparatorFields,
       ValueExtractor valueExtractor) {
-<span class="nc bnc" id="L198" title="All 2 branches missed.">    return comparatorFields != null ? addAll(comparatorFields.getFields(), valueExtractor) : this;</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">    return comparatorFields != null ? addAll(comparatorFields.getFields(), valueExtractor) : this;</span>
   }
 
   /**
@@ -299,4 +299,4 @@ public interface ComparatorBuilder {
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

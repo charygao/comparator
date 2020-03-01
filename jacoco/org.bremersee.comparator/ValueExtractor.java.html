@@ -86,12 +86,12 @@ public interface ValueExtractor {
    * @return the possible method names
    */
   default String[] getPossibleMethodNames(final String name) {
-<span class="pc bpc" id="L89" title="2 of 4 branches missed.">    if (name == null || name.length() &lt; 1) {</span>
-<span class="nc" id="L90">      return new String[0];</span>
+<span class="fc bfc" id="L89" title="All 4 branches covered.">    if (name == null || name.length() &lt; 1) {</span>
+<span class="fc" id="L90">      return new String[0];</span>
     }
     final String baseName;
-<span class="pc bpc" id="L93" title="1 of 2 branches missed.">    if (name.length() == 1) {</span>
-<span class="nc" id="L94">      baseName = name.toUpperCase();</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">    if (name.length() == 1) {</span>
+<span class="fc" id="L94">      baseName = name.toUpperCase();</span>
     } else {
 <span class="fc" id="L96">      baseName = name.substring(0, 1).toUpperCase() + name.substring(1);</span>
     }
@@ -128,7 +128,7 @@ public interface ValueExtractor {
       final Class&lt;?&gt;... paramTypes) {
 <span class="fc" id="L129">    Class&lt;?&gt; searchType = clazz;</span>
 <span class="fc bfc" id="L130" title="All 2 branches covered.">    while (searchType != null) {</span>
-<span class="fc" id="L131">      Method[] methods =</span>
+      Method[] methods =
 <span class="pc bpc" id="L132" title="1 of 2 branches missed.">          searchType.isInterface() ? searchType.getMethods() : searchType.getDeclaredMethods();</span>
 <span class="fc bfc" id="L133" title="All 2 branches covered.">      for (Method method : methods) {</span>
 <span class="pc bpc" id="L134" title="1 of 4 branches missed.">        if (name.equals(method.getName())</span>
@@ -184,4 +184,4 @@ public interface ValueExtractor {
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

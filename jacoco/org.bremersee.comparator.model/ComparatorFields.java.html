@@ -19,7 +19,7 @@ package org.bremersee.comparator.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -39,19 +39,18 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = &quot;comparatorFields&quot;)
 @XmlType(name = &quot;comparatorFieldsType&quot;)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@ApiModel(
-    value = &quot;ComparatorFields&quot;,
-    description = &quot;A list of comparator fields.&quot;)
+@Schema(description = &quot;A list of comparator fields.&quot;)
 @SuppressWarnings(&quot;WeakerAccess&quot;)
 public class ComparatorFields {
 
-<span class="fc" id="L48">  private List&lt;ComparatorField&gt; fields = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L46">  @Schema(description = &quot;The list of comparator fields.&quot;)</span>
+  private List&lt;ComparatorField&gt; fields = new ArrayList&lt;&gt;();
 
   /**
    * Instantiates a new list of comparator fields.
    */
-<span class="fc" id="L53">  public ComparatorFields() {</span>
-<span class="fc" id="L54">  }</span>
+<span class="fc" id="L52">  public ComparatorFields() {</span>
+<span class="fc" id="L53">  }</span>
 
   /**
    * Instantiates a new list of comparator fields.
@@ -59,11 +58,11 @@ public class ComparatorFields {
    * @param fields the comparator fields
    */
   @JsonCreator
-<span class="fc" id="L62">  public ComparatorFields(@JsonProperty(&quot;fields&quot;) Collection&lt;? extends ComparatorField&gt; fields) {</span>
-<span class="pc bpc" id="L63" title="1 of 2 branches missed.">    if (fields != null) {</span>
-<span class="fc" id="L64">      this.fields.addAll(fields);</span>
+<span class="fc" id="L61">  public ComparatorFields(@JsonProperty(&quot;fields&quot;) Collection&lt;? extends ComparatorField&gt; fields) {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">    if (fields != null) {</span>
+<span class="fc" id="L63">      this.fields.addAll(fields);</span>
     }
-<span class="fc" id="L66">  }</span>
+<span class="fc" id="L65">  }</span>
 
   /**
    * Gets the list of comparator fields.
@@ -71,7 +70,7 @@ public class ComparatorFields {
    * @return the list of comparator fields
    */
   public List&lt;ComparatorField&gt; getFields() {
-<span class="fc" id="L74">    return fields;</span>
+<span class="fc" id="L73">    return fields;</span>
   }
 
   /**
@@ -90,32 +89,32 @@ public class ComparatorFields {
    * @return the well known text
    */
   public String toWkt() {
-<span class="fc" id="L93">    return fields.stream()</span>
-<span class="fc" id="L94">        .map(ComparatorField::toWkt)</span>
-<span class="fc" id="L95">        .collect(Collectors.joining(&quot;|&quot;));</span>
+<span class="fc" id="L92">    return fields.stream()</span>
+<span class="fc" id="L93">        .map(ComparatorField::toWkt)</span>
+<span class="fc" id="L94">        .collect(Collectors.joining(&quot;|&quot;));</span>
   }
 
   @Override
   public String toString() {
-<span class="fc" id="L100">    return toWkt();</span>
+<span class="fc" id="L99">    return toWkt();</span>
   }
 
   @Override
   public boolean equals(Object o) {
-<span class="pc bpc" id="L105" title="1 of 2 branches missed.">    if (this == o) {</span>
-<span class="nc" id="L106">      return true;</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">    if (this == o) {</span>
+<span class="fc" id="L105">      return true;</span>
     }
-<span class="pc bpc" id="L108" title="1 of 2 branches missed.">    if (!(o instanceof ComparatorFields)) {</span>
-<span class="nc" id="L109">      return false;</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">    if (!(o instanceof ComparatorFields)) {</span>
+<span class="fc" id="L108">      return false;</span>
     }
-<span class="fc" id="L111">    ComparatorFields fields1 = (ComparatorFields) o;</span>
-<span class="fc" id="L112">    return Objects.equals(fields, fields1.fields);</span>
+<span class="fc" id="L110">    ComparatorFields fields1 = (ComparatorFields) o;</span>
+<span class="fc" id="L111">    return Objects.equals(fields, fields1.fields);</span>
   }
 
   @Override
   public int hashCode() {
-<span class="nc" id="L117">    return Objects.hash(fields);</span>
+<span class="fc" id="L116">    return Objects.hash(fields);</span>
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

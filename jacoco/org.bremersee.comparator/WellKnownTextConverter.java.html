@@ -44,8 +44,8 @@ public class WellKnownTextConverter implements Converter&lt;String, ComparatorFi
    */
 <span class="fc" id="L45">  public WellKnownTextConverter(WellKnownTextParser wellKnownTextParser) {</span>
 <span class="pc bpc" id="L46" title="1 of 2 branches missed.">    this.wellKnownTextParser = wellKnownTextParser != null</span>
-        ? wellKnownTextParser
-        : ValueComparator::new;
+<span class="fc" id="L47">        ? wellKnownTextParser</span>
+<span class="pc" id="L48">        : ValueComparator::new;</span>
 <span class="fc" id="L49">  }</span>
 
   @Override
@@ -56,4 +56,4 @@ public class WellKnownTextConverter implements Converter&lt;String, ComparatorFi
 <span class="fc" id="L56">    return new ComparatorFields(wellKnownTextParser.buildComparatorFields(source));</span>
   }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
