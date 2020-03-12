@@ -1,6 +1,6 @@
 # Bremersee Comparator
 
-[![codecov](https://codecov.io/gh/bremersee/comparator/branch/2.0.master/graph/badge.svg)](https://codecov.io/gh/bremersee/comparator)
+[![codecov](https://codecov.io/gh/bremersee/comparator/branch/2.0.develop/graph/badge.svg)](https://codecov.io/gh/bremersee/comparator)
 
 This project contains a builder for comparing and sorting objects.
 
@@ -9,7 +9,7 @@ It uses reflection to get the values of these attributes or 'getters'.
 The values may be a simple type like java.lang.String or a complex type which implements 
 java.lang.Comparable.
 
-[Maven Site](https://nexus.bremersee.org/repository/maven-sites/comparator/2.0.10/index.html)
+[Maven Site](https://nexus.bremersee.org/repository/maven-sites/comparator/2.0.11-SNAPSHOT/index.html)
 
 ### Usage
 
